@@ -24,18 +24,29 @@ const TDSelectorResult = ({ result, onSelect }) => {
 };
 
 export const TDSelector = ({ onSelect }) => {
+  const [keyword, setKeyword] = useState("");
   const [searchTDResults, setSearchTDResults] = useState([]);
 
   const handleKeywordChangeEvent = ({ target: { value } }) => {
+    setKeyword(value);
     setSearchTDResults(searchTD(value));
+  };
+
+  const handleTDSelect = selectedTD => {
+    setKeyword(selectedTD);
+    onSelect(selectedTD);
   };
 
   return (
     <>
-      <input type="text" onChange={handleKeywordChangeEvent} />
+      <input type="text" value={keyword} onChange={handleKeywordChangeEvent} />
       <ul>
         {searchTDResults.map(result => (
-          <TDSelectorResult key={result} result={result} onSelect={onSelect} />
+          <TDSelectorResult
+            key={result}
+            result={result}
+            onSelect={handleTDSelect}
+          />
         ))}
       </ul>
     </>
