@@ -35,23 +35,32 @@ export const Calendar = () => {
       };
     });
 
-  return months.map(month => {
-    return (
-      <div key={month.name} className="box">
-        <h6 className="title is-6">
-          {month.name} {currentYear}
-        </h6>
-        {month.weeks.map(week => {
-          return (
-            <div key={week[0].toISOString()}>
-              {week.map(day => {
-                const formattedDay = format(day, "dd");
-                return <span key={formattedDay}>{formattedDay} </span>;
+  return (
+    <div className="columns is-multiline">
+      {months.map(month => {
+        return (
+          <div
+            key={month.name}
+            className="column is-half-tablet is-one-third-desktop"
+          >
+            <div className="box" style={{ height: "100%" }}>
+              <h6 className="title is-6">
+                {month.name} {currentYear}
+              </h6>
+              {month.weeks.map(week => {
+                return (
+                  <div key={week[0].toISOString()}>
+                    {week.map(day => {
+                      const formattedDay = format(day, "dd");
+                      return <span key={formattedDay}>{formattedDay} </span>;
+                    })}
+                  </div>
+                );
               })}
             </div>
-          );
-        })}
-      </div>
-    );
-  });
+          </div>
+        );
+      })}
+    </div>
+  );
 };
