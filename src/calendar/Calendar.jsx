@@ -7,6 +7,7 @@ import startOfMonth from "date-fns/startOfMonth";
 import endOfMonth from "date-fns/endOfMonth";
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import eachWeekOfInterval from "date-fns/eachWeekOfInterval";
+import isWeekend from "date-fns/isWeekend";
 
 export const Calendar = ({ activities }) => {
   const currentDate = new Date();
@@ -64,11 +65,16 @@ export const Calendar = ({ activities }) => {
               <h6 className="title is-6">
                 {month.name} {currentYear}
               </h6>
-              <table className="table">
+              <table className="table is-fullwidth">
                 <thead>
                   <tr>
                     {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(d => (
-                      <th key={d}>{d}</th>
+                      <th
+                        key={d}
+                        className={d === "Sa" || d === "Su" ? "weekend" : null}
+                      >
+                        {d}
+                      </th>
                     ))}
                   </tr>
                 </thead>
@@ -80,7 +86,10 @@ export const Calendar = ({ activities }) => {
                           const formattedDate = format(day, "yyyy-MM-dd");
                           const formattedDay = format(day, "dd");
                           return (
-                            <td key={formattedDay}>
+                            <td
+                              key={formattedDay}
+                              className={isWeekend(day) ? "weekend" : null}
+                            >
                               <span
                                 className={
                                   debateDates[formattedDate]
