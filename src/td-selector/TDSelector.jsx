@@ -20,7 +20,11 @@ const TDSelectorResult = ({ result, onSelect }) => {
     onSelect(result);
   };
 
-  return <li onClick={handleResultClickEvent}>{result}</li>;
+  return (
+    <a href="#" className="dropdown-item" onClick={handleResultClickEvent}>
+      {result}
+    </a>
+  );
 };
 
 export const TDSelector = ({ onSelect }) => {
@@ -39,17 +43,24 @@ export const TDSelector = ({ onSelect }) => {
   };
 
   return (
-    <>
-      <input type="text" value={keyword} onChange={handleKeywordChangeEvent} />
-      <ul>
-        {searchTDResults.map(result => (
-          <TDSelectorResult
-            key={result}
-            result={result}
-            onSelect={handleTDSelect}
-          />
-        ))}
-      </ul>
-    </>
+    <div className={searchTDResults.length ? "dropdown is-active" : "dropdown"}>
+      <input
+        className="input"
+        type="text"
+        value={keyword}
+        onChange={handleKeywordChangeEvent}
+      />
+      <div className="dropdown-menu">
+        <div className="dropdown-content">
+          {searchTDResults.map(result => (
+            <TDSelectorResult
+              key={result}
+              result={result}
+              onSelect={handleTDSelect}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
