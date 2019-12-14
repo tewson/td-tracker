@@ -34,6 +34,7 @@ export const TDSelector = ({ onSelect }) => {
 
   const handleTDSelect = selectedTD => {
     setKeyword(selectedTD);
+    setSearchTDResults([]);
     onSelect(selectedTD);
   };
 
