@@ -15,15 +15,15 @@ const searchTD = keyword => {
     .map(member => member.fullName);
 };
 
-const TDSelectorResult = ({ result }) => {
+const TDSelectorResult = ({ result, onSelect }) => {
   const handleResultClickEvent = () => {
-    console.log(result);
+    onSelect(result);
   };
 
   return <li onClick={handleResultClickEvent}>{result}</li>;
 };
 
-export const TDSelector = () => {
+export const TDSelector = ({ onSelect }) => {
   const [searchTDResults, setSearchTDResults] = useState([]);
 
   const handleKeywordChangeEvent = ({ target: { value } }) => {
@@ -35,7 +35,7 @@ export const TDSelector = () => {
       <input type="text" onChange={handleKeywordChangeEvent} />
       <ul>
         {searchTDResults.map(result => (
-          <TDSelectorResult key={result} result={result} />
+          <TDSelectorResult key={result} result={result} onSelect={onSelect} />
         ))}
       </ul>
     </>
