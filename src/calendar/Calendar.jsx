@@ -88,7 +88,11 @@ export const Calendar = ({ activities }) => {
                           return (
                             <td
                               key={formattedDay}
-                              className={isWeekend(day) ? "weekend" : null}
+                              className={
+                                isWeekend(day)
+                                  ? "weekend has-background-grey-light"
+                                  : null
+                              }
                             >
                               <span
                                 className={
