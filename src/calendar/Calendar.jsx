@@ -9,7 +9,9 @@ import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import eachWeekOfInterval from "date-fns/eachWeekOfInterval";
 import isWeekend from "date-fns/isWeekend";
 
-export const Calendar = ({ activities }) => {
+const defaultRenderDate = date => <span>{format(date, "dd")}</span>;
+
+export const Calendar = ({ activities, renderDate = defaultRenderDate }) => {
   const currentDate = new Date();
   const currentYear = getYear(currentDate);
 
@@ -29,6 +31,18 @@ export const Calendar = ({ activities }) => {
       [debate.debateRecord.date]: [debate]
     };
   }, {});
+
+  renderDate = date => (
+    <span
+      className={
+        debateDates[format(date, "yyyy-MM-dd")]
+          ? "has-background-success"
+          : null
+      }
+    >
+      {format(date, "dd")}
+    </span>
+  );
 
   const months = Array(12)
     .fill(null)
@@ -83,26 +97,16 @@ export const Calendar = ({ activities }) => {
                     return (
                       <tr key={week[0].toISOString()}>
                         {week.map(day => {
-                          const formattedDate = format(day, "yyyy-MM-dd");
-                          const formattedDay = format(day, "dd");
                           return (
                             <td
-                              key={formattedDay}
+                              key={format(day, "dd")}
                               className={
                                 isWeekend(day)
                                   ? "weekend has-background-grey-light"
                                   : null
                               }
                             >
-                              <span
-                                className={
-                                  debateDates[formattedDate]
-                                    ? "has-background-success"
-                                    : null
-                                }
-                              >
-                                {formattedDay}{" "}
-                              </span>
+                              {renderDate(day)}
                             </td>
                           );
                         })}
