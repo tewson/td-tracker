@@ -14,7 +14,6 @@ export const App = () => {
       <div className="container">
         <h1 className="title">TD Tracker</h1>
         <TDSelector onSelect={handleTDSelect} />
-        {selectedTD}
         {selectedTD && <Calendar />}
       </div>
     </section>
