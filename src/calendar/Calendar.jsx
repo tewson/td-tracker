@@ -11,38 +11,9 @@ import isWeekend from "date-fns/isWeekend";
 
 const defaultRenderDate = date => <span>{format(date, "dd")}</span>;
 
-export const Calendar = ({ activities, renderDate = defaultRenderDate }) => {
+export const Calendar = ({ renderDate = defaultRenderDate }) => {
   const currentDate = new Date();
   const currentYear = getYear(currentDate);
-
-  const debateDates = activities.debates.reduce((debateDatesAcc, debate) => {
-    if (debateDatesAcc[debate.debateRecord.date]) {
-      return {
-        ...debateDatesAcc,
-        [debate.debateRecord.date]: [
-          ...debateDatesAcc[debate.debateRecord.date],
-          debate
-        ]
-      };
-    }
-
-    return {
-      ...debateDatesAcc,
-      [debate.debateRecord.date]: [debate]
-    };
-  }, {});
-
-  renderDate = date => (
-    <span
-      className={
-        debateDates[format(date, "yyyy-MM-dd")]
-          ? "has-background-success"
-          : null
-      }
-    >
-      {format(date, "dd")}
-    </span>
-  );
 
   const months = Array(12)
     .fill(null)

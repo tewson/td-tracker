@@ -5,7 +5,7 @@ import startOfYear from "date-fns/startOfYear";
 import endOfYear from "date-fns/endOfYear";
 
 import { TDSelector } from "./td-selector/TDSelector.jsx";
-import { Calendar } from "./calendar/Calendar.jsx";
+import { ActivityCalendar } from "./calendar/ActivityCalendar.jsx";
 
 export const App = () => {
   const [selectedTD, setSelectedTD] = useState();
@@ -44,7 +44,9 @@ export const App = () => {
       <div className="container">
         <h1 className="title">TD Tracker</h1>
         <TDSelector onSelect={handleTDSelect} />
-        {selectedTD && activities && <Calendar activities={activities} />}
+        {selectedTD && activities && (
+          <ActivityCalendar activities={activities} />
+        )}
       </div>
     </section>
   );
