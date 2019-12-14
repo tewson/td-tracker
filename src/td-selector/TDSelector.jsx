@@ -11,8 +11,7 @@ const searchTD = keyword => {
     .map(result => result.member)
     .filter(member =>
       member.fullName.toLowerCase().includes(keyword.toLowerCase())
-    )
-    .map(member => member.fullName);
+    );
 };
 
 const TDSelectorResult = ({ result, onSelect }) => {
@@ -22,7 +21,7 @@ const TDSelectorResult = ({ result, onSelect }) => {
 
   return (
     <a href="#" className="dropdown-item" onClick={handleResultClickEvent}>
-      {result}
+      {result.fullName}
     </a>
   );
 };
@@ -37,7 +36,7 @@ export const TDSelector = ({ onSelect }) => {
   };
 
   const handleTDSelect = selectedTD => {
-    setKeyword(selectedTD);
+    setKeyword(selectedTD.fullName);
     setSearchTDResults([]);
     onSelect(selectedTD);
   };
@@ -54,7 +53,7 @@ export const TDSelector = ({ onSelect }) => {
         <div className="dropdown-content">
           {searchTDResults.map(result => (
             <TDSelectorResult
-              key={result}
+              key={result.uri}
               result={result}
               onSelect={handleTDSelect}
             />
