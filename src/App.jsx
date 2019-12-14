@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { TDSelector } from "./td-selector/TDSelector.jsx";
+import { Calendar } from "./calendar/Calendar.jsx";
 
 export const App = () => {
   const [selectedTD, setSelectedTD] = useState();
@@ -13,6 +14,7 @@ export const App = () => {
       <h1>TD Tracker</h1>
       <TDSelector onSelect={handleTDSelect} />
       {selectedTD}
+      <Calendar />
     </>
   );
 };
