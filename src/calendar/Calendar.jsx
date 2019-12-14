@@ -80,9 +80,8 @@ export const Calendar = ({ activities }) => {
                           const formattedDate = format(day, "yyyy-MM-dd");
                           const formattedDay = format(day, "dd");
                           return (
-                            <td>
+                            <td key={formattedDay}>
                               <span
-                                key={formattedDay}
                                 className={
                                   debateDates[formattedDate]
                                     ? "has-background-success"
