@@ -14,7 +14,7 @@ export const App = () => {
       <h1>TD Tracker</h1>
       <TDSelector onSelect={handleTDSelect} />
       {selectedTD}
-      <Calendar />
+      {selectedTD && <Calendar />}
     </>
   );
 };
