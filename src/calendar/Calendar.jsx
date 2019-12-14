@@ -64,28 +64,34 @@ export const Calendar = ({ activities }) => {
               <h6 className="title is-6">
                 {month.name} {currentYear}
               </h6>
-              {month.weeks.map(week => {
-                return (
-                  <div key={week[0].toISOString()}>
-                    {week.map(day => {
-                      const formattedDate = format(day, "yyyy-MM-dd");
-                      const formattedDay = format(day, "dd");
-                      return (
-                        <span
-                          key={formattedDay}
-                          className={
-                            debateDates[formattedDate]
-                              ? "has-background-success"
-                              : null
-                          }
-                        >
-                          {formattedDay}{" "}
-                        </span>
-                      );
-                    })}
-                  </div>
-                );
-              })}
+              <table className="table">
+                <tbody>
+                  {month.weeks.map(week => {
+                    return (
+                      <tr key={week[0].toISOString()}>
+                        {week.map(day => {
+                          const formattedDate = format(day, "yyyy-MM-dd");
+                          const formattedDay = format(day, "dd");
+                          return (
+                            <td>
+                              <span
+                                key={formattedDay}
+                                className={
+                                  debateDates[formattedDate]
+                                    ? "has-background-success"
+                                    : null
+                                }
+                              >
+                                {formattedDay}{" "}
+                              </span>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
         );
