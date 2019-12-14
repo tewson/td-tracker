@@ -1,0 +1,11 @@
+{
+  "name": "td-tracker",
+  "version": "1.0.0",
+  "description": "Track your TD",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tewson Seeoun <tewson.seeoun@gmail.com> (https://tewson.github.io)",
+  "license": "MIT"
+}
