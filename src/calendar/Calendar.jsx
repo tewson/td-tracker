@@ -65,6 +65,13 @@ export const Calendar = ({ activities }) => {
                 {month.name} {currentYear}
               </h6>
               <table className="table">
+                <thead>
+                  <tr>
+                    {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(d => (
+                      <th key={d}>{d}</th>
+                    ))}
+                  </tr>
+                </thead>
                 <tbody>
                   {month.weeks.map(week => {
                     return (
