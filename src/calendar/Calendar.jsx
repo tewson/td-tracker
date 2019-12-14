@@ -96,17 +96,17 @@ export const Calendar = ({ activities, renderDate = defaultRenderDate }) => {
                   {month.weeks.map(week => {
                     return (
                       <tr key={week[0].toISOString()}>
-                        {week.map(day => {
+                        {week.map(date => {
                           return (
                             <td
-                              key={format(day, "dd")}
+                              key={format(date, "dd")}
                               className={
-                                isWeekend(day)
+                                isWeekend(date)
                                   ? "weekend has-background-grey-light"
                                   : null
                               }
                             >
-                              {renderDate(day)}
+                              {renderDate(date)}
                             </td>
                           );
                         })}
