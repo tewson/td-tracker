@@ -23,6 +23,7 @@ export const ActivityCalendar = ({ td, activities }) => {
         } else {
           console.error(error);
         }
+        setAttendance({});
       }
     };
 
