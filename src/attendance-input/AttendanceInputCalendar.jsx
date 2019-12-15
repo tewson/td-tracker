@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import classNames from "classnames";
 import format from "date-fns/format";
 
 import { Calendar } from "../calendar/Calendar.jsx";
@@ -80,13 +81,12 @@ export const AttendanceInputCalendar = ({ td }) => {
 
     return (
       <span
-        className={
-          attendance[formattedDate] === ATTENDANCE_TYPE.SITTING
-            ? "has-background-primary"
-            : attendance[formattedDate] === ATTENDANCE_TYPE.OTHER
-            ? "has-background-info"
-            : null
-        }
+        className={classNames({
+          "has-background-primary":
+            attendance[formattedDate] === ATTENDANCE_TYPE.SITTING,
+          "has-background-info":
+            attendance[formattedDate] === ATTENDANCE_TYPE.OTHER
+        })}
         onClick={toggleAttendanceDate}
       >
         {format(date, "dd")}

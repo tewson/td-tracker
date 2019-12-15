@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import classNames from "classnames";
 import format from "date-fns/format";
 
 import { Calendar } from "./Calendar.jsx";
@@ -50,13 +51,11 @@ export const ActivityCalendar = ({ td, activities }) => {
 
     return (
       <span
-        className={
-          debateDates[formattedDate]
-            ? "has-background-success"
-            : attendance[formattedDate]
-            ? "has-background-grey-light"
-            : null
-        }
+        className={classNames({
+          "has-background-success": debateDates[formattedDate],
+          "has-background-grey-light":
+            attendance[formattedDate] && !debateDates[formattedDate]
+        })}
       >
         {format(date, "dd")}
       </span>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import classNames from "classnames";
 
 import dailMembers from "./dail-32.json";
 
@@ -42,7 +43,11 @@ export const TDSelector = ({ onSelect }) => {
   };
 
   return (
-    <div className={searchTDResults.length ? "dropdown is-active" : "dropdown"}>
+    <div
+      className={classNames("dropdown", {
+        "is-active": searchTDResults.length
+      })}
+    >
       <input
         className="input"
         type="text"

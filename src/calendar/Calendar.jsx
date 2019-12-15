@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import format from "date-fns/format";
 import getYear from "date-fns/getYear";
 import startOfISOWeek from "date-fns/startOfISOWeek";
@@ -56,7 +57,9 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
                     {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(d => (
                       <th
                         key={d}
-                        className={d === "Sa" || d === "Su" ? "weekend" : null}
+                        className={classNames({
+                          weekend: d === "Sa" || d === "Su"
+                        })}
                       >
                         {d}
                       </th>
@@ -71,11 +74,9 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
                           return (
                             <td
                               key={format(date, "dd")}
-                              className={
-                                isWeekend(date)
-                                  ? "weekend has-text-grey-light"
-                                  : null
-                              }
+                              className={classNames({
+                                "weekend has-text-grey-light": isWeekend(date)
+                              })}
                             >
                               {renderDate(date)}
                             </td>
