@@ -60,7 +60,7 @@ export const ActivityCalendar = ({ td, activities }) => {
       return (
         <span className="has-activity">
           <button
-            className={classNames("button activity-date-button", {
+            className={classNames("button", {
               "is-info": debateDates[formattedDate]
             })}
           >
