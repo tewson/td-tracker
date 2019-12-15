@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
 import { TDSelector } from "../td-selector/TDSelector.jsx";
-import { Calendar } from "../calendar/Calendar.jsx";
+import { AttendanceInputCalendar } from "./AttendanceInputCalendar.jsx";
 
 const AttendanceInput = () => {
   const [selectedTD, setSelectedTD] = useState();
@@ -12,7 +12,7 @@ const AttendanceInput = () => {
       <div className="container">
         <h1 className="title">TD Attendance Input</h1>
         <TDSelector onSelect={setSelectedTD} />
-        {selectedTD && <Calendar />}
+        {selectedTD && <AttendanceInputCalendar />}
       </div>
     </section>
   );
