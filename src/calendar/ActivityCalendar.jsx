@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import classNames from "classnames";
 import format from "date-fns/format";
+import isSameMonth from "date-fns/isSameMonth";
 
 import { Calendar } from "./Calendar.jsx";
 
@@ -47,8 +48,13 @@ export const ActivityCalendar = ({ td, activities }) => {
     };
   }, {});
 
-  const renderDateWithActivityHighlight = date => {
+  const renderDateWithActivityHighlight = (date, firstDateOfMonth) => {
     const formattedDate = format(date, "yyyy-MM-dd");
+    const shortDate = format(date, "dd");
+
+    if (!isSameMonth(date, firstDateOfMonth)) {
+      return <span className="has-text-grey-light">{shortDate}</span>;
+    }
 
     return (
       <span
@@ -58,7 +64,7 @@ export const ActivityCalendar = ({ td, activities }) => {
             attendance[formattedDate] && !debateDates[formattedDate]
         })}
       >
-        {format(date, "dd")}
+        {shortDate}
       </span>
     );
   };

@@ -82,7 +82,7 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
                                 "weekend has-text-grey-light": isWeekend(date)
                               })}
                             >
-                              {renderDate(date)}
+                              {renderDate(date, month.firstDate)}
                             </td>
                           );
                         })}
