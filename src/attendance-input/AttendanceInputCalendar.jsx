@@ -13,7 +13,7 @@ export const AttendanceInputCalendar = () => {
   const [attendance, setAttendance] = useState({});
 
   const logAttendanceDates = () => {
-    console.log(Object.keys(attendance));
+    console.log(attendance);
   };
 
   const handleAttendanceTypeChange = ({ target: { value } }) => {
