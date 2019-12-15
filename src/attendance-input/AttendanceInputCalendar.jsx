@@ -12,8 +12,18 @@ export const AttendanceInputCalendar = ({ td }) => {
   const [attendanceType, setAttendanceType] = useState(ATTENDANCE_TYPE.SITTING);
   const [attendance, setAttendance] = useState({});
 
-  const logAttendanceDates = () => {
-    console.log(td, attendance);
+  const attendanceFilename = `${td.memberCode}.json`;
+
+  const saveAttendance = () => {
+    const attendanceFileContent = JSON.stringify(attendance);
+    const attendanceFileBlob = new Blob([attendanceFileContent], {
+      type: "application/json"
+    });
+    const attendanceFileUrl = URL.createObjectURL(attendanceFileBlob);
+    var a = document.createElement("a");
+    a.download = attendanceFilename;
+    a.href = attendanceFileUrl;
+    a.click();
   };
 
   const handleAttendanceTypeChange = ({ target: { value } }) => {
@@ -83,7 +93,8 @@ export const AttendanceInputCalendar = ({ td }) => {
       </div>
       <Calendar renderDate={renderAttendanceInputDate} />
       <div className="container has-text-right">
-        <button className="button is-primary" onClick={logAttendanceDates}>
+        {attendanceFilename}
+        <button className="button is-primary" onClick={saveAttendance}>
           Save
         </button>
       </div>
