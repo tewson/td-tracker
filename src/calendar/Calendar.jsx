@@ -29,7 +29,7 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
       );
 
       return {
-        name: firstDateOfMonth.toLocaleString("default", { month: "long" }),
+        firstDate: firstDateOfMonth,
         weeks: weeksInMonth.map(week => {
           return eachDayOfInterval({
             start: startOfISOWeek(week),
@@ -42,14 +42,18 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
   return (
     <div className="columns is-multiline">
       {months.map(month => {
+        const monthName = month.firstDate.toLocaleString("default", {
+          month: "long"
+        });
+
         return (
           <div
-            key={month.name}
+            key={monthName}
             className="column is-half-tablet is-one-third-desktop"
           >
             <div className="box" style={{ height: "100%" }}>
               <h6 className="title is-6">
-                {month.name} {currentYear}
+                {monthName} {currentYear}
               </h6>
               <table className="table is-fullwidth">
                 <thead>
