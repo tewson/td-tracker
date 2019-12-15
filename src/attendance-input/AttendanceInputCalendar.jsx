@@ -24,7 +24,10 @@ export const AttendanceInputCalendar = () => {
     const formattedDate = format(date, "yyyy-MM-dd");
 
     const toggleAttendanceDate = () => {
-      if (attendance[formattedDate]) {
+      if (
+        attendance[formattedDate] &&
+        attendance[formattedDate] === attendanceType
+      ) {
         const {
           [formattedDate]: removedDateKey,
           ...updatedAttendanceDates
@@ -33,7 +36,7 @@ export const AttendanceInputCalendar = () => {
       } else {
         setAttendance({
           ...attendance,
-          [formattedDate]: formattedDate
+          [formattedDate]: attendanceType
         });
       }
     };
@@ -41,7 +44,11 @@ export const AttendanceInputCalendar = () => {
     return (
       <span
         className={
-          attendance[formattedDate] ? "has-background-grey-light" : null
+          attendance[formattedDate] === ATTENDANCE_TYPE.SITTING
+            ? "has-background-primary"
+            : attendance[formattedDate] === ATTENDANCE_TYPE.OTHER
+            ? "has-background-info"
+            : null
         }
         onClick={toggleAttendanceDate}
       >
@@ -61,7 +68,7 @@ export const AttendanceInputCalendar = () => {
             checked={attendanceType === ATTENDANCE_TYPE.SITTING}
             onChange={handleAttendanceTypeChange}
           />
-          Sitting
+          <span className="has-background-primary">Sitting</span>
         </label>
         <label className="radio">
           <input
@@ -71,7 +78,7 @@ export const AttendanceInputCalendar = () => {
             checked={attendanceType === ATTENDANCE_TYPE.OTHER}
             onChange={handleAttendanceTypeChange}
           />
-          Other
+          <span className="has-background-info">Other</span>
         </label>
       </div>
       <Calendar renderDate={renderAttendanceInputDate} />
