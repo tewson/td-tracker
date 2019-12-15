@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import format from "date-fns/format";
 
 import { Calendar } from "../calendar/Calendar.jsx";
@@ -16,6 +17,26 @@ export const AttendanceInputCalendar = ({ td }) => {
   const [attendance, setAttendance] = useState({});
 
   const attendanceFilename = `${td.memberCode}.json`;
+
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      try {
+        const {
+          data: { attendance }
+        } = await axios.get(`/data/${attendanceFilename}`);
+
+        setAttendance(attendance);
+      } catch (error) {
+        if (error.response.status === 404) {
+          console.warn(`${attendanceFilename} not found.`);
+        } else {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchAttendance();
+  }, [td]);
 
   const saveAttendance = () => {
     const attendanceFileContent = JSON.stringify({
