@@ -4,25 +4,25 @@ import format from "date-fns/format";
 import { Calendar } from "../calendar/Calendar.jsx";
 
 export const AttendanceInputCalendar = () => {
-  const [attendanceDates, setAttendanceDates] = useState({});
+  const [attendance, setAttendance] = useState({});
 
   const logAttendanceDates = () => {
-    console.log(Object.keys(attendanceDates));
+    console.log(Object.keys(attendance));
   };
 
   const renderAttendanceInputDate = date => {
     const formattedDate = format(date, "yyyy-MM-dd");
 
     const toggleAttendanceDate = () => {
-      if (attendanceDates[formattedDate]) {
+      if (attendance[formattedDate]) {
         const {
           [formattedDate]: removedDateKey,
           ...updatedAttendanceDates
-        } = attendanceDates;
-        setAttendanceDates(updatedAttendanceDates);
+        } = attendance;
+        setAttendance(updatedAttendanceDates);
       } else {
-        setAttendanceDates({
-          ...attendanceDates,
+        setAttendance({
+          ...attendance,
           [formattedDate]: formattedDate
         });
       }
@@ -31,7 +31,7 @@ export const AttendanceInputCalendar = () => {
     return (
       <span
         className={
-          attendanceDates[formattedDate] ? "has-background-grey-light" : null
+          attendance[formattedDate] ? "has-background-grey-light" : null
         }
         onClick={toggleAttendanceDate}
       >
