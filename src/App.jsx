@@ -45,7 +45,7 @@ export const App = () => {
         <h1 className="title">TD Tracker</h1>
         <TDSelector onSelect={handleTDSelect} />
         {selectedTD && activities && (
-          <ActivityCalendar activities={activities} />
+          <ActivityCalendar td={selectedTD} activities={activities} />
         )}
       </div>
     </section>
