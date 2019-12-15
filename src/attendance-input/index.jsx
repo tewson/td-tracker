@@ -12,7 +12,7 @@ const AttendanceInput = () => {
       <div className="container">
         <h1 className="title">TD Attendance Input</h1>
         <TDSelector onSelect={setSelectedTD} />
-        {selectedTD && <AttendanceInputCalendar />}
+        {selectedTD && <AttendanceInputCalendar td={selectedTD} />}
       </div>
     </section>
   );
