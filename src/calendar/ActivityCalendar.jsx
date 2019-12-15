@@ -56,17 +56,21 @@ export const ActivityCalendar = ({ td, activities }) => {
       return <span className="has-text-grey-light">{shortDate}</span>;
     }
 
-    return (
-      <span
-        className={classNames({
-          "has-background-success": debateDates[formattedDate],
-          "has-background-grey-light":
-            attendance[formattedDate] && !debateDates[formattedDate]
-        })}
-      >
-        {shortDate}
-      </span>
-    );
+    if (debateDates[formattedDate] || attendance[formattedDate]) {
+      return (
+        <span className="has-activity">
+          <button
+            className={classNames("button activity-date-button", {
+              "is-info": debateDates[formattedDate]
+            })}
+          >
+            {shortDate}
+          </button>
+        </span>
+      );
+    }
+
+    return shortDate;
   };
 
   return <Calendar renderDate={renderDateWithActivityHighlight} />;
