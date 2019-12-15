@@ -73,7 +73,7 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
                               key={format(date, "dd")}
                               className={
                                 isWeekend(date)
-                                  ? "weekend has-background-grey-light"
+                                  ? "weekend has-text-grey-light"
                                   : null
                               }
                             >
