@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import classNames from "classnames";
 import format from "date-fns/format";
 import isSameMonth from "date-fns/isSameMonth";
 
 import { Calendar } from "./Calendar.jsx";
+import { AttendanceTooltip } from "./AttendanceTooltip.jsx";
+
+import "react-popper-tooltip/dist/styles.css";
 
 export const ActivityCalendar = ({ td, activities }) => {
   const [attendance, setAttendance] = useState({});
@@ -57,17 +59,25 @@ export const ActivityCalendar = ({ td, activities }) => {
     }
 
     if (debateDates[formattedDate] || attendance[formattedDate]) {
-      return (
-        <span className="has-activity">
-          <button
-            className={classNames("button", {
-              "is-info": debateDates[formattedDate]
-            })}
+      if (debateDates[formattedDate]) {
+        return (
+          <span className="has-activity">
+            <button className="button is-info">{shortDate}</button>
+          </span>
+        );
+      } else {
+        return (
+          <AttendanceTooltip
+            placement="top"
+            trigger="click"
+            content={`Attendance type: ${attendance[formattedDate]}`}
           >
-            {shortDate}
-          </button>
-        </span>
-      );
+            <span className="has-activity">
+              <button className="button">{shortDate}</button>
+            </span>
+          </AttendanceTooltip>
+        );
+      }
     }
 
     return shortDate;
