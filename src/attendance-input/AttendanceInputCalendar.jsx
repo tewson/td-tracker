@@ -8,12 +8,12 @@ const ATTENDANCE_TYPE = {
   OTHER: "OTHER"
 };
 
-export const AttendanceInputCalendar = () => {
+export const AttendanceInputCalendar = ({ td }) => {
   const [attendanceType, setAttendanceType] = useState(ATTENDANCE_TYPE.SITTING);
   const [attendance, setAttendance] = useState({});
 
   const logAttendanceDates = () => {
-    console.log(attendance);
+    console.log(td, attendance);
   };
 
   const handleAttendanceTypeChange = ({ target: { value } }) => {
