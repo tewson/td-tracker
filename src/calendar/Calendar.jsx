@@ -57,7 +57,7 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
                     {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(d => (
                       <th
                         key={d}
-                        className={classNames({
+                        className={classNames("has-text-centered", {
                           weekend: d === "Sa" || d === "Su"
                         })}
                       >
@@ -74,7 +74,7 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
                           return (
                             <td
                               key={format(date, "dd")}
-                              className={classNames({
+                              className={classNames("has-text-centered", {
                                 "weekend has-text-grey-light": isWeekend(date)
                               })}
                             >
