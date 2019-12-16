@@ -12,6 +12,7 @@ import "react-popper-tooltip/dist/styles.css";
 export const ActivityCalendar = ({ td, activities }) => {
   const [attendance, setAttendance] = useState({});
   const [activityModalData, setActivityModalData] = React.useState({});
+  const [message, setMessage] = useState();
 
   useEffect(() => {
     const fetchAttendance = async () => {
@@ -23,6 +24,7 @@ export const ActivityCalendar = ({ td, activities }) => {
         } = await axios.get(`/data/${attendanceFilename}`);
 
         setAttendance(attendance);
+        setMessage(null);
       } catch (error) {
         if (error.response.status === 404) {
           console.warn(`${attendanceFilename} not found.`);
@@ -30,6 +32,7 @@ export const ActivityCalendar = ({ td, activities }) => {
           console.error(error);
         }
         setAttendance({});
+        setMessage("No attendance data available yet.");
       }
     };
 
@@ -107,6 +110,11 @@ export const ActivityCalendar = ({ td, activities }) => {
 
   return (
     <>
+      {message && (
+        <div className="notification activity-calendar-notification is-warning">
+          {message}
+        </div>
+      )}
       <Calendar renderDate={renderDateWithActivityHighlight} />
       <ActivityModal
         data={activityModalData}
