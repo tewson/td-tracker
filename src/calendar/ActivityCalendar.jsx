@@ -5,11 +5,14 @@ import isSameMonth from "date-fns/isSameMonth";
 
 import { Calendar } from "./Calendar.jsx";
 import { AttendanceTooltip } from "./AttendanceTooltip.jsx";
+import { ActivityModal } from "./ActivityModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
 
 export const ActivityCalendar = ({ td, activities }) => {
   const [attendance, setAttendance] = useState({});
+  const [activityModalData, setActivityModalData] = React.useState({});
+
   useEffect(() => {
     const fetchAttendance = async () => {
       const attendanceFilename = `${td.memberCode}.json`;
@@ -50,9 +53,26 @@ export const ActivityCalendar = ({ td, activities }) => {
     };
   }, {});
 
+  function closeModal() {
+    document.querySelector("html").classList.remove("is-clipped");
+    setActivityModalData({});
+  }
+
   const renderDateWithActivityHighlight = (date, firstDateOfMonth) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     const shortDate = format(date, "dd");
+
+    function openModal() {
+      const debatesOnDate = activities.debates.filter(
+        debate => debate.debateRecord.date === formattedDate
+      );
+
+      document.querySelector("html").classList.add("is-clipped");
+      setActivityModalData({
+        date,
+        debates: debatesOnDate
+      });
+    }
 
     if (!isSameMonth(date, firstDateOfMonth)) {
       return <span className="has-text-grey-light">{shortDate}</span>;
@@ -62,7 +82,9 @@ export const ActivityCalendar = ({ td, activities }) => {
       if (debateDates[formattedDate]) {
         return (
           <span className="has-activity">
-            <button className="button is-info">{shortDate}</button>
+            <button className="button is-info" onClick={openModal}>
+              {shortDate}
+            </button>
           </span>
         );
       } else {
@@ -83,5 +105,13 @@ export const ActivityCalendar = ({ td, activities }) => {
     return shortDate;
   };
 
-  return <Calendar renderDate={renderDateWithActivityHighlight} />;
+  return (
+    <>
+      <Calendar renderDate={renderDateWithActivityHighlight} />
+      <ActivityModal
+        data={activityModalData}
+        closeModal={closeModal}
+      ></ActivityModal>
+    </>
+  );
 };
