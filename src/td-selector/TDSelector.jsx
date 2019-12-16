@@ -43,28 +43,33 @@ export const TDSelector = ({ onSelect }) => {
   };
 
   return (
-    <div
-      className={classNames("dropdown", {
-        "is-active": searchTDResults.length
-      })}
-    >
-      <input
-        className="input"
-        type="text"
-        value={keyword}
-        onChange={handleKeywordChangeEvent}
-      />
-      <div className="dropdown-menu">
-        <div className="dropdown-content">
-          {searchTDResults.map(result => (
-            <TDSelectorResult
-              key={result.uri}
-              result={result}
-              onSelect={handleTDSelect}
-            />
-          ))}
+    <>
+      <div className="field">
+        <div className="control">
+          <input
+            className="input"
+            type="text"
+            placeholder="Search TDs..."
+            value={keyword}
+            onChange={handleKeywordChangeEvent}
+          />
         </div>
       </div>
-    </div>
+      {searchTDResults.length > 0 && (
+        <div className="dropdown is-active">
+          <div className="dropdown-menu">
+            <div className="dropdown-content">
+              {searchTDResults.map(result => (
+                <TDSelectorResult
+                  key={result.uri}
+                  result={result}
+                  onSelect={handleTDSelect}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
