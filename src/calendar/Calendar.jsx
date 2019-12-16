@@ -52,7 +52,7 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
             className="column is-half-tablet is-one-third-desktop"
           >
             <div className="box" style={{ height: "100%" }}>
-              <h6 className="title is-6">
+              <h6 className="title is-6 has-text-centered">
                 {monthName} {currentYear}
               </h6>
               <table className="table is-fullwidth">
