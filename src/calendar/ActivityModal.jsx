@@ -22,29 +22,36 @@ export const ActivityModal = ({ data, closeModal }) => {
             <ul>
               {debates
                 .map(debate => {
-                  return debate.debateRecord.debateSections.map(
-                    ({ debateSection }) => debateSection
-                  );
+                  const {
+                    debateRecord: {
+                      debateSections,
+                      house: { chamberType, houseCode, committeeCode }
+                    }
+                  } = debate;
+
+                  const chamber =
+                    chamberType === "house" ? houseCode : committeeCode;
+
+                  return debateSections.map(({ debateSection }) => {
+                    const { uri, debateSectionId, showAs } = debateSection;
+
+                    const debateSectionIdForUrl = debateSectionId.replace(
+                      "dbsect_",
+                      ""
+                    );
+
+                    return (
+                      <li key={uri}>
+                        <a
+                          href={`https://www.oireachtas.ie/en/debates/debate/${chamber}/${formattedDate}/${debateSectionIdForUrl}`}
+                        >
+                          {showAs}
+                        </a>
+                      </li>
+                    );
+                  });
                 })
-                .flat(Infinity)
-                .map(debateSection => {
-                  const { uri, debateSectionId, showAs } = debateSection;
-
-                  const debateSectionIdForUrl = debateSectionId.replace(
-                    "dbsect_",
-                    ""
-                  );
-
-                  return (
-                    <li key={uri}>
-                      <a
-                        href={`https://www.oireachtas.ie/en/debates/debate/dail/${formattedDate}/${debateSectionIdForUrl}`}
-                      >
-                        {showAs}
-                      </a>
-                    </li>
-                  );
-                })}
+                .flat(Infinity)}
             </ul>
           </div>
         </section>
