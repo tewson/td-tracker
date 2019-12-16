@@ -20,7 +20,8 @@ export const App = () => {
         params: {
           date_start: format(startOfYear(currentDate), "yyyy-MM-dd"),
           date_end: format(endOfYear(currentDate), "yyyy-MM-dd"),
-          member_id: selectedTD.uri
+          member_id: selectedTD.uri,
+          limit: 10000
         }
       });
 
