@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import format from "date-fns/format";
 import isSameMonth from "date-fns/isSameMonth";
-import startOfYear from "date-fns/startOfYear";
-import endOfYear from "date-fns/endOfYear";
 
 import { Calendar } from "./Calendar.jsx";
 import { fetchAttendance } from "../attendance/fetchAttendance.js";
 import { AttendanceTooltip } from "../attendance/AttendanceTooltip.jsx";
+import { fetchDebates } from "../debates/fetchDebates.js";
 import { ActivityModal } from "./ActivityModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
@@ -35,25 +33,14 @@ export const ActivityCalendar = ({ td }) => {
       }
     };
 
-    const fetchDebates = async () => {
-      const currentDate = new Date();
-
-      const {
-        data: { results: debates }
-      } = await axios.get("https://api.oireachtas.ie/v1/debates", {
-        params: {
-          date_start: format(startOfYear(currentDate), "yyyy-MM-dd"),
-          date_end: format(endOfYear(currentDate), "yyyy-MM-dd"),
-          member_id: td.uri,
-          limit: 10000
-        }
-      });
+    const fetchDebatesAndSetData = async () => {
+      const debates = await fetchDebates(td);
 
       setDebates(debates);
     };
 
     fetchAttendanceAndSetMessage();
-    fetchDebates();
+    fetchDebatesAndSetData();
   }, [td]);
 
   const debateDates = debates.reduce((debateDatesAcc, debate) => {
