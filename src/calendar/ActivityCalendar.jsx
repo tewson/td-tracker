@@ -7,7 +7,7 @@ import endOfYear from "date-fns/endOfYear";
 
 import { Calendar } from "./Calendar.jsx";
 import { fetchAttendance } from "../attendance/fetchAttendance.js";
-import { AttendanceTooltip } from "./AttendanceTooltip.jsx";
+import { AttendanceTooltip } from "../attendance/AttendanceTooltip.jsx";
 import { ActivityModal } from "./ActivityModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
