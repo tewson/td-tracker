@@ -6,6 +6,7 @@ import startOfYear from "date-fns/startOfYear";
 import endOfYear from "date-fns/endOfYear";
 
 import { Calendar } from "./Calendar.jsx";
+import { fetchAttendance } from "../attendance/fetchAttendance.js";
 import { AttendanceTooltip } from "./AttendanceTooltip.jsx";
 import { ActivityModal } from "./ActivityModal.jsx";
 
@@ -18,19 +19,14 @@ export const ActivityCalendar = ({ td }) => {
   const [message, setMessage] = useState();
 
   useEffect(() => {
-    const fetchAttendance = async () => {
-      const attendanceFilename = `${td.memberCode}.json`;
-
+    const fetchAttendanceAndSetMessage = async () => {
       try {
-        const {
-          data: { attendance }
-        } = await axios.get(`/data/${attendanceFilename}`);
-
+        const attendance = await fetchAttendance(td.memberCode);
         setAttendance(attendance);
         setMessage(null);
       } catch (error) {
         if (error.response.status === 404) {
-          console.warn(`${attendanceFilename} not found.`);
+          console.warn(`Attendance data for ${td.memberCode} not available.`);
         } else {
           console.error(error);
         }
@@ -56,7 +52,7 @@ export const ActivityCalendar = ({ td }) => {
       setDebates(debates);
     };
 
-    fetchAttendance();
+    fetchAttendanceAndSetMessage();
     fetchDebates();
   }, [td]);
 
