@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import format from "date-fns/format";
 import isSameMonth from "date-fns/isSameMonth";
+import startOfYear from "date-fns/startOfYear";
+import endOfYear from "date-fns/endOfYear";
 
 import { Calendar } from "./Calendar.jsx";
 import { AttendanceTooltip } from "./AttendanceTooltip.jsx";
@@ -9,7 +11,8 @@ import { ActivityModal } from "./ActivityModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
 
-export const ActivityCalendar = ({ td, activities }) => {
+export const ActivityCalendar = ({ td }) => {
+  const [debates, setDebates] = useState([]);
   const [attendance, setAttendance] = useState({});
   const [activityModalData, setActivityModalData] = React.useState({});
   const [message, setMessage] = useState();
@@ -36,10 +39,28 @@ export const ActivityCalendar = ({ td, activities }) => {
       }
     };
 
+    const fetchDebates = async () => {
+      const currentDate = new Date();
+
+      const {
+        data: { results: debates }
+      } = await axios.get("https://api.oireachtas.ie/v1/debates", {
+        params: {
+          date_start: format(startOfYear(currentDate), "yyyy-MM-dd"),
+          date_end: format(endOfYear(currentDate), "yyyy-MM-dd"),
+          member_id: td.uri,
+          limit: 10000
+        }
+      });
+
+      setDebates(debates);
+    };
+
     fetchAttendance();
+    fetchDebates();
   }, [td]);
 
-  const debateDates = activities.debates.reduce((debateDatesAcc, debate) => {
+  const debateDates = debates.reduce((debateDatesAcc, debate) => {
     if (debateDatesAcc[debate.debateRecord.date]) {
       return {
         ...debateDatesAcc,
@@ -66,7 +87,7 @@ export const ActivityCalendar = ({ td, activities }) => {
     const shortDate = format(date, "dd");
 
     function openModal() {
-      const debatesOnDate = activities.debates.filter(
+      const debatesOnDate = debates.filter(
         debate => debate.debateRecord.date === formattedDate
       );
 
