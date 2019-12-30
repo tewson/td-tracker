@@ -19,37 +19,35 @@ export const ActivityCalendar = ({ td }) => {
   const [message, setMessage] = useState();
 
   useEffect(() => {
-    const fetchAttendanceAndSetMessage = async () => {
-      try {
-        const attendance = await fetchAttendance(td.memberCode);
-        setAttendance(attendance);
-        setMessage(null);
-      } catch (error) {
-        if (error.response.status === 404) {
-          console.warn(`Attendance data for ${td.memberCode} not available.`);
-        } else {
-          console.error(error);
-        }
-        setAttendance({});
-        setMessage("No attendance data available yet.");
-      }
-    };
+    const fetchActivityData = async () => {
+      const fetchAttendancePromise = fetchAttendance(td.memberCode)
+        .then(attendance => {
+          setMessage(null);
+          return attendance;
+        })
+        .catch(error => {
+          if (error.response.status === 404) {
+            console.warn(`Attendance data for ${td.memberCode} not available.`);
+            setMessage("No attendance data available yet.");
+            return {};
+          } else {
+            console.error(error);
+            throw error;
+          }
+        });
 
-    const fetchDebatesAndSetData = async () => {
-      const debates = await fetchDebates(td);
+      const [attendance, debates, divisions] = await Promise.all([
+        fetchAttendancePromise,
+        fetchDebates(td),
+        fetchDivisions(td)
+      ]);
 
+      setAttendance(attendance);
       setDebates(debates);
-    };
-
-    const fetchDivisionsAndSetData = async () => {
-      const divisions = await fetchDivisions(td);
-
       setDivisions(divisions);
     };
 
-    fetchAttendanceAndSetMessage();
-    fetchDebatesAndSetData();
-    fetchDivisionsAndSetData();
+    fetchActivityData();
   }, [td]);
 
   const debateDates = debates.reduce((debateDatesAcc, debate) => {
