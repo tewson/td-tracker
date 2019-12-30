@@ -12,6 +12,7 @@ import { ContributionModal } from "./ContributionModal.jsx";
 import "react-popper-tooltip/dist/styles.css";
 
 export const ActivityCalendar = ({ td }) => {
+  const [activityIsLoading, setActivityIsLoading] = useState(true);
   const [debates, setDebates] = useState([]);
   const [divisions, setDivisions] = useState([]);
   const [attendance, setAttendance] = useState({});
@@ -20,6 +21,8 @@ export const ActivityCalendar = ({ td }) => {
 
   useEffect(() => {
     const fetchActivityData = async () => {
+      setActivityIsLoading(true);
+
       const fetchAttendancePromise = fetchAttendance(td.memberCode)
         .then(attendance => {
           setMessage(null);
@@ -45,6 +48,7 @@ export const ActivityCalendar = ({ td }) => {
       setAttendance(attendance);
       setDebates(debates);
       setDivisions(divisions);
+      setActivityIsLoading(false);
     };
 
     fetchActivityData();
@@ -87,8 +91,21 @@ export const ActivityCalendar = ({ td }) => {
   }
 
   const renderDateWithActivityHighlight = (date, firstDateOfMonth) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
     const shortDate = format(date, "dd");
+
+    if (!isSameMonth(date, firstDateOfMonth)) {
+      return <span className="has-text-grey-light">{shortDate}</span>;
+    }
+
+    if (activityIsLoading) {
+      return (
+        <span className="has-activity">
+          <button className="button is-loading">{shortDate}</button>
+        </span>
+      );
+    }
+
+    const formattedDate = format(date, "yyyy-MM-dd");
 
     function openModal() {
       const debatesOnDate = debates.filter(
@@ -105,10 +122,6 @@ export const ActivityCalendar = ({ td }) => {
         debates: debatesOnDate,
         divisions: divisionsOnDate
       });
-    }
-
-    if (!isSameMonth(date, firstDateOfMonth)) {
-      return <span className="has-text-grey-light">{shortDate}</span>;
     }
 
     if (
