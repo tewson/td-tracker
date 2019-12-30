@@ -162,6 +162,16 @@ export const ActivityCalendar = ({ td }) => {
           {message}
         </div>
       )}
+      <div className="legend">
+        <div className="legend-item">
+          <button className="button is-info">&nbsp;&nbsp;</button>
+          <span className="legend-label">Contributions</span>
+        </div>
+        <div className="legend-item">
+          <button className="button">&nbsp;&nbsp;</button>
+          <span className="legend-label">Attendance</span>
+        </div>
+      </div>
       <Calendar renderDate={renderDateWithActivityHighlight} />
       <ContributionModal
         data={contributionModalData}
