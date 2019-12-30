@@ -7,7 +7,7 @@ import { fetchAttendance } from "../attendance/fetchAttendance.js";
 import { AttendanceTooltip } from "../attendance/AttendanceTooltip.jsx";
 import { fetchDebates } from "../debates/fetchDebates.js";
 import { fetchDivisions } from "../divisions/fetchDivisions.js";
-import { ActivityModal } from "./ActivityModal.jsx";
+import { ContributionModal } from "./ContributionModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
 
@@ -15,7 +15,7 @@ export const ActivityCalendar = ({ td }) => {
   const [debates, setDebates] = useState([]);
   const [divisions, setDivisions] = useState([]);
   const [attendance, setAttendance] = useState({});
-  const [activityModalData, setActivityModalData] = useState(null);
+  const [contributionModalData, setContributionModalData] = useState(null);
   const [message, setMessage] = useState();
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export const ActivityCalendar = ({ td }) => {
 
   function closeModal() {
     document.querySelector("html").classList.remove("is-clipped");
-    setActivityModalData(null);
+    setContributionModalData(null);
   }
 
   const renderDateWithActivityHighlight = (date, firstDateOfMonth) => {
@@ -102,7 +102,7 @@ export const ActivityCalendar = ({ td }) => {
       );
 
       document.querySelector("html").classList.add("is-clipped");
-      setActivityModalData({
+      setContributionModalData({
         date,
         debates: debatesOnDate,
         divisions: divisionsOnDate
@@ -152,10 +152,10 @@ export const ActivityCalendar = ({ td }) => {
         </div>
       )}
       <Calendar renderDate={renderDateWithActivityHighlight} />
-      <ActivityModal
-        data={activityModalData}
+      <ContributionModal
+        data={contributionModalData}
         closeModal={closeModal}
-      ></ActivityModal>
+      ></ContributionModal>
     </>
   );
 };

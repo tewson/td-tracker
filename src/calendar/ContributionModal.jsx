@@ -1,7 +1,7 @@
 import React from "react";
 import format from "date-fns/format";
 
-export const ActivityModal = ({ data, closeModal }) => {
+export const ContributionModal = ({ data, closeModal }) => {
   if (!data) {
     return null;
   }
@@ -10,11 +10,11 @@ export const ActivityModal = ({ data, closeModal }) => {
   const formattedDate = format(date, "yyyy-MM-dd");
 
   return (
-    <div className="modal activity-modal is-active">
+    <div className="modal contribution-modal is-active">
       <div className="modal-background" onClick={closeModal} />
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Activities {formattedDate}</p>
+          <p className="modal-card-title">Contributions {formattedDate}</p>
         </header>
         <section className="modal-card-body">
           <div className="content">
