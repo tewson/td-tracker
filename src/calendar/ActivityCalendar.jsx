@@ -6,12 +6,14 @@ import { Calendar } from "./Calendar.jsx";
 import { fetchAttendance } from "../attendance/fetchAttendance.js";
 import { AttendanceTooltip } from "../attendance/AttendanceTooltip.jsx";
 import { fetchDebates } from "../debates/fetchDebates.js";
+import { fetchDivisions } from "../divisions/fetchDivisions.js";
 import { ActivityModal } from "./ActivityModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
 
 export const ActivityCalendar = ({ td }) => {
   const [debates, setDebates] = useState([]);
+  const [divisions, setDivisions] = useState([]);
   const [attendance, setAttendance] = useState({});
   const [activityModalData, setActivityModalData] = React.useState({});
   const [message, setMessage] = useState();
@@ -39,8 +41,15 @@ export const ActivityCalendar = ({ td }) => {
       setDebates(debates);
     };
 
+    const fetchDivisionsAndSetData = async () => {
+      const divisions = await fetchDivisions(td);
+
+      setDivisions(divisions);
+    };
+
     fetchAttendanceAndSetMessage();
     fetchDebatesAndSetData();
+    fetchDivisionsAndSetData();
   }, [td]);
 
   const debateDates = debates.reduce((debateDatesAcc, debate) => {
@@ -60,6 +69,20 @@ export const ActivityCalendar = ({ td }) => {
     };
   }, {});
 
+  const divisionDates = divisions.reduce((divisionDatesAcc, division) => {
+    if (divisionDatesAcc[division.date]) {
+      return {
+        ...divisionDatesAcc,
+        [division.date]: [...divisionDatesAcc[division.date], division]
+      };
+    }
+
+    return {
+      ...divisionDatesAcc,
+      [division.date]: [division]
+    };
+  }, {});
+
   function closeModal() {
     document.querySelector("html").classList.remove("is-clipped");
     setActivityModalData({});
@@ -74,10 +97,15 @@ export const ActivityCalendar = ({ td }) => {
         debate => debate.debateRecord.date === formattedDate
       );
 
+      const divisionsOnDate = divisions.filter(
+        division => division.date === formattedDate
+      );
+
       document.querySelector("html").classList.add("is-clipped");
       setActivityModalData({
         date,
-        debates: debatesOnDate
+        debates: debatesOnDate,
+        divisions: divisionsOnDate
       });
     }
 
@@ -85,8 +113,12 @@ export const ActivityCalendar = ({ td }) => {
       return <span className="has-text-grey-light">{shortDate}</span>;
     }
 
-    if (debateDates[formattedDate] || attendance[formattedDate]) {
-      if (debateDates[formattedDate]) {
+    if (
+      debateDates[formattedDate] ||
+      divisionDates[formattedDate] ||
+      attendance[formattedDate]
+    ) {
+      if (debateDates[formattedDate] || divisionDates[formattedDate]) {
         return (
           <span className="has-activity">
             <button className="button is-info" onClick={openModal}>

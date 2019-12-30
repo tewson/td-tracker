@@ -2,8 +2,8 @@ import React from "react";
 import format from "date-fns/format";
 
 export const ActivityModal = ({ data, closeModal }) => {
-  const { date, debates } = data;
-  if (!debates) {
+  const { date, debates, divisions } = data;
+  if (!debates && !divisions) {
     return null;
   }
 
@@ -52,6 +52,34 @@ export const ActivityModal = ({ data, closeModal }) => {
                   });
                 })
                 .flat(Infinity)}
+            </ul>
+            <h3>Divisions</h3>
+            <ul>
+              {divisions.map(division => {
+                const {
+                  uri,
+                  debate,
+                  voteId,
+                  house: { chamberType, committeeCode, houseCode, houseNo }
+                } = division;
+
+                const voteIdForUrl = voteId.replace("vote_", "");
+
+                const divisionDebatePath =
+                  chamberType === "committee"
+                    ? `/${houseCode}/${houseNo}/${committeeCode}/${formattedDate}/${voteIdForUrl}`
+                    : `/${houseCode}/${houseNo}/${formattedDate}/${voteIdForUrl}`;
+
+                return (
+                  <li key={uri}>
+                    <a
+                      href={`https://www.oireachtas.ie/en/debates/vote${divisionDebatePath}`}
+                    >
+                      {debate.showAs}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </section>
