@@ -15,7 +15,7 @@ export const ActivityCalendar = ({ td }) => {
   const [debates, setDebates] = useState([]);
   const [divisions, setDivisions] = useState([]);
   const [attendance, setAttendance] = useState({});
-  const [activityModalData, setActivityModalData] = React.useState({});
+  const [activityModalData, setActivityModalData] = useState(null);
   const [message, setMessage] = useState();
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export const ActivityCalendar = ({ td }) => {
 
   function closeModal() {
     document.querySelector("html").classList.remove("is-clipped");
-    setActivityModalData({});
+    setActivityModalData(null);
   }
 
   const renderDateWithActivityHighlight = (date, firstDateOfMonth) => {

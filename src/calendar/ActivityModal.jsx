@@ -2,11 +2,11 @@ import React from "react";
 import format from "date-fns/format";
 
 export const ActivityModal = ({ data, closeModal }) => {
-  const { date, debates, divisions } = data;
-  if (!debates && !divisions) {
+  if (!data) {
     return null;
   }
 
+  const { date, debates, divisions } = data;
   const formattedDate = format(date, "yyyy-MM-dd");
 
   return (
