@@ -4,7 +4,7 @@ import startOfYear from "date-fns/startOfYear";
 import endOfYear from "date-fns/endOfYear";
 
 export const fetchDebates = async td => {
-  const currentDate = new Date();
+  const currentDate = new Date(2019, 0, 1);
 
   const {
     data: { results: debates }
