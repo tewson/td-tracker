@@ -13,6 +13,8 @@ const ATTENDANCE_TYPE = {
 const ATTENDANCE_SOURCE_URL =
   "https://data.oireachtas.ie/ie/oireachtas/members/recordAttendanceForTaa/2019/2019-11-01_deputies-verification-of-attendance-for-the-payment-of-taa-1-jan-to-30-sep-2019_en.pdf";
 
+const ATTENDANCE_RECORD_DATE = "2019-09-30";
+
 export const AttendanceInputCalendar = ({ td }) => {
   const [attendanceType, setAttendanceType] = useState(ATTENDANCE_TYPE.SITTING);
   const [attendance, setAttendance] = useState({});
@@ -42,6 +44,7 @@ export const AttendanceInputCalendar = ({ td }) => {
   const saveAttendance = () => {
     const attendanceFileContent = JSON.stringify({
       source: ATTENDANCE_SOURCE_URL,
+      recordDate: ATTENDANCE_RECORD_DATE,
       attendance
     });
     const attendanceFileBlob = new Blob([attendanceFileContent], {
@@ -129,6 +132,23 @@ export const AttendanceInputCalendar = ({ td }) => {
                 className="input is-primary"
                 type="text"
                 value={ATTENDANCE_SOURCE_URL}
+                readOnly
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="field is-horizontal">
+        <div className="field-label is-normal">
+          <label className="label">Record date</label>
+        </div>
+        <div className="field-body">
+          <div className="field">
+            <div className="control">
+              <input
+                className="input is-primary"
+                type="text"
+                value={ATTENDANCE_RECORD_DATE}
                 readOnly
               />
             </div>
