@@ -99,28 +99,6 @@ export const AttendanceInputCalendar = ({ td }) => {
 
   return (
     <>
-      <div className="control has-text-right">
-        <label className="radio">
-          <input
-            type="radio"
-            name="attendance-type"
-            value={ATTENDANCE_TYPE.SITTING}
-            checked={attendanceType === ATTENDANCE_TYPE.SITTING}
-            onChange={handleAttendanceTypeChange}
-          />
-          <span className="has-background-primary">Sitting</span>
-        </label>
-        <label className="radio">
-          <input
-            type="radio"
-            name="attendance-type"
-            value={ATTENDANCE_TYPE.OTHER}
-            checked={attendanceType === ATTENDANCE_TYPE.OTHER}
-            onChange={handleAttendanceTypeChange}
-          />
-          <span className="has-background-info">Other</span>
-        </label>
-      </div>
       <div className="field is-horizontal">
         <div className="field-label is-normal">
           <label className="label">Source</label>
@@ -154,6 +132,28 @@ export const AttendanceInputCalendar = ({ td }) => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="control has-text-right">
+        <label className="radio">
+          <input
+            type="radio"
+            name="attendance-type"
+            value={ATTENDANCE_TYPE.SITTING}
+            checked={attendanceType === ATTENDANCE_TYPE.SITTING}
+            onChange={handleAttendanceTypeChange}
+          />
+          <span className="has-background-primary">Sitting</span>
+        </label>
+        <label className="radio">
+          <input
+            type="radio"
+            name="attendance-type"
+            value={ATTENDANCE_TYPE.OTHER}
+            checked={attendanceType === ATTENDANCE_TYPE.OTHER}
+            onChange={handleAttendanceTypeChange}
+          />
+          <span className="has-background-info">Other</span>
+        </label>
       </div>
       <Calendar renderDate={renderAttendanceInputDate} />
       <div className="container has-text-right">
