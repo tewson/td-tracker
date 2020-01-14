@@ -1,3 +1,4 @@
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -26,6 +27,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static",
+      reportFilename: "../build/bundle-analyzer-report.html"
+    }),
     new CleanWebpackPlugin(),
     new CopyPlugin([{ from: "data", to: "data" }]),
     new MiniCssExtractPlugin(),
