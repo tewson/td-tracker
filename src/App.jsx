@@ -33,6 +33,12 @@ export const App = () => {
             </button>
           </h1>
           <TDSelector onSelect={handleTDSelect} />
+          {!selectedTD && (
+            <p>
+              Search for a TD and view their attendance and contributions in
+              2019.
+            </p>
+          )}
           {selectedTD && <ActivityCalendar td={selectedTD} />}
         </div>
       </section>
