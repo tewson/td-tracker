@@ -24,8 +24,8 @@ export const ActivityCalendar = ({ td }) => {
       setActivityIsLoading(true);
 
       const fetchAttendancePromise = fetchAttendance(td.memberCode)
-        .then(attendance => {
-          setMessage(null);
+        .then(({ attendance, recordDate }) => {
+          setMessage(`Attendance data available up until ${recordDate}.`);
           return attendance;
         })
         .catch(error => {

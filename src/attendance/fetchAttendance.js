@@ -4,8 +4,8 @@ export const fetchAttendance = async memberCode => {
   const attendanceFilename = `${memberCode}.json`;
 
   const {
-    data: { attendance }
+    data: { attendance, recordDate }
   } = await axios.get(`/data/${attendanceFilename}`);
 
-  return attendance;
+  return { attendance, recordDate };
 };
