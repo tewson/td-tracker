@@ -27,9 +27,9 @@ export const FAQModal = ({ modalIsOpen, closeModal }) => {
           </div>
         </section>
         <footer className="modal-card-foot">
-          <a className="button" onClick={closeModal}>
+          <button className="button" onClick={closeModal}>
             Close
-          </a>
+          </button>
         </footer>
       </div>
     </div>

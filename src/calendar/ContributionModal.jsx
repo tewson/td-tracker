@@ -100,9 +100,9 @@ export const ContributionModal = ({ data, closeModal }) => {
           </div>
         </section>
         <footer className="modal-card-foot">
-          <a className="button" onClick={closeModal}>
+          <button className="button" onClick={closeModal}>
             Close
-          </a>
+          </button>
         </footer>
       </div>
     </div>

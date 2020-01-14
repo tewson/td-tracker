@@ -39,7 +39,7 @@ export const AttendanceInputCalendar = ({ td }) => {
     };
 
     fetchAttendance();
-  }, [td]);
+  }, [attendanceFilename]);
 
   const saveAttendance = () => {
     const attendanceFileContent = JSON.stringify({

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import classNames from "classnames";
 
 import dailMembers from "./dail-32.json";
 
@@ -21,9 +20,12 @@ const TDSelectorResult = ({ result, onSelect }) => {
   };
 
   return (
-    <a href="#" className="dropdown-item" onClick={handleResultClickEvent}>
+    <button
+      className="button is-text dropdown-item"
+      onClick={handleResultClickEvent}
+    >
       {result.fullName}
-    </a>
+    </button>
   );
 };
 
