@@ -142,7 +142,7 @@ export const ActivityCalendar = ({ td }) => {
           <AttendanceTooltip
             placement="top"
             trigger="click"
-            content={`Attendance type: ${attendance[formattedDate]}`}
+            attendanceType={attendance[formattedDate]}
           >
             <span className="has-activity">
               <button className="button">{shortDate}</button>

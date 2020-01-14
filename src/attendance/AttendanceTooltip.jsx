@@ -2,9 +2,16 @@ import React from "react";
 import TooltipTrigger from "react-popper-tooltip";
 import "react-popper-tooltip/dist/styles.css";
 
+import { ATTENDANCE_TYPE } from "./constants.js";
+
+const contentMap = {
+  [ATTENDANCE_TYPE.SITTING]: "Sitting day attendance",
+  [ATTENDANCE_TYPE.OTHER]: "Other attendance"
+};
+
 export const AttendanceTooltip = ({
   children,
-  content,
+  attendanceType,
   hideArrow,
   ...props
 }) => (
@@ -32,7 +39,7 @@ export const AttendanceTooltip = ({
             })}
           />
         )}
-        {content}
+        {contentMap[attendanceType]}
       </div>
     )}
   >
