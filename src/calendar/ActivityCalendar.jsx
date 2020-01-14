@@ -132,7 +132,7 @@ export const ActivityCalendar = ({ td }) => {
       if (debateDates[formattedDate] || divisionDates[formattedDate]) {
         return (
           <span className="has-activity">
-            <button className="button is-info" onClick={openModal}>
+            <button className="button is-info is-text" onClick={openModal}>
               {shortDate}
             </button>
           </span>
@@ -145,7 +145,9 @@ export const ActivityCalendar = ({ td }) => {
             attendanceType={attendance[formattedDate]}
           >
             <span className="has-activity">
-              <button className="button">{shortDate}</button>
+              <button className="button is-outlined is-text">
+                {shortDate}
+              </button>
             </span>
           </AttendanceTooltip>
         );
