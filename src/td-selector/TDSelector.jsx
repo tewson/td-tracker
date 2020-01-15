@@ -14,17 +14,30 @@ const searchTD = keyword => {
     );
 };
 
-const TDSelectorResult = ({ result, onSelect }) => {
+const TDSelectorResult = ({ result, highlightedText, onSelect }) => {
   const handleResultClickEvent = () => {
     onSelect(result);
   };
+
+  const highlightStartIndex = result.fullName
+    .toLowerCase()
+    .indexOf(highlightedText.toLowerCase());
+  const highlightEndIndex = highlightStartIndex + highlightedText.length;
+
+  const content = [
+    result.fullName.substring(0, highlightStartIndex),
+    <strong>
+      {result.fullName.substring(highlightStartIndex, highlightEndIndex)}
+    </strong>,
+    result.fullName.substring(highlightEndIndex)
+  ];
 
   return (
     <button
       className="button is-text dropdown-item"
       onClick={handleResultClickEvent}
     >
-      {result.fullName}
+      {content}
     </button>
   );
 };
@@ -65,6 +78,7 @@ export const TDSelector = ({ onSelect }) => {
                 <TDSelectorResult
                   key={result.uri}
                   result={result}
+                  highlightedText={keyword}
                   onSelect={handleTDSelect}
                 />
               ))}
