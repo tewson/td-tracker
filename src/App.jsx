@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { hot } from "react-hot-loader/root";
 
 import { FAQModal } from "./FAQModal.jsx";
 import { TDSelector } from "./td-selector/TDSelector.jsx";
 import { ActivityCalendar } from "./calendar/ActivityCalendar.jsx";
 
-export const App = () => {
+const App = () => {
   const [faqModalIsOpen, setFAQModalIsOpen] = useState(false);
   const [selectedTD, setSelectedTD] = useState();
 
@@ -49,3 +50,5 @@ export const App = () => {
     </>
   );
 };
+
+export const HotExportedApp = hot(App);

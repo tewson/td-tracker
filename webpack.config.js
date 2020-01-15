@@ -5,9 +5,16 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/index.jsx",
+  entry: ["react-hot-loader/patch", "./src/index.jsx"],
   output: {
-    filename: "[name].[contenthash].js"
+    filename: process.env.WEBPACK_DEV_SERVER
+      ? "[name].[hash].js"
+      : "[name].[contenthash].js"
+  },
+  resolve: {
+    alias: {
+      "react-dom": "@hot-loader/react-dom"
+    }
   },
   module: {
     rules: [
@@ -28,7 +35,7 @@ module.exports = {
   },
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: "static",
+      analyzerMode: process.env.WEBPACK_DEV_SERVER ? "disabled" : "static",
       reportFilename: "../build/bundle-analyzer-report.html"
     }),
     new CleanWebpackPlugin(),
