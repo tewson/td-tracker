@@ -30,13 +30,15 @@ const TDSelectorResult = ({ result, highlightedText, onSelect }) => {
   );
   const highlightEndIndex = highlightStartIndex + highlightedText.length;
 
-  const content = [
-    result.fullName.substring(0, highlightStartIndex),
-    <strong>
-      {result.fullName.substring(highlightStartIndex, highlightEndIndex)}
-    </strong>,
-    result.fullName.substring(highlightEndIndex)
-  ];
+  const content = (
+    <>
+      {result.fullName.substring(0, highlightStartIndex)}
+      <strong>
+        {result.fullName.substring(highlightStartIndex, highlightEndIndex)}
+      </strong>
+      {result.fullName.substring(highlightEndIndex)}
+    </>
+  );
 
   return (
     <button
