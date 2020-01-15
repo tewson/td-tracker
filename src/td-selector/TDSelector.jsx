@@ -2,6 +2,12 @@ import React, { useState } from "react";
 
 import dailMembers from "./dail-32.json";
 
+const normalizeString = name =>
+  name
+    .toLocaleLowerCase("en-IE")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
 const searchTD = keyword => {
   if (!keyword) {
     return [];
@@ -10,7 +16,7 @@ const searchTD = keyword => {
   return dailMembers.results
     .map(result => result.member)
     .filter(member =>
-      member.fullName.toLowerCase().includes(keyword.toLowerCase())
+      normalizeString(member.fullName).includes(normalizeString(keyword))
     );
 };
 
@@ -19,9 +25,9 @@ const TDSelectorResult = ({ result, highlightedText, onSelect }) => {
     onSelect(result);
   };
 
-  const highlightStartIndex = result.fullName
-    .toLowerCase()
-    .indexOf(highlightedText.toLowerCase());
+  const highlightStartIndex = normalizeString(result.fullName).indexOf(
+    normalizeString(highlightedText)
+  );
   const highlightEndIndex = highlightStartIndex + highlightedText.length;
 
   const content = [
