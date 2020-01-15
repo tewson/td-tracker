@@ -29,7 +29,7 @@ export const ActivityCalendar = ({ td }) => {
           return attendance;
         })
         .catch(error => {
-          if (error.response.status === 404) {
+          if (error.response.status === 403 || error.response.status === 404) {
             console.warn(`Attendance data for ${td.memberCode} not available.`);
             setMessage("No attendance data available yet.");
             return {};
