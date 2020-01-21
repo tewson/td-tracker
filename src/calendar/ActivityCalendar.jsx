@@ -145,9 +145,7 @@ export const ActivityCalendar = ({ td }) => {
             attendanceType={attendance[formattedDate]}
           >
             <span className="has-activity">
-              <button className="button is-outlined is-text">
-                {shortDate}
-              </button>
+              <button className="button is-dark is-text">{shortDate}</button>
             </span>
           </AttendanceTooltip>
         );
@@ -170,7 +168,7 @@ export const ActivityCalendar = ({ td }) => {
           <span className="legend-label">Contributions</span>
         </div>
         <div className="legend-item">
-          <button className="button">&nbsp;&nbsp;</button>
+          <button className="button is-dark">&nbsp;&nbsp;</button>
           <span className="legend-label">Attendance</span>
         </div>
       </div>
