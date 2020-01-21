@@ -6,7 +6,7 @@ import { ATTENDANCE_TYPE } from "./constants.js";
 
 const contentMap = {
   [ATTENDANCE_TYPE.SITTING]: "Sitting day attendance",
-  [ATTENDANCE_TYPE.OTHER]: "Other attendance"
+  [ATTENDANCE_TYPE.OTHER]: "Non-sitting day attendance"
 };
 
 export const AttendanceTooltip = ({
