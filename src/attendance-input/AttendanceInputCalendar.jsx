@@ -4,14 +4,11 @@ import classNames from "classnames";
 import format from "date-fns/format";
 
 import { Calendar } from "../calendar/Calendar.jsx";
+import { downloadAttendanceFile } from "./utils.js";
 import { AttendanceInputMeta } from "./AttendanceInputMeta.jsx";
 import { AttendanceInputSave } from "./AttendanceInputSave.jsx";
 
 import { ATTENDANCE_TYPE } from "../attendance/constants.js";
-import {
-  DEFAULT_ATTENDANCE_SOURCE_URL,
-  DEFAULT_ATTENDANCE_RECORD_DATE
-} from "./constants";
 
 export const AttendanceInputCalendar = ({ td }) => {
   const [attendanceType, setAttendanceType] = useState(ATTENDANCE_TYPE.SITTING);
@@ -40,19 +37,7 @@ export const AttendanceInputCalendar = ({ td }) => {
   }, [attendanceFilename]);
 
   const saveAttendance = () => {
-    const attendanceFileContent = JSON.stringify({
-      source: DEFAULT_ATTENDANCE_SOURCE_URL,
-      recordDate: DEFAULT_ATTENDANCE_RECORD_DATE,
-      attendance
-    });
-    const attendanceFileBlob = new Blob([attendanceFileContent], {
-      type: "application/json"
-    });
-    const attendanceFileUrl = URL.createObjectURL(attendanceFileBlob);
-    var a = document.createElement("a");
-    a.download = attendanceFilename;
-    a.href = attendanceFileUrl;
-    a.click();
+    downloadAttendanceFile(attendanceFilename, attendance);
   };
 
   const handleAttendanceTypeChange = ({ target: { value } }) => {

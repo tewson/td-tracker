@@ -5,11 +5,8 @@ import format from "date-fns/format";
 import parse from "date-fns/parse";
 
 import { ATTENDANCE_TYPE } from "../attendance/constants.js";
-import {
-  DEFAULT_ATTENDANCE_SOURCE_URL,
-  DEFAULT_ATTENDANCE_RECORD_DATE
-} from "./constants";
 
+import { downloadAttendanceFile } from "./utils.js";
 import { AttendanceInputMeta } from "./AttendanceInputMeta.jsx";
 import { AttendanceInputSave } from "./AttendanceInputSave.jsx";
 
@@ -120,19 +117,7 @@ export const AttendanceInputText = ({ td }) => {
         ...nonSittingDayAttendance
       };
 
-      const attendanceFileContent = JSON.stringify({
-        source: DEFAULT_ATTENDANCE_SOURCE_URL,
-        recordDate: DEFAULT_ATTENDANCE_RECORD_DATE,
-        attendance
-      });
-      const attendanceFileBlob = new Blob([attendanceFileContent], {
-        type: "application/json"
-      });
-      const attendanceFileUrl = URL.createObjectURL(attendanceFileBlob);
-      var a = document.createElement("a");
-      a.download = attendanceFilename;
-      a.href = attendanceFileUrl;
-      a.click();
+      downloadAttendanceFile(attendanceFilename, attendance);
     } else {
       alert("Invalid input");
     }
