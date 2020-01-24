@@ -4,6 +4,7 @@ import classNames from "classnames";
 import format from "date-fns/format";
 
 import { Calendar } from "../calendar/Calendar.jsx";
+import { AttendanceInputMeta } from "./AttendanceInputMeta.jsx";
 import { AttendanceInputSave } from "./AttendanceInputSave.jsx";
 
 import { ATTENDANCE_TYPE } from "../attendance/constants.js";
@@ -96,40 +97,7 @@ export const AttendanceInputCalendar = ({ td }) => {
 
   return (
     <>
-      <div className="field is-horizontal">
-        <div className="field-label is-normal">
-          <label className="label">Source</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            <div className="control">
-              <input
-                className="input is-primary"
-                type="text"
-                value={DEFAULT_ATTENDANCE_SOURCE_URL}
-                readOnly
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="field is-horizontal">
-        <div className="field-label is-normal">
-          <label className="label">Record date</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            <div className="control">
-              <input
-                className="input is-primary"
-                type="text"
-                value={DEFAULT_ATTENDANCE_RECORD_DATE}
-                readOnly
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <AttendanceInputMeta />
       <div className="control has-text-right">
         <label className="radio">
           <input

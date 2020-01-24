@@ -10,6 +10,7 @@ import {
   DEFAULT_ATTENDANCE_RECORD_DATE
 } from "./constants";
 
+import { AttendanceInputMeta } from "./AttendanceInputMeta.jsx";
 import { AttendanceInputSave } from "./AttendanceInputSave.jsx";
 
 const hasInvalidDate = dates => {
@@ -139,40 +140,7 @@ export const AttendanceInputText = ({ td }) => {
 
   return (
     <>
-      <div className="field is-horizontal">
-        <div className="field-label is-normal">
-          <label className="label">Source</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            <div className="control">
-              <input
-                className="input is-primary"
-                type="text"
-                value={DEFAULT_ATTENDANCE_SOURCE_URL}
-                readOnly
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="field is-horizontal">
-        <div className="field-label is-normal">
-          <label className="label">Record date</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            <div className="control">
-              <input
-                className="input is-primary"
-                type="text"
-                value={DEFAULT_ATTENDANCE_RECORD_DATE}
-                readOnly
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <AttendanceInputMeta />
       <div className="columns">
         <div className="column">
           <label class="label">Sitting days</label>
