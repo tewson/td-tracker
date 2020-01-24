@@ -5,15 +5,11 @@ import format from "date-fns/format";
 
 import { Calendar } from "../calendar/Calendar.jsx";
 
-const ATTENDANCE_TYPE = {
-  SITTING: "SITTING",
-  OTHER: "OTHER"
-};
-
-const ATTENDANCE_SOURCE_URL =
-  "https://data.oireachtas.ie/ie/oireachtas/members/recordAttendanceForTaa/2019/2019-11-01_deputies-verification-of-attendance-for-the-payment-of-taa-1-jan-to-30-sep-2019_en.pdf";
-
-const ATTENDANCE_RECORD_DATE = "2019-09-30";
+import { ATTENDANCE_TYPE } from "../attendance/constants.js";
+import {
+  DEFAULT_ATTENDANCE_SOURCE_URL,
+  DEFAULT_ATTENDANCE_RECORD_DATE
+} from "./constants";
 
 export const AttendanceInputCalendar = ({ td }) => {
   const [attendanceType, setAttendanceType] = useState(ATTENDANCE_TYPE.SITTING);
@@ -43,8 +39,8 @@ export const AttendanceInputCalendar = ({ td }) => {
 
   const saveAttendance = () => {
     const attendanceFileContent = JSON.stringify({
-      source: ATTENDANCE_SOURCE_URL,
-      recordDate: ATTENDANCE_RECORD_DATE,
+      source: DEFAULT_ATTENDANCE_SOURCE_URL,
+      recordDate: DEFAULT_ATTENDANCE_RECORD_DATE,
       attendance
     });
     const attendanceFileBlob = new Blob([attendanceFileContent], {
@@ -109,7 +105,7 @@ export const AttendanceInputCalendar = ({ td }) => {
               <input
                 className="input is-primary"
                 type="text"
-                value={ATTENDANCE_SOURCE_URL}
+                value={DEFAULT_ATTENDANCE_SOURCE_URL}
                 readOnly
               />
             </div>
@@ -126,7 +122,7 @@ export const AttendanceInputCalendar = ({ td }) => {
               <input
                 className="input is-primary"
                 type="text"
-                value={ATTENDANCE_RECORD_DATE}
+                value={DEFAULT_ATTENDANCE_RECORD_DATE}
                 readOnly
               />
             </div>

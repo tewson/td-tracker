@@ -4,15 +4,11 @@ import compareAsc from "date-fns/compareAsc";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
 
-const ATTENDANCE_TYPE = {
-  SITTING: "SITTING",
-  OTHER: "OTHER"
-};
-
-const ATTENDANCE_SOURCE_URL =
-  "https://data.oireachtas.ie/ie/oireachtas/members/recordAttendanceForTaa/2020/2020-01-01_deputies-verification-of-attendance-for-the-payment-of-taa-1-jan-to-30-nov-2019_en.pdf";
-
-const ATTENDANCE_RECORD_DATE = "2019-11-30";
+import { ATTENDANCE_TYPE } from "../attendance/constants.js";
+import {
+  DEFAULT_ATTENDANCE_SOURCE_URL,
+  DEFAULT_ATTENDANCE_RECORD_DATE
+} from "./constants";
 
 const hasInvalidDate = dates => {
   console.log(dates.some(date => !/^\d{2}\/\d{2}\/2019$/.test(date)));
@@ -122,8 +118,8 @@ export const AttendanceInputText = ({ td }) => {
       };
 
       const attendanceFileContent = JSON.stringify({
-        source: ATTENDANCE_SOURCE_URL,
-        recordDate: ATTENDANCE_RECORD_DATE,
+        source: DEFAULT_ATTENDANCE_SOURCE_URL,
+        recordDate: DEFAULT_ATTENDANCE_RECORD_DATE,
         attendance
       });
       const attendanceFileBlob = new Blob([attendanceFileContent], {
@@ -151,7 +147,7 @@ export const AttendanceInputText = ({ td }) => {
               <input
                 className="input is-primary"
                 type="text"
-                value={ATTENDANCE_SOURCE_URL}
+                value={DEFAULT_ATTENDANCE_SOURCE_URL}
                 readOnly
               />
             </div>
@@ -168,7 +164,7 @@ export const AttendanceInputText = ({ td }) => {
               <input
                 className="input is-primary"
                 type="text"
-                value={ATTENDANCE_RECORD_DATE}
+                value={DEFAULT_ATTENDANCE_RECORD_DATE}
                 readOnly
               />
             </div>
