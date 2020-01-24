@@ -10,6 +10,8 @@ import {
   DEFAULT_ATTENDANCE_RECORD_DATE
 } from "./constants";
 
+import { AttendanceInputSave } from "./AttendanceInputSave.jsx";
+
 const hasInvalidDate = dates => {
   console.log(dates.some(date => !/^\d{2}\/\d{2}\/2019$/.test(date)));
   return dates.some(date => !/^\d{2}\/\d{2}\/2019$/.test(date));
@@ -193,12 +195,10 @@ export const AttendanceInputText = ({ td }) => {
           <AttendanceDateCount textareaContent={nonSittingDaysInput} />
         </div>
       </div>
-      <div className="container has-text-right">
-        {attendanceFilename}
-        <button className="button is-primary" onClick={saveAttendance}>
-          Save
-        </button>
-      </div>
+      <AttendanceInputSave
+        filename={attendanceFilename}
+        onSave={saveAttendance}
+      />
     </>
   );
 };

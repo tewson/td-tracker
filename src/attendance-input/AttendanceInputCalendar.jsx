@@ -4,6 +4,7 @@ import classNames from "classnames";
 import format from "date-fns/format";
 
 import { Calendar } from "../calendar/Calendar.jsx";
+import { AttendanceInputSave } from "./AttendanceInputSave.jsx";
 
 import { ATTENDANCE_TYPE } from "../attendance/constants.js";
 import {
@@ -152,12 +153,10 @@ export const AttendanceInputCalendar = ({ td }) => {
         </label>
       </div>
       <Calendar renderDate={renderAttendanceInputDate} />
-      <div className="container has-text-right">
-        {attendanceFilename}
-        <button className="button is-primary" onClick={saveAttendance}>
-          Save
-        </button>
-      </div>
+      <AttendanceInputSave
+        filename={attendanceFilename}
+        onSave={saveAttendance}
+      />
     </>
   );
 };
