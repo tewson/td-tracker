@@ -82,6 +82,9 @@ export const AttendanceInputText = ({ td }) => {
         } else {
           console.error(error);
         }
+
+        setSittingDaysInput("");
+        setNonSittingDaysInput("");
       }
     };
 
