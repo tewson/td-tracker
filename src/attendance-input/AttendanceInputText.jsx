@@ -128,7 +128,7 @@ export const AttendanceInputText = ({ td }) => {
       <AttendanceInputMeta />
       <div className="columns">
         <div className="column">
-          <label class="label">Sitting days</label>
+          <label className="label">Sitting days</label>
           <textarea
             className="textarea"
             rows="20"
@@ -138,7 +138,7 @@ export const AttendanceInputText = ({ td }) => {
           <AttendanceDateCount textareaContent={sittingDaysInput} />
         </div>
         <div className="column">
-          <label class="label">Non-sitting days</label>
+          <label className="label">Non-sitting days</label>
           <textarea
             className="textarea"
             rows="20"
