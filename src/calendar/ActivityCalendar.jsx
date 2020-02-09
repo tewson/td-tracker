@@ -6,7 +6,7 @@ import { Calendar } from "./Calendar.jsx";
 import { fetchAttendance } from "../attendance/fetchAttendance.js";
 import { AttendanceTooltip } from "../attendance/AttendanceTooltip.jsx";
 import { fetchDebates } from "../debates/fetchDebates.js";
-import { fetchDivisions } from "../divisions/api.js";
+import { fetchDivisions, fetchAllDailDivisions } from "../divisions/api.js";
 import { ContributionModal } from "./ContributionModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
@@ -15,6 +15,7 @@ export const ActivityCalendar = ({ td }) => {
   const [activityIsLoading, setActivityIsLoading] = useState(true);
   const [debates, setDebates] = useState([]);
   const [divisions, setDivisions] = useState([]);
+  const [allDailDivisions, setAllDailDivisions] = useState([]);
   const [attendance, setAttendance] = useState({});
   const [contributionModalData, setContributionModalData] = useState(null);
   const [message, setMessage] = useState();
@@ -39,15 +40,22 @@ export const ActivityCalendar = ({ td }) => {
           }
         });
 
-      const [attendance, debates, divisions] = await Promise.all([
+      const [
+        attendance,
+        debates,
+        divisions,
+        allDailDivisions
+      ] = await Promise.all([
         fetchAttendancePromise,
         fetchDebates(td),
-        fetchDivisions(td)
+        fetchDivisions(td),
+        fetchAllDailDivisions()
       ]);
 
       setAttendance(attendance);
       setDebates(debates);
       setDivisions(divisions);
+      setAllDailDivisions(allDailDivisions);
       setActivityIsLoading(false);
     };
 
@@ -155,6 +163,10 @@ export const ActivityCalendar = ({ td }) => {
     return shortDate;
   };
 
+  const dailDivisions = divisions.filter(
+    division => division.house.chamberType === "house"
+  );
+
   return (
     <>
       {message && (
@@ -162,6 +174,39 @@ export const ActivityCalendar = ({ td }) => {
           {message}
         </div>
       )}
+      <div className="box activity-calendar-summary">
+        <div className="content">
+          <p>
+            Cast{" "}
+            {activityIsLoading ? (
+              "..."
+            ) : (
+              <span className="has-text-weight-bold">
+                {dailDivisions.length}
+              </span>
+            )}{" "}
+            out of{" "}
+            {activityIsLoading ? (
+              "..."
+            ) : (
+              <span className="has-text-weight-bold">
+                {allDailDivisions.length}
+              </span>
+            )}{" "}
+            Dáil votes.
+          </p>
+          <progress
+            className="progress is-primary"
+            value={activityIsLoading ? null : dailDivisions.length}
+            max={allDailDivisions.length}
+          >
+            {((dailDivisions.length / allDailDivisions.length) * 100).toFixed(
+              2
+            )}
+            %
+          </progress>
+        </div>
+      </div>
       <div className="legend">
         <div className="legend-item">
           <button className="button is-info">&nbsp;&nbsp;</button>

@@ -79,3 +79,8 @@
 .contribution-calendar-notification {
   padding: 0.5rem 1rem;
 }
+
+.activity-calendar-summary {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
