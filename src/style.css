@@ -1,0 +1,85 @@
+body {
+  background-color: black;
+}
+
+@media screen and (max-width: 768px) {
+  .column,
+  .box {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .table {
+    table-layout: fixed;
+  }
+
+  th.weekend,
+  td.weekend {
+    padding-left: 4px;
+    padding-right: 4px;
+    width: 35px;
+  }
+}
+
+.legend {
+  text-align: right;
+  margin-bottom: 0.75rem;
+}
+
+.legend-item {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.legend-label {
+  display: inline-block;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 0.5rem;
+}
+
+.dropdown {
+  display: block;
+}
+
+.dropdown-menu {
+  margin-top: -0.75rem;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.table td .has-activity {
+  margin: -0.5em -0.75em;
+}
+
+.button.is-outlined.is-text {
+  border-color: #dbdbdb;
+}
+
+.legend .button,
+.table td .has-activity .button {
+  padding: 1px 8px;
+  height: auto;
+  box-shadow: 2px 2px 2px #ccc;
+}
+
+.calendar-month.title {
+  margin-bottom: 0.5rem;
+}
+
+.faq-modal,
+.contribution-modal {
+  flex-direction: row;
+}
+
+.faq-modal .modal-card-foot,
+.contribution-modal .modal-card-foot {
+  justify-content: flex-end;
+}
+
+.contribution-calendar-notification {
+  padding: 0.5rem 1rem;
+}
