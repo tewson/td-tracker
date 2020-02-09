@@ -6,7 +6,7 @@ import { Calendar } from "./Calendar.jsx";
 import { fetchAttendance } from "../attendance/fetchAttendance.js";
 import { AttendanceTooltip } from "../attendance/AttendanceTooltip.jsx";
 import { fetchDebates } from "../debates/fetchDebates.js";
-import { fetchDivisions } from "../divisions/fetchDivisions.js";
+import { fetchDivisions } from "../divisions/api.js";
 import { ContributionModal } from "./ContributionModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
