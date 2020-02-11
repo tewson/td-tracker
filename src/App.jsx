@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import { hot } from "react-hot-loader/root";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+  Route,
+  useParams,
+  useRouteMatch,
+  useHistory
+} from "react-router-dom";
 
 import dailMembers from "../data/dail/32/members.json";
 
@@ -7,7 +16,9 @@ import { FAQModal } from "./FAQModal.jsx";
 import { TDSelector } from "./td-selector/TDSelector.jsx";
 import { ActivityCalendar } from "./calendar/ActivityCalendar.jsx";
 
-const ActivityCalendarContainer = ({ tdMemberCode }) => {
+const ActivityCalendarContainer = () => {
+  const { tdMemberCode } = useParams();
+
   const td = dailMembers.results
     .map(result => result.member)
     .find(member => member.memberCode === tdMemberCode);
@@ -19,13 +30,34 @@ const ActivityCalendarContainer = ({ tdMemberCode }) => {
   return <ActivityCalendar td={td} />;
 };
 
-const App = () => {
-  const [faqModalIsOpen, setFAQModalIsOpen] = useState(false);
-  const [selectedTDMemberCode, setSelectedTDMemberCode] = useState();
+const SelectTD = () => {
+  const history = useHistory();
+  const { houseType, houseNumber, year } = useParams();
+  const { path } = useRouteMatch();
 
   const handleTDSelect = td => {
-    setSelectedTDMemberCode(td.memberCode);
+    history.push(`/${houseType}/${houseNumber}/${year}/${td.memberCode}`);
   };
+
+  return (
+    <>
+      <TDSelector onSelect={handleTDSelect} />
+      <Switch>
+        <Route exact path={path}>
+          <p>
+            Search for a TD and view their attendance and contributions in 2019.
+          </p>
+        </Route>
+        <Route path={`${path}/:tdMemberCode`}>
+          <ActivityCalendarContainer />
+        </Route>
+      </Switch>
+    </>
+  );
+};
+
+const App = () => {
+  const [faqModalIsOpen, setFAQModalIsOpen] = useState(false);
 
   const openFAQModal = () => {
     setFAQModalIsOpen(true);
@@ -35,7 +67,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <Router>
       <section className="section">
         <div className="container">
           <h1 className="title">
@@ -47,23 +79,21 @@ const App = () => {
               FAQ
             </button>
           </h1>
-          <TDSelector onSelect={handleTDSelect} />
-          {!selectedTDMemberCode && (
-            <p>
-              Search for a TD and view their attendance and contributions in
-              2019.
-            </p>
-          )}
-          {selectedTDMemberCode && (
-            <ActivityCalendarContainer tdMemberCode={selectedTDMemberCode} />
-          )}
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/dail/32/2019" />
+            </Route>
+            <Route path="/:houseType/:houseNumber/:year">
+              <SelectTD />
+            </Route>
+          </Switch>
         </div>
       </section>
       <FAQModal
         modalIsOpen={faqModalIsOpen}
         closeModal={closeFAQModal}
       ></FAQModal>
-    </>
+    </Router>
   );
 };
 
