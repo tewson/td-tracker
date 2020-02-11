@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import dailMembers from "./dail-32.json";
+import dailMembers from "../../data/dail/32/members.json";
 
 const normalizeString = name =>
   name
