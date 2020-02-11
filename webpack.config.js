@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   entry: ["react-hot-loader/patch", "./src/index.jsx"],
   output: {
+    publicPath: "/",
     filename: process.env.WEBPACK_DEV_SERVER
       ? "[name].[hash].js"
       : "[name].[contenthash].js"
@@ -35,6 +36,11 @@ module.exports = {
         ]
       }
     ]
+  },
+  devServer: {
+    historyApiFallback: {
+      disableDotRule: true
+    }
   },
   plugins: [
     new BundleAnalyzerPlugin({
