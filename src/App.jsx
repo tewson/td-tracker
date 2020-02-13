@@ -6,7 +6,6 @@ import {
   Redirect,
   Route,
   useParams,
-  useRouteMatch,
   useHistory
 } from "react-router-dom";
 
@@ -32,26 +31,28 @@ const ActivityCalendarContainer = () => {
 
 const SelectTD = () => {
   const history = useHistory();
-  const { houseType, houseNumber, year } = useParams();
-  const { path } = useRouteMatch();
+  const { houseType, houseNumber, year, tdMemberCode } = useParams();
 
   const handleTDSelect = td => {
     history.push(`/${houseType}/${houseNumber}/${year}/${td.memberCode}`);
   };
 
+  const td = dailMembers.results
+    .map(result => result.member)
+    .find(member => member.memberCode === tdMemberCode);
+
+  const tdSelectorKeyword = td && td.fullName ? td.fullName : "";
+
   return (
     <>
-      <TDSelector onSelect={handleTDSelect} />
-      <Switch>
-        <Route exact path={path}>
-          <p>
-            Search for a TD and view their attendance and contributions in 2019.
-          </p>
-        </Route>
-        <Route path={`${path}/:tdMemberCode`}>
-          <ActivityCalendarContainer />
-        </Route>
-      </Switch>
+      <TDSelector onSelect={handleTDSelect} keyword={tdSelectorKeyword} />
+      {tdMemberCode ? (
+        <ActivityCalendarContainer />
+      ) : (
+        <p>
+          Search for a TD and view their attendance and contributions in 2019.
+        </p>
+      )}
     </>
   );
 };
@@ -83,7 +84,7 @@ const App = () => {
             <Route exact path="/">
               <Redirect to="/dail/32/2019" />
             </Route>
-            <Route path="/:houseType/:houseNumber/:year">
+            <Route path="/:houseType/:houseNumber/:year/:tdMemberCode?">
               <SelectTD />
             </Route>
           </Switch>

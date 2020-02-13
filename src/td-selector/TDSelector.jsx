@@ -50,8 +50,8 @@ const TDSelectorResult = ({ result, highlightedText, onSelect }) => {
   );
 };
 
-export const TDSelector = ({ onSelect }) => {
-  const [keyword, setKeyword] = useState("");
+export const TDSelector = ({ onSelect, keyword: initialKeyword = "" }) => {
+  const [keyword, setKeyword] = useState(initialKeyword);
   const [searchTDResults, setSearchTDResults] = useState([]);
 
   const handleKeywordChangeEvent = ({ target: { value } }) => {
