@@ -24,4 +24,4 @@ Most of the data we use such as vote and debate records comes from the [Houses o
 
 ## How can I contribute?
 
-Checkout our [project boards](https://github.com/tewson/td-tracker/projects) to see what we're working on. Or if you have any cool ideas, please feel free to [open an issue](https://github.com/tewson/td-tracker/issues/new) to discuss.
+Checkout our [project boards](https://github.com/tewson/td-tracker/projects) to see what we're working on. If you spot any room for improvement or have any cool ideas, please feel free to [open an issue](https://github.com/tewson/td-tracker/issues/new) to discuss.
