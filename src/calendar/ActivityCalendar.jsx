@@ -26,7 +26,7 @@ export const ActivityCalendar = ({ td }) => {
 
       const fetchAttendancePromise = fetchAttendance(td.memberCode)
         .then(({ attendance, recordDate }) => {
-          setMessage(`Attendance data available up until ${recordDate}.`);
+          setMessage(`Attendance record date: ${recordDate}`);
           return attendance;
         })
         .catch(error => {
@@ -169,11 +169,6 @@ export const ActivityCalendar = ({ td }) => {
 
   return (
     <>
-      {message && (
-        <div className="notification activity-calendar-notification is-warning">
-          {message}
-        </div>
-      )}
       <div className="box activity-calendar-summary">
         <div className="content">
           <p>
@@ -207,6 +202,11 @@ export const ActivityCalendar = ({ td }) => {
           </progress>
         </div>
       </div>
+      {message && (
+        <div className="notification activity-calendar-notification">
+          {message}
+        </div>
+      )}
       <div className="legend">
         <div className="legend-item">
           <button className="button is-info">&nbsp;&nbsp;</button>
