@@ -16,6 +16,7 @@ export const ActivityCalendar = ({ td }) => {
   const [debates, setDebates] = useState([]);
   const [divisions, setDivisions] = useState([]);
   const [allDailDivisions, setAllDailDivisions] = useState([]);
+  const [attendanceRecordDate, setAttendanceRecordDate] = useState("");
   const [attendance, setAttendance] = useState({});
   const [contributionModalData, setContributionModalData] = useState(null);
   const [message, setMessage] = useState();
@@ -26,6 +27,7 @@ export const ActivityCalendar = ({ td }) => {
 
       const fetchAttendancePromise = fetchAttendance(td.memberCode)
         .then(({ attendance, recordDate }) => {
+          setAttendanceRecordDate(recordDate);
           setMessage(`Attendance record date: ${recordDate}`);
           return attendance;
         })
@@ -167,6 +169,22 @@ export const ActivityCalendar = ({ td }) => {
     division => division.house.chamberType === "house"
   );
 
+  const attendanceEntries = Object.entries(attendance);
+
+  const sittingDayAttendanceCount = attendanceEntries.reduce(
+    (count, [_, attendanceType]) => {
+      if (attendanceType === "SITTING") {
+        return count + 1;
+      }
+
+      return count;
+    },
+    0
+  );
+
+  const sittingDayAttendancePercentage =
+    (sittingDayAttendanceCount / attendanceEntries.length) * 100;
+
   return (
     <>
       <div className="box activity-calendar-summary">
@@ -200,6 +218,51 @@ export const ActivityCalendar = ({ td }) => {
             )}
             %
           </progress>
+
+          {attendanceEntries.length > 0 && (
+            <>
+              <p>
+                Came in{" "}
+                {activityIsLoading ? (
+                  "..."
+                ) : (
+                  <span className="has-text-weight-bold">
+                    {sittingDayAttendanceCount}
+                  </span>
+                )}{" "}
+                out of <span className="has-text-weight-bold">94</span> sitting
+                days.
+              </p>
+              <p className="is-size-7">(2019-01-01 - {attendanceRecordDate})</p>
+              <progress
+                className="progress is-primary"
+                value={activityIsLoading ? null : sittingDayAttendanceCount}
+                max={94}
+              >
+                {((sittingDayAttendanceCount / 94) * 100).toFixed(2)}%
+              </progress>
+              <p>
+                {activityIsLoading ? (
+                  "..."
+                ) : (
+                  <span className="has-text-weight-bold">
+                    {sittingDayAttendancePercentage.toFixed(2)}%
+                  </span>
+                )}{" "}
+                of attendance were sitting days.
+              </p>
+              <p className="is-size-7">(2019-01-01 - {attendanceRecordDate})</p>
+              <progress
+                className="progress is-primary"
+                value={
+                  activityIsLoading ? null : sittingDayAttendancePercentage
+                }
+                max={100}
+              >
+                {sittingDayAttendancePercentage}%
+              </progress>
+            </>
+          )}
         </div>
       </div>
       {message && (
