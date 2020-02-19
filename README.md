@@ -36,3 +36,7 @@ Watch the CLI output for the development server URL. It's usually http://localho
 
 - Houses of the Oireachtas Open Data APIs - https://api.oireachtas.ie/
 - Publications by the House of the Oireactas - https://www.oireachtas.ie/en/publications/
+
+## Contributing
+
+We'd love your contributions! Be it code, data, suggestions, or simply error corrections. Check out our [contributing guidelines](CONTRIBUTING.md).
