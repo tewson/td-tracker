@@ -72,7 +72,7 @@ const App = () => {
       <section className="section">
         <div className="container">
           <h1 className="title">
-            TD Tracker{" "}
+            TD Tracker <span className="tag is-warning">BETA</span>
             <button
               className="button is-text is-pulled-right"
               onClick={openAboutModal}
