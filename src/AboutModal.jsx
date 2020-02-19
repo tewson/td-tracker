@@ -14,7 +14,8 @@ export const AboutModal = ({ modalIsOpen, closeModal }) => {
         </header>
         <section className="modal-card-body">
           <div className="content">
-            <h4>Where is the data from?</h4>
+            <h4>FAQ</h4>
+            <h5>Where is the data from?</h5>
             <p>
               Contribution data comes from the{" "}
               <a href="https://api.oireachtas.ie/">Oireachtas Open Data APIs</a>
