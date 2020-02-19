@@ -66,12 +66,12 @@
   margin-bottom: 0.5rem;
 }
 
-.faq-modal,
+.about-modal,
 .contribution-modal {
   flex-direction: row;
 }
 
-.faq-modal .modal-card-foot,
+.about-modal .modal-card-foot,
 .contribution-modal .modal-card-foot {
   justify-content: flex-end;
 }

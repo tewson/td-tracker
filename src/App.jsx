@@ -11,7 +11,7 @@ import {
 
 import dailMembers from "../data/dail/32/members.json";
 
-import { FAQModal } from "./FAQModal.jsx";
+import { AboutModal } from "./AboutModal.jsx";
 import { TDSelector } from "./td-selector/TDSelector.jsx";
 import { ActivityCalendar } from "./calendar/ActivityCalendar.jsx";
 
@@ -58,13 +58,13 @@ const SelectTD = () => {
 };
 
 const App = () => {
-  const [faqModalIsOpen, setFAQModalIsOpen] = useState(false);
+  const [aboutModalIsOpen, setAboutModalIsOpen] = useState(false);
 
-  const openFAQModal = () => {
-    setFAQModalIsOpen(true);
+  const openAboutModal = () => {
+    setAboutModalIsOpen(true);
   };
-  const closeFAQModal = () => {
-    setFAQModalIsOpen(false);
+  const closeAboutModal = () => {
+    setAboutModalIsOpen(false);
   };
 
   return (
@@ -75,9 +75,9 @@ const App = () => {
             TD Tracker{" "}
             <button
               className="button is-text is-pulled-right"
-              onClick={openFAQModal}
+              onClick={openAboutModal}
             >
-              FAQ
+              About
             </button>
           </h1>
           <Switch>
@@ -90,10 +90,10 @@ const App = () => {
           </Switch>
         </div>
       </section>
-      <FAQModal
-        modalIsOpen={faqModalIsOpen}
-        closeModal={closeFAQModal}
-      ></FAQModal>
+      <AboutModal
+        modalIsOpen={aboutModalIsOpen}
+        closeModal={closeAboutModal}
+      ></AboutModal>
     </Router>
   );
 };

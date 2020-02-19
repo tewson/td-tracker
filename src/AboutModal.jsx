@@ -1,16 +1,16 @@
 import React from "react";
 
-export const FAQModal = ({ modalIsOpen, closeModal }) => {
+export const AboutModal = ({ modalIsOpen, closeModal }) => {
   if (!modalIsOpen) {
     return null;
   }
 
   return (
-    <div className="modal faq-modal is-active">
+    <div className="modal about-modal is-active">
       <div className="modal-background" onClick={closeModal} />
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">FAQ</p>
+          <p className="modal-card-title">About</p>
         </header>
         <section className="modal-card-body">
           <div className="content">
