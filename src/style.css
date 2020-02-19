@@ -76,6 +76,10 @@
   justify-content: flex-end;
 }
 
+.whats-new-version-date {
+  font-weight: initial;
+}
+
 .contribution-calendar-notification {
   padding: 0.5rem 1rem;
 }

@@ -14,6 +14,22 @@ export const AboutModal = ({ modalIsOpen, closeModal }) => {
         </header>
         <section className="modal-card-body">
           <div className="content">
+            <h4>What's New</h4>
+            <h5 className="whats-new-version">
+              1.0.0 Beta{" "}
+              <span className="whats-new-version-date">(2020-02-19)</span>
+            </h5>
+            <ul>
+              <li>TD contribution data: debates and votes.</li>
+              <li>TD attendance data for 2019.</li>
+              <li>Basic data visualisations.</li>
+              <li>Data entry mode for attendance.</li>
+            </ul>
+            <p className="has-text-right">
+              <a href="https://github.com/tewson/td-tracker/blob/master/CHANGELOG.md">
+                View version history
+              </a>
+            </p>
             <h4>FAQ</h4>
             <h5>Where is the data from?</h5>
             <p>
