@@ -68,8 +68,12 @@ export const TDSelector = ({ onSelect, keyword: initialKeyword = "" }) => {
   return (
     <>
       <div className="field">
+        <label className="label" htmlFor="td-name">
+          Name
+        </label>
         <div className="control">
           <input
+            id="td-name"
             className="input"
             type="text"
             placeholder="Search TDs..."
