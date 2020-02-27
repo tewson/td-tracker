@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0-beta.1] - 2020-02-27
+
+### Changed
+
+- Attendance data files are moved to a directory specific to the house number and the year.
+
 ## [1.0.0-beta.0] - 2020-02-19
 
 ### Added
@@ -17,5 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Activity calendar.
 - Data entry mode for attendance.
 
-[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.0...HEAD
+[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.1...HEAD
+[1.0.0-beta.1]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.1
 [1.0.0-beta.0]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.0
