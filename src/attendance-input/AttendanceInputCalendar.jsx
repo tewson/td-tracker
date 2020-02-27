@@ -21,7 +21,10 @@ export const AttendanceInputCalendar = ({ td }) => {
       try {
         const {
           data: { attendance }
-        } = await axios.get(`/data/${attendanceFilename}`);
+        } = await axios.get(
+          // Shamefully hard-coding the house number and year for now.
+          `/data/dail/32/2019/attendance/${attendanceFilename}`
+        );
 
         setAttendance(attendance);
       } catch (error) {
