@@ -88,6 +88,19 @@ const App = () => {
               <SelectTD />
             </Route>
           </Switch>
+          <footer className="footer">
+            <div className="content has-text-centered-desktop-only">
+              Any data from the Oireachtas is licensed under the{" "}
+              <a href="https://www.oireachtas.ie/en/open-data/license/">
+                Oireachtas (Open Data) PSI Licence
+              </a>
+              , which incorporates the{" "}
+              <a href="http://creativecommons.org/licenses/by/4.0/">
+                Creative Commons Attribution 4.0 International Licence
+              </a>
+              .
+            </div>
+          </footer>
         </div>
       </section>
       <AboutModal

@@ -40,3 +40,9 @@ Watch the CLI output for the development server URL. It's usually http://localho
 ## Contributing
 
 We'd love your contributions! Be it code, data, suggestions, or simply error corrections. Check out our [contributing guidelines](CONTRIBUTING.md).
+
+## Licence
+
+Any data from the Oireachtas is licensed under the [Oireachtas (Open Data) PSI Licence](https://www.oireachtas.ie/en/open-data/license/), which incorporates the [Creative Commons Attribution 4.0 International Licence](http://creativecommons.org/licenses/by/4.0/).
+
+The rest of the project is [licensed under the terms of the MIT licence](./LICENSE.md).
