@@ -1,8 +1,18 @@
+@media screen and (max-width: 359px) {
+  .columns.is-mobile {
+    display: block;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .column,
   .box {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .td-selector-filter {
+    padding: 0 0.75rem;
   }
 
   .table {
