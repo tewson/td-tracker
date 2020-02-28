@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { hot } from "react-hot-loader/root";
 import {
   BrowserRouter as Router,
+  Link,
   Switch,
   Redirect,
   Route,
@@ -72,7 +73,8 @@ const App = () => {
       <section className="section">
         <div className="container">
           <h1 className="title">
-            TD Tracker <span className="tag is-warning">BETA</span>
+            <Link to="/">TD Tracker</Link>{" "}
+            <span className="tag is-warning">BETA</span>
             <button
               className="button is-text is-pulled-right"
               onClick={openAboutModal}
