@@ -50,9 +50,7 @@ const SelectTD = () => {
       {tdMemberCode ? (
         <ActivityCalendarContainer />
       ) : (
-        <p>
-          Search for a TD and view their attendance and contributions in 2019.
-        </p>
+        <p>Search for a TD and view their attendance and contributions.</p>
       )}
     </>
   );

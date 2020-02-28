@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import classNames from "classnames";
 import format from "date-fns/format";
 import getYear from "date-fns/getYear";
@@ -13,7 +14,9 @@ import isWeekend from "date-fns/isWeekend";
 const defaultRenderDate = date => <span>{format(date, "dd")}</span>;
 
 export const Calendar = ({ renderDate = defaultRenderDate }) => {
-  const currentDate = new Date(2019, 0, 1);
+  const { year } = useParams();
+
+  const currentDate = new Date(year, 0, 1);
   const currentYear = getYear(currentDate);
 
   const months = Array(12)
