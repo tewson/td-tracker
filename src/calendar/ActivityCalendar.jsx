@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import format from "date-fns/format";
 import isSameMonth from "date-fns/isSameMonth";
 
@@ -12,6 +13,7 @@ import { ContributionModal } from "./ContributionModal.jsx";
 import "react-popper-tooltip/dist/styles.css";
 
 export const ActivityCalendar = ({ td }) => {
+  const { year } = useParams();
   const [activityIsLoading, setActivityIsLoading] = useState(true);
   const [debates, setDebates] = useState([]);
   const [divisions, setDivisions] = useState([]);
@@ -233,7 +235,9 @@ export const ActivityCalendar = ({ td }) => {
                 out of <span className="has-text-weight-bold">94</span> sitting
                 days.
               </p>
-              <p className="is-size-7">(2019-01-01 - {attendanceRecordDate})</p>
+              <p className="is-size-7">
+                ({year}-01-01 - {attendanceRecordDate})
+              </p>
               <progress
                 className="progress is-primary"
                 value={activityIsLoading ? null : sittingDayAttendanceCount}
@@ -251,7 +255,9 @@ export const ActivityCalendar = ({ td }) => {
                 )}{" "}
                 of attendance were sitting days.
               </p>
-              <p className="is-size-7">(2019-01-01 - {attendanceRecordDate})</p>
+              <p className="is-size-7">
+                ({year}-01-01 - {attendanceRecordDate})
+              </p>
               <progress
                 className="progress is-primary"
                 value={
