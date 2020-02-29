@@ -46,7 +46,13 @@ const SelectTD = () => {
 
   return (
     <>
-      <TDSelector onSelect={handleTDSelect} keyword={tdSelectorKeyword} />
+      <TDSelector
+        houseType={houseType}
+        houseNumber={houseNumber}
+        year={year}
+        onSelect={handleTDSelect}
+        keyword={tdSelectorKeyword}
+      />
       {tdMemberCode ? (
         <ActivityCalendarContainer />
       ) : (

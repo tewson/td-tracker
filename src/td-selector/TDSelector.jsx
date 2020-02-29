@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
 
 import dailMembers from "../../data/dail/32/members.json";
 
@@ -51,8 +50,16 @@ const TDSelectorResult = ({ result, highlightedText, onSelect }) => {
   );
 };
 
-export const TDSelector = ({ onSelect, keyword: initialKeyword = "" }) => {
-  const { houseType, houseNumber, year } = useParams();
+export const TDSelector = ({
+  houseType,
+  houseNumber,
+  year,
+  keyword: initialKeyword = "",
+  onSelect
+}) => {
+  console.warn(
+    "houseType, houseNumber and year are not yet validated or used in <TDSelector>."
+  );
   const [keyword, setKeyword] = useState(initialKeyword);
   const [searchTDResults, setSearchTDResults] = useState([]);
 
