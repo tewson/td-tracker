@@ -232,7 +232,7 @@ export const ActivityCalendar = ({ td }) => {
                     {sittingDayAttendanceCount}
                   </span>
                 )}{" "}
-                out of <span className="has-text-weight-bold">94</span> sitting
+                out of <span className="has-text-weight-bold">101</span> sitting
                 days.
               </p>
               <p className="is-size-7">
@@ -241,9 +241,9 @@ export const ActivityCalendar = ({ td }) => {
               <progress
                 className="progress is-primary"
                 value={activityIsLoading ? null : sittingDayAttendanceCount}
-                max={94}
+                max={101}
               >
-                {((sittingDayAttendanceCount / 94) * 100).toFixed(2)}%
+                {((sittingDayAttendanceCount / 101) * 100).toFixed(2)}%
               </progress>
               <p>
                 {activityIsLoading ? (
