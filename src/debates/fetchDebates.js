@@ -3,8 +3,9 @@ import format from "date-fns/format";
 import startOfYear from "date-fns/startOfYear";
 import endOfYear from "date-fns/endOfYear";
 
-export const fetchDebates = async td => {
-  const currentDate = new Date(2019, 0, 1);
+export const fetchDebates = async (year, td) => {
+  const yearNumber = parseInt(year, 10);
+  const currentDate = new Date(yearNumber, 0, 1);
 
   const {
     data: { results: debates }
