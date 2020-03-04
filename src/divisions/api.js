@@ -5,8 +5,9 @@ import endOfYear from "date-fns/endOfYear";
 
 let cachedAllDailDivisions;
 
-export const fetchDivisions = async td => {
-  const currentDate = new Date(2019, 0, 1);
+export const fetchDivisions = async (year, td) => {
+  const yearNumber = parseInt(year, 10);
+  const currentDate = new Date(yearNumber, 0, 1);
 
   const {
     data: { results }
@@ -22,12 +23,13 @@ export const fetchDivisions = async td => {
   return results.map(result => result.division);
 };
 
-export const fetchAllDailDivisions = async () => {
+export const fetchAllDailDivisions = async (houseNumber, year) => {
   if (cachedAllDailDivisions) {
     return cachedAllDailDivisions;
   }
 
-  const currentDate = new Date(2019, 0, 1);
+  const yearNumber = parseInt(year, 10);
+  const currentDate = new Date(yearNumber, 0, 1);
 
   const {
     data: { results }
@@ -35,7 +37,7 @@ export const fetchAllDailDivisions = async () => {
     params: {
       date_start: format(startOfYear(currentDate), "yyyy-MM-dd"),
       date_end: format(endOfYear(currentDate), "yyyy-MM-dd"),
-      chamber_id: "https://data.oireachtas.ie/ie/oireachtas/house/dail/32",
+      chamber_id: `https://data.oireachtas.ie/ie/oireachtas/house/dail/${houseNumber}`,
       chamber: "dail",
       limit: 10000
     }
