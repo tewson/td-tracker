@@ -1,18 +1,17 @@
 import axios from "axios";
 import format from "date-fns/format";
-import startOfYear from "date-fns/startOfYear";
-import endOfYear from "date-fns/endOfYear";
+
+import { getStartAndEndOfYear } from "../utils.js";
 
 export const fetchDebates = async (year, td) => {
-  const yearNumber = parseInt(year, 10);
-  const currentDate = new Date(yearNumber, 0, 1);
+  const { startOfYear, endOfYear } = getStartAndEndOfYear(year);
 
   const {
     data: { results: debates }
   } = await axios.get("https://api.oireachtas.ie/v1/debates", {
     params: {
-      date_start: format(startOfYear(currentDate), "yyyy-MM-dd"),
-      date_end: format(endOfYear(currentDate), "yyyy-MM-dd"),
+      date_start: format(startOfYear, "yyyy-MM-dd"),
+      date_end: format(endOfYear, "yyyy-MM-dd"),
       member_id: td.uri,
       limit: 10000
     }
