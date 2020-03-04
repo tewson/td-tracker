@@ -13,7 +13,7 @@ import { ContributionModal } from "./ContributionModal.jsx";
 import "react-popper-tooltip/dist/styles.css";
 
 export const ActivityCalendar = ({ td }) => {
-  const { year } = useParams();
+  const { houseType, houseNumber, year } = useParams();
   const [activityIsLoading, setActivityIsLoading] = useState(true);
   const [debates, setDebates] = useState([]);
   const [divisions, setDivisions] = useState([]);
@@ -27,7 +27,12 @@ export const ActivityCalendar = ({ td }) => {
     const fetchActivityData = async () => {
       setActivityIsLoading(true);
 
-      const fetchAttendancePromise = fetchAttendance(td.memberCode)
+      const fetchAttendancePromise = fetchAttendance(
+        houseType,
+        houseNumber,
+        year,
+        td.memberCode
+      )
         .then(({ attendance, recordDate }) => {
           setAttendanceRecordDate(recordDate);
           setMessage(`Attendance record date: ${recordDate}`);
