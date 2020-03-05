@@ -16,20 +16,6 @@ import { AboutModal } from "./AboutModal.jsx";
 import { TDSelector } from "./td-selector/TDSelector.jsx";
 import { ActivityCalendar } from "./calendar/ActivityCalendar.jsx";
 
-const ActivityCalendarContainer = () => {
-  const { tdMemberCode } = useParams();
-
-  const td = dailMembers.results
-    .map(result => result.member)
-    .find(member => member.memberCode === tdMemberCode);
-
-  if (!td) {
-    return null;
-  }
-
-  return <ActivityCalendar td={td} />;
-};
-
 const SelectTD = () => {
   const history = useHistory();
   const { houseType, houseNumber, year, tdMemberCode } = useParams();
@@ -54,7 +40,7 @@ const SelectTD = () => {
         keyword={tdSelectorKeyword}
       />
       {tdMemberCode ? (
-        <ActivityCalendarContainer />
+        <ActivityCalendar td={td} />
       ) : (
         <p>Search for a TD and view their attendance and contributions.</p>
       )}
