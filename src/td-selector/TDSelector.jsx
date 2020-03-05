@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import classnames from "classnames";
-
-import { fetchDailMembers } from "./api.js";
 
 const normalizeString = name =>
   name
@@ -43,33 +41,30 @@ export const TDSelector = ({
   houseType,
   houseNumber,
   year,
-  keyword: initialKeyword = "",
+  options,
+  optionsLoading,
+  selectedTD,
   onSelect
 }) => {
   console.warn(
     "houseType, houseNumber and year are not yet validated or used in <TDSelector>."
   );
 
-  const [dailMembersIsLoading, setDailMembersIsLoading] = useState(true);
-  const [dailMembers, setDailMembers] = useState([]);
+  const [keyword, setKeyword] = useState("");
+  const [searchTDResults, setSearchTDResults] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      const fetchedDailMembers = await fetchDailMembers(houseNumber);
-      setDailMembers(fetchedDailMembers);
-      setDailMembersIsLoading(false);
-    })();
-  }, [houseNumber]);
-
-  const [keyword, setKeyword] = useState(initialKeyword);
-  const [searchTDResults, setSearchTDResults] = useState([]);
+    if (selectedTD) {
+      setKeyword(selectedTD.fullName);
+    }
+  }, [selectedTD]);
 
   const searchTD = keyword => {
     if (!keyword) {
       return [];
     }
 
-    return dailMembers.filter(member =>
+    return options.filter(member =>
       normalizeString(member.fullName).includes(normalizeString(keyword))
     );
   };
@@ -132,11 +127,11 @@ export const TDSelector = ({
         </label>
         <div
           className={classnames("control", {
-            "is-loading": dailMembersIsLoading
+            "is-loading": optionsLoading
           })}
         >
           <input
-            disabled={dailMembersIsLoading}
+            disabled={optionsLoading}
             id="td-name"
             className="input"
             type="text"
