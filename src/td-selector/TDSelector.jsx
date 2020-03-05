@@ -69,11 +69,9 @@ export const TDSelector = ({
       return [];
     }
 
-    return dailMembers.results
-      .map(result => result.member)
-      .filter(member =>
-        normalizeString(member.fullName).includes(normalizeString(keyword))
-      );
+    return dailMembers.filter(member =>
+      normalizeString(member.fullName).includes(normalizeString(keyword))
+    );
   };
 
   const handleKeywordChangeEvent = ({ target: { value } }) => {
