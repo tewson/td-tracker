@@ -10,10 +10,9 @@ import {
   useHistory
 } from "react-router-dom";
 
-import { fetchDailMembers } from "./td-selector/api.js";
-
 import { AboutModal } from "./AboutModal.jsx";
-import { TDSelector } from "./td-selector/TDSelector.jsx";
+import { fetchDailMembers } from "./members/api.js";
+import { TDSelector } from "./members/TDSelector.jsx";
 import { ActivityCalendar } from "./calendar/ActivityCalendar.jsx";
 
 const SelectTD = () => {
