@@ -1,24 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import classnames from "classnames";
 
-import dailMembers from "../../data/dail/32/members.json";
+import { fetchDailMembers } from "./api.js";
 
 const normalizeString = name =>
   name
     .toLocaleLowerCase("en-IE")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
-
-const searchTD = keyword => {
-  if (!keyword) {
-    return [];
-  }
-
-  return dailMembers.results
-    .map(result => result.member)
-    .filter(member =>
-      normalizeString(member.fullName).includes(normalizeString(keyword))
-    );
-};
 
 const TDSelectorResult = ({ result, highlightedText, onSelect }) => {
   const handleResultClickEvent = () => {
@@ -60,8 +49,32 @@ export const TDSelector = ({
   console.warn(
     "houseType, houseNumber and year are not yet validated or used in <TDSelector>."
   );
+
+  const [dailMembersIsLoading, setDailMembersIsLoading] = useState(true);
+  const [dailMembers, setDailMembers] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const fetchedDailMembers = await fetchDailMembers(houseNumber);
+      setDailMembers(fetchedDailMembers);
+      setDailMembersIsLoading(false);
+    })();
+  }, [houseNumber]);
+
   const [keyword, setKeyword] = useState(initialKeyword);
   const [searchTDResults, setSearchTDResults] = useState([]);
+
+  const searchTD = keyword => {
+    if (!keyword) {
+      return [];
+    }
+
+    return dailMembers.results
+      .map(result => result.member)
+      .filter(member =>
+        normalizeString(member.fullName).includes(normalizeString(keyword))
+      );
+  };
 
   const handleKeywordChangeEvent = ({ target: { value } }) => {
     setKeyword(value);
@@ -119,8 +132,13 @@ export const TDSelector = ({
         <label className="label" htmlFor="td-name">
           Name
         </label>
-        <div className="control">
+        <div
+          className={classnames("control", {
+            "is-loading": dailMembersIsLoading
+          })}
+        >
           <input
+            disabled={dailMembersIsLoading}
             id="td-name"
             className="input"
             type="text"
