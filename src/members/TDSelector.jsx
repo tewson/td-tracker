@@ -44,7 +44,7 @@ export const TDSelector = ({
   options,
   optionsLoading,
   selectedTD,
-  onSelect
+  onChange
 }) => {
   console.warn(
     "houseType, houseNumber and year are not yet validated or used in <TDSelector>."
@@ -77,7 +77,7 @@ export const TDSelector = ({
   const handleTDSelect = selectedTD => {
     setKeyword(selectedTD.fullName);
     setSearchTDResults([]);
-    onSelect(selectedTD);
+    onChange(selectedTD);
   };
 
   return (
