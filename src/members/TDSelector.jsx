@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import classnames from "classnames";
 
+const dailTermYearOptionsMap = {
+  "32": ["2019", "2020"],
+  "33": ["2020"]
+};
+
 const normalizeString = name =>
   name
     .toLocaleLowerCase("en-IE")
@@ -141,8 +146,11 @@ export const TDSelector = ({
             </label>
             <div className="select is-fullwidth">
               <select id="year" value={year} onChange={handleYearChange}>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
+                {dailTermYearOptionsMap[houseNumber].map(year => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
