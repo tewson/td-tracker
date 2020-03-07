@@ -69,7 +69,7 @@ export const ActivityCalendar = ({ td }) => {
     };
 
     fetchActivityData();
-  }, [td]);
+  }, [houseType, houseNumber, year, td]);
 
   const debateDates = debates.reduce((debateDatesAcc, debate) => {
     if (debateDatesAcc[debate.debateRecord.date]) {
