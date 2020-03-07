@@ -3,7 +3,7 @@ import format from "date-fns/format";
 
 import { getStartAndEndOfYear } from "../utils.js";
 
-let cachedAllDailDivisions;
+let cachedAllDailDivisions = {};
 
 export const fetchDivisions = async (year, td) => {
   const { startOfYear, endOfYear } = getStartAndEndOfYear(year);
@@ -23,8 +23,11 @@ export const fetchDivisions = async (year, td) => {
 };
 
 export const fetchAllDailDivisions = async (houseNumber, year) => {
-  if (cachedAllDailDivisions) {
-    return cachedAllDailDivisions;
+  if (
+    cachedAllDailDivisions[houseNumber] &&
+    cachedAllDailDivisions[houseNumber][year]
+  ) {
+    return cachedAllDailDivisions[houseNumber][year];
   }
 
   const { startOfYear, endOfYear } = getStartAndEndOfYear(year);
@@ -41,6 +44,12 @@ export const fetchAllDailDivisions = async (houseNumber, year) => {
     }
   });
 
-  cachedAllDailDivisions = results.map(result => result.division);
-  return fetchAllDailDivisions();
+  if (!cachedAllDailDivisions[houseNumber]) {
+    cachedAllDailDivisions[houseNumber] = {};
+  }
+
+  cachedAllDailDivisions[houseNumber][year] = results.map(
+    result => result.division
+  );
+  return fetchAllDailDivisions(houseNumber, year);
 };
