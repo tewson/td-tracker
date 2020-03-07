@@ -29,8 +29,14 @@ const SelectTD = () => {
     })();
   }, [houseNumber]);
 
-  const handleTDSelect = ({ td }) => {
-    history.push(`/${houseType}/${houseNumber}/${year}/${td.memberCode}`);
+  const handleTDSelect = ({
+    houseNumber: updatedHouseNumber,
+    year: updatedYear,
+    td
+  }) => {
+    history.push(
+      `/${houseType}/${updatedHouseNumber}/${updatedYear}/${td.memberCode}`
+    );
   };
 
   const td = dailMembers.find(member => member.memberCode === tdMemberCode);

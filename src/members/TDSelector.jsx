@@ -74,10 +74,28 @@ export const TDSelector = ({
     setSearchTDResults(searchTD(value));
   };
 
+  const handleHouseTermChange = ({ target: { value: term } }) => {
+    onChange({
+      houseNumber: term,
+      year,
+      td: selectedTD
+    });
+  };
+
+  const handleYearChange = ({ target: { value: year } }) => {
+    onChange({
+      houseNumber,
+      year,
+      td: selectedTD
+    });
+  };
+
   const handleTDSelect = td => {
     setKeyword(td.fullName);
     setSearchTDResults([]);
     onChange({
+      houseNumber,
+      year,
       td
     });
   };
@@ -103,7 +121,11 @@ export const TDSelector = ({
               Term
             </label>
             <div className="select is-fullwidth">
-              <select id="house-term" value={houseNumber}>
+              <select
+                id="house-term"
+                value={houseNumber}
+                onChange={handleHouseTermChange}
+              >
                 <option value="32">32</option>
                 <option value="33">33</option>
               </select>
@@ -116,7 +138,7 @@ export const TDSelector = ({
               Year
             </label>
             <div className="select is-fullwidth">
-              <select id="year" value={year}>
+              <select id="year" value={year} onChange={handleYearChange}>
                 <option value="2019">2019</option>
                 <option value="2020">2020</option>
               </select>
