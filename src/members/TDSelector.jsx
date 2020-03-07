@@ -101,8 +101,9 @@ export const TDSelector = ({
               Term
             </label>
             <div className="select is-fullwidth">
-              <select id="house-term" value={houseNumber} disabled>
+              <select id="house-term" value={houseNumber}>
                 <option value="32">32</option>
+                <option value="33">33</option>
               </select>
             </div>
           </div>
@@ -113,8 +114,9 @@ export const TDSelector = ({
               Year
             </label>
             <div className="select is-fullwidth">
-              <select id="year" value={year} disabled>
+              <select id="year" value={year}>
                 <option value="2019">2019</option>
+                <option value="2020">2020</option>
               </select>
             </div>
           </div>
