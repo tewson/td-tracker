@@ -56,6 +56,8 @@ export const TDSelector = ({
   useEffect(() => {
     if (selectedTD) {
       setKeyword(selectedTD.fullName);
+    } else {
+      setKeyword("");
     }
   }, [selectedTD]);
 
