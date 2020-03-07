@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import classnames from "classnames";
 
-const dailTermYearOptionsMap = {
-  "32": ["2019", "2020"],
-  "33": ["2020"]
-};
+import { dailTermYearOptionsMap } from "../constants.js";
 
 const normalizeString = name =>
   name

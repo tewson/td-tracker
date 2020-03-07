@@ -10,6 +10,7 @@ import {
   useHistory
 } from "react-router-dom";
 
+import { dailTermYearOptionsMap } from "./constants";
 import { getNumberWithOrdinal } from "./utils.js";
 import { AboutModal } from "./AboutModal.jsx";
 import { fetchDailMembers } from "./members/api.js";
@@ -42,9 +43,15 @@ const SelectTD = () => {
       setDailMembers([]);
     }
 
-    history.push(
-      `/${houseType}/${updatedHouseNumber}/${updatedYear}/${td.memberCode}`
-    );
+    const tdPathFragment = td ? `/${td.memberCode}` : "";
+    const yearPathParam = dailTermYearOptionsMap[updatedHouseNumber].includes(
+      updatedYear
+    )
+      ? updatedYear
+      : dailTermYearOptionsMap[updatedHouseNumber][0];
+
+    const targetPath = `/${houseType}/${updatedHouseNumber}/${yearPathParam}${tdPathFragment}`;
+    history.push(targetPath);
   };
 
   const matchedTDFromMemberCode = dailMembers.find(
