@@ -20,9 +20,11 @@ const SelectTD = () => {
   const { houseType, houseNumber, year, tdMemberCode } = useParams();
   const [dailMembers, setDailMembers] = useState([]);
   const [dailMembersIsLoading, setDailMembersIsLoading] = useState(true);
+  const [currentTD, setCurrentTD] = useState(null);
 
   useEffect(() => {
     (async () => {
+      setDailMembersIsLoading(true);
       const fetchedDailMembers = await fetchDailMembers(houseNumber);
       setDailMembers(fetchedDailMembers);
       setDailMembersIsLoading(false);
@@ -34,12 +36,22 @@ const SelectTD = () => {
     year: updatedYear,
     td
   }) => {
+    setCurrentTD(null);
+    if (updatedHouseNumber !== houseNumber) {
+      setDailMembers([]);
+    }
+
     history.push(
       `/${houseType}/${updatedHouseNumber}/${updatedYear}/${td.memberCode}`
     );
   };
 
-  const td = dailMembers.find(member => member.memberCode === tdMemberCode);
+  const matchedTDFromMemberCode = dailMembers.find(
+    member => member.memberCode === tdMemberCode
+  );
+  if (!currentTD && matchedTDFromMemberCode) {
+    setCurrentTD(matchedTDFromMemberCode);
+  }
 
   return (
     <>
@@ -49,11 +61,11 @@ const SelectTD = () => {
         year={year}
         options={dailMembers}
         optionsLoading={dailMembersIsLoading}
-        selectedTD={td}
+        selectedTD={currentTD}
         onChange={handleTDSelect}
       />
-      {td ? (
-        <ActivityCalendar td={td} />
+      {currentTD ? (
+        <ActivityCalendar td={currentTD} />
       ) : (
         <p>Search for a TD and view their attendance and contributions.</p>
       )}
