@@ -18,7 +18,7 @@ const AttendanceInput = () => {
     <section className="section">
       <div className="container">
         <h1 className="title">TD Attendance Input</h1>
-        <TDSelector options={tdSelectorOptions} onSelect={setSelectedTD} />
+        <TDSelector options={tdSelectorOptions} onChange={setSelectedTD} />
         {selectedTD && (
           <Tabs>
             <TabList>

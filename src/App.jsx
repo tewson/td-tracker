@@ -44,7 +44,7 @@ const SelectTD = () => {
         options={dailMembers}
         optionsLoading={dailMembersIsLoading}
         selectedTD={td}
-        onSelect={handleTDSelect}
+        onChange={handleTDSelect}
       />
       {td ? (
         <ActivityCalendar td={td} />
