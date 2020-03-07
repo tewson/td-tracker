@@ -74,10 +74,12 @@ export const TDSelector = ({
     setSearchTDResults(searchTD(value));
   };
 
-  const handleTDSelect = selectedTD => {
-    setKeyword(selectedTD.fullName);
+  const handleTDSelect = td => {
+    setKeyword(td.fullName);
     setSearchTDResults([]);
-    onChange(selectedTD);
+    onChange({
+      td
+    });
   };
 
   return (

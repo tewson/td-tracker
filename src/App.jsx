@@ -29,7 +29,7 @@ const SelectTD = () => {
     })();
   }, [houseNumber]);
 
-  const handleTDSelect = td => {
+  const handleTDSelect = ({ td }) => {
     history.push(`/${houseType}/${houseNumber}/${year}/${td.memberCode}`);
   };
 
