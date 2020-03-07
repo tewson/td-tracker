@@ -10,6 +10,7 @@ import {
   useHistory
 } from "react-router-dom";
 
+import { getNumberWithOrdinal } from "./utils.js";
 import { AboutModal } from "./AboutModal.jsx";
 import { fetchDailMembers } from "./members/api.js";
 import { TDSelector } from "./members/TDSelector.jsx";
@@ -51,6 +52,13 @@ const SelectTD = () => {
   );
   if (!currentTD && matchedTDFromMemberCode) {
     setCurrentTD(matchedTDFromMemberCode);
+  } else if (!matchedTDFromMemberCode && tdMemberCode) {
+    alert(
+      `The selected TD is not a member of the ${getNumberWithOrdinal(
+        houseNumber
+      )} Dáil. You will need to select again.`
+    );
+    return <Redirect to={`/${houseType}/${houseNumber}/${year}`} />;
   }
 
   return (
