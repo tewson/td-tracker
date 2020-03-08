@@ -3,7 +3,7 @@ import format from "date-fns/format";
 
 import { getStartAndEndOfYear } from "../utils.js";
 
-export const fetchDebates = async (year, td) => {
+export const fetchDebates = async (term, year, td) => {
   const { startOfYear, endOfYear } = getStartAndEndOfYear(year);
 
   const {
@@ -13,6 +13,7 @@ export const fetchDebates = async (year, td) => {
       date_start: format(startOfYear, "yyyy-MM-dd"),
       date_end: format(endOfYear, "yyyy-MM-dd"),
       member_id: td.uri,
+      chamber_id: `https://data.oireachtas.ie/ie/oireachtas/house/dail/${term}`,
       limit: 10000
     }
   });

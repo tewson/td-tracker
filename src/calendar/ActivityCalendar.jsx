@@ -54,7 +54,7 @@ export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
         allDailDivisions
       ] = await Promise.all([
         fetchAttendancePromise,
-        fetchDebates(year, td),
+        fetchDebates(houseNumber, year, td),
         fetchDivisions(houseNumber, year, td),
         fetchAllDailDivisions(houseNumber, year)
       ]);
