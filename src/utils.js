@@ -1,5 +1,4 @@
-import startOfYear from "date-fns/startOfYear";
-import endOfYear from "date-fns/endOfYear";
+import { startOfYear, endOfYear } from "date-fns";
 
 export const getStartAndEndOfYear = year => {
   const yearNumber = typeof year === "string" ? parseInt(year, 10) : year;

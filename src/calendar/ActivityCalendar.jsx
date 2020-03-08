@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import format from "date-fns/format";
-import isSameMonth from "date-fns/isSameMonth";
+import { format, isSameMonth } from "date-fns";
 
 import { Calendar } from "./Calendar.jsx";
 import { fetchAttendance } from "../attendance/fetchAttendance.js";

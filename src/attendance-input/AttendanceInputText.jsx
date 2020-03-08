@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import compareAsc from "date-fns/compareAsc";
-import format from "date-fns/format";
-import parse from "date-fns/parse";
+import { compareAsc, format, parse } from "date-fns";
 
 import { ATTENDANCE_TYPE } from "../attendance/constants.js";
 

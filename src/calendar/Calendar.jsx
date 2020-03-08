@@ -1,16 +1,18 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import classNames from "classnames";
-import format from "date-fns/format";
-import getMonth from "date-fns/getMonth";
-import getYear from "date-fns/getYear";
-import startOfISOWeek from "date-fns/startOfISOWeek";
-import endOfISOWeek from "date-fns/endOfISOWeek";
-import startOfMonth from "date-fns/startOfMonth";
-import endOfMonth from "date-fns/endOfMonth";
-import eachDayOfInterval from "date-fns/eachDayOfInterval";
-import eachWeekOfInterval from "date-fns/eachWeekOfInterval";
-import isWeekend from "date-fns/isWeekend";
+import {
+  format,
+  getMonth,
+  getYear,
+  startOfISOWeek,
+  endOfISOWeek,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  eachWeekOfInterval,
+  isWeekend
+} from "date-fns";
 
 const defaultRenderDate = date => <span>{format(date, "dd")}</span>;
 
