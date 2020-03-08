@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import classNames from "classnames";
 import format from "date-fns/format";
+import getMonth from "date-fns/getMonth";
 import getYear from "date-fns/getYear";
 import startOfISOWeek from "date-fns/startOfISOWeek";
 import endOfISOWeek from "date-fns/endOfISOWeek";
@@ -17,7 +18,13 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
   const { year } = useParams();
   const selectedYear = getYear(new Date(year, 0, 1));
 
-  const months = Array(12)
+  const currentDateTime = new Date();
+  const currentYear = getYear(currentDateTime);
+
+  const monthsSinceStartOfSelectedYear =
+    currentYear > selectedYear ? 12 : getMonth(currentDateTime) + 1;
+
+  const months = Array(monthsSinceStartOfSelectedYear)
     .fill(null)
     .map((_, monthIndex) => {
       const firstDateOfMonth = new Date(selectedYear, monthIndex, 1);
@@ -38,7 +45,9 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
           }).map(day => day);
         })
       };
-    });
+    })
+    .slice()
+    .reverse();
 
   return (
     <div className="columns is-multiline">
