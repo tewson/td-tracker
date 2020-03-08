@@ -48,10 +48,6 @@ export const TDSelector = ({
   selectedTD,
   onChange
 }) => {
-  console.warn(
-    "houseType, houseNumber and year are not yet validated or used in <TDSelector>."
-  );
-
   const [keyword, setKeyword] = useState("");
   const [searchTDResults, setSearchTDResults] = useState([]);
 
