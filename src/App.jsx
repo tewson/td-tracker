@@ -70,9 +70,9 @@ const SelectTD = () => {
         }
       } else {
         alert(
-          `The selected TD is not a member of the ${getNumberWithOrdinal(
+          `${currentTD.fullName} is not a member of the ${getNumberWithOrdinal(
             houseNumber
-          )} Dáil. You will need to select again.`
+          )} Dáil. You will need to select another TD.`
         );
         return <Redirect to={`/${houseType}/${houseNumber}/${year}`} />;
       }
