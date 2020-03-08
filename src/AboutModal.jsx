@@ -16,14 +16,16 @@ export const AboutModal = ({ modalIsOpen, closeModal }) => {
           <div className="content">
             <h4>What's New</h4>
             <h5 className="whats-new-version">
-              1.0.0 Beta{" "}
-              <span className="whats-new-version-date">(2020-02-19)</span>
+              1.0.0 Beta 2{" "}
+              <span className="whats-new-version-date">(2020-03-08)</span>
             </h5>
             <ul>
-              <li>TD contribution data: debates and votes.</li>
-              <li>TD attendance data for 2019.</li>
-              <li>Basic data visualisations.</li>
-              <li>Data entry mode for attendance.</li>
+              <li>We can now view data on members of the 33rd Dáil!</li>
+              <li>
+                Permissive licence statements were added to make it clear that
+                both the code and the data is shareable and reuseable.
+              </li>
+              <li>The calendar now shows latest month first.</li>
             </ul>
             <p className="has-text-right">
               <a href="https://github.com/tewson/td-tracker/blob/master/CHANGELOG.md">

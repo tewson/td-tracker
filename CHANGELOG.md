@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0-beta.2] - 2020-03-08
+
+### Added
+
+- We can now view data on the 33rd Dáil!
+- Attendance data for December 2019 was added.
+- Permissive licence statements were added for both code and data.
+
+### Changed
+
+- The calendar is now in reverse chronological order (most recent month first) and no future months are shown.
+- Options for selecting a TD are now loaded asynchronously so the app bundle size is reduced.
+
 ## [1.0.0-beta.1] - 2020-02-27
 
 ### Changed
@@ -23,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Activity calendar.
 - Data entry mode for attendance.
 
-[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.1...HEAD
+[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.2...HEAD
+[1.0.0-beta.2]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.2
 [1.0.0-beta.1]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.1
 [1.0.0-beta.0]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.0
