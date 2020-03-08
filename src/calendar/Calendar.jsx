@@ -15,14 +15,12 @@ const defaultRenderDate = date => <span>{format(date, "dd")}</span>;
 
 export const Calendar = ({ renderDate = defaultRenderDate }) => {
   const { year } = useParams();
-
-  const currentDate = new Date(year, 0, 1);
-  const currentYear = getYear(currentDate);
+  const selectedYear = getYear(new Date(year, 0, 1));
 
   const months = Array(12)
     .fill(null)
     .map((_, monthIndex) => {
-      const firstDateOfMonth = new Date(currentYear, monthIndex, 1);
+      const firstDateOfMonth = new Date(selectedYear, monthIndex, 1);
       const weeksInMonth = eachWeekOfInterval(
         {
           start: startOfMonth(firstDateOfMonth),
@@ -56,7 +54,7 @@ export const Calendar = ({ renderDate = defaultRenderDate }) => {
           >
             <div className="box" style={{ height: "100%" }}>
               <h6 className="calendar-month title is-6 has-text-centered">
-                {monthName} {currentYear}
+                {monthName} {selectedYear}
               </h6>
               <table className="table is-fullwidth">
                 <thead>
