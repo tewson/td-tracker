@@ -5,7 +5,7 @@ import { getStartAndEndOfYear } from "../utils.js";
 
 let cachedAllDailDivisions = {};
 
-export const fetchDivisions = async (year, td) => {
+export const fetchDivisions = async (term, year, td) => {
   const { startOfYear, endOfYear } = getStartAndEndOfYear(year);
 
   const {
@@ -15,6 +15,7 @@ export const fetchDivisions = async (year, td) => {
       date_start: format(startOfYear, "yyyy-MM-dd"),
       date_end: format(endOfYear, "yyyy-MM-dd"),
       member_id: td.uri,
+      chamber_id: `https://data.oireachtas.ie/ie/oireachtas/house/dail/${term}`,
       limit: 10000
     }
   });
@@ -39,7 +40,6 @@ export const fetchAllDailDivisions = async (houseNumber, year) => {
       date_start: format(startOfYear, "yyyy-MM-dd"),
       date_end: format(endOfYear, "yyyy-MM-dd"),
       chamber_id: `https://data.oireachtas.ie/ie/oireachtas/house/dail/${houseNumber}`,
-      chamber: "dail",
       limit: 10000
     }
   });
