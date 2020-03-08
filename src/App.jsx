@@ -38,11 +38,6 @@ const SelectTD = () => {
     year: updatedYear,
     td
   }) => {
-    setCurrentTD(null);
-    if (updatedHouseNumber !== houseNumber) {
-      setDailMembers([]);
-    }
-
     const tdPathFragment = td ? `/${td.memberCode}` : "";
     const yearPathParam = dailTermYearOptionsMap[updatedHouseNumber].includes(
       updatedYear
@@ -50,22 +45,40 @@ const SelectTD = () => {
       ? updatedYear
       : dailTermYearOptionsMap[updatedHouseNumber][0];
 
+    if (updatedHouseNumber !== houseNumber) {
+      setDailMembersIsLoading(true);
+      setDailMembers([]);
+    }
+
     const targetPath = `/${houseType}/${updatedHouseNumber}/${yearPathParam}${tdPathFragment}`;
     history.push(targetPath);
   };
 
-  const matchedTDFromMemberCode = dailMembers.find(
-    member => member.memberCode === tdMemberCode
-  );
-  if (!currentTD && matchedTDFromMemberCode) {
-    setCurrentTD(matchedTDFromMemberCode);
-  } else if (!matchedTDFromMemberCode && tdMemberCode) {
-    alert(
-      `The selected TD is not a member of the ${getNumberWithOrdinal(
-        houseNumber
-      )} Dáil. You will need to select again.`
-    );
-    return <Redirect to={`/${houseType}/${houseNumber}/${year}`} />;
+  if (!dailMembersIsLoading && dailMembers.length > 0) {
+    if (tdMemberCode) {
+      const matchedTDFromMemberCode = dailMembers.find(
+        member => member.memberCode === tdMemberCode
+      );
+
+      if (matchedTDFromMemberCode) {
+        if (
+          !currentTD ||
+          (currentTD &&
+            currentTD.memberCode !== matchedTDFromMemberCode.memberCode)
+        ) {
+          setCurrentTD(matchedTDFromMemberCode);
+        }
+      } else {
+        alert(
+          `The selected TD is not a member of the ${getNumberWithOrdinal(
+            houseNumber
+          )} Dáil. You will need to select again.`
+        );
+        return <Redirect to={`/${houseType}/${houseNumber}/${year}`} />;
+      }
+    } else if (currentTD) {
+      setCurrentTD(null);
+    }
   }
 
   return (
@@ -80,7 +93,14 @@ const SelectTD = () => {
         onChange={handleTDSelect}
       />
       {currentTD ? (
-        <ActivityCalendar td={currentTD} />
+        !dailMembersIsLoading && (
+          <ActivityCalendar
+            houseType={houseType}
+            houseNumber={houseNumber}
+            year={year}
+            td={currentTD}
+          />
+        )
       ) : (
         <p>Search for a TD and view their attendance and contributions.</p>
       )}
