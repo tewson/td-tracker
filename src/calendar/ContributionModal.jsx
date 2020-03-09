@@ -6,7 +6,7 @@ export const ContributionModal = ({ data, closeModal }) => {
     return null;
   }
 
-  const { date, debates, divisions } = data;
+  const { date, debates, votes } = data;
   const formattedDate = format(date, "yyyy-MM-dd");
 
   const DebateSection = () => {
@@ -51,22 +51,22 @@ export const ContributionModal = ({ data, closeModal }) => {
     );
   };
 
-  const DivisionSection = () => {
+  const VoteSection = () => {
     return (
       <>
-        <h3>Divisions</h3>
+        <h3>Votes</h3>
         <ul>
-          {divisions.map(division => {
+          {votes.map(vote => {
             const {
               uri,
               debate,
               voteId,
               house: { chamberType, committeeCode, houseCode, houseNo }
-            } = division;
+            } = vote;
 
             const voteIdForUrl = voteId.replace("vote_", "");
 
-            const divisionDebatePath =
+            const voteDebatePath =
               chamberType === "committee"
                 ? `/${houseCode}/${houseNo}/${committeeCode}/${formattedDate}/${voteIdForUrl}`
                 : `/${houseCode}/${houseNo}/${formattedDate}/${voteIdForUrl}`;
@@ -74,7 +74,7 @@ export const ContributionModal = ({ data, closeModal }) => {
             return (
               <li key={uri}>
                 <a
-                  href={`https://www.oireachtas.ie/en/debates/vote${divisionDebatePath}`}
+                  href={`https://www.oireachtas.ie/en/debates/vote${voteDebatePath}`}
                 >
                   {debate.showAs}
                 </a>
@@ -96,7 +96,7 @@ export const ContributionModal = ({ data, closeModal }) => {
         <section className="modal-card-body">
           <div className="content">
             {debates.length > 0 && <DebateSection />}
-            {divisions.length > 0 && <DivisionSection />}
+            {votes.length > 0 && <VoteSection />}
           </div>
         </section>
         <footer className="modal-card-foot">

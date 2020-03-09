@@ -5,7 +5,7 @@ import { Calendar } from "./Calendar.jsx";
 import { fetchAttendance } from "../attendance/fetchAttendance.js";
 import { AttendanceTooltip } from "../attendance/AttendanceTooltip.jsx";
 import { fetchDebates } from "../debates/fetchDebates.js";
-import { fetchDivisions, fetchAllDailDivisions } from "../divisions/api.js";
+import { fetchVotes, fetchAllDailVotes } from "../votes/api.js";
 import { ContributionModal } from "./ContributionModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
@@ -13,8 +13,8 @@ import "react-popper-tooltip/dist/styles.css";
 export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
   const [activityIsLoading, setActivityIsLoading] = useState(true);
   const [debates, setDebates] = useState([]);
-  const [divisions, setDivisions] = useState([]);
-  const [allDailDivisions, setAllDailDivisions] = useState([]);
+  const [votes, setVotes] = useState([]);
+  const [allDailVotes, setAllDailVotes] = useState([]);
   const [attendanceRecordDate, setAttendanceRecordDate] = useState("");
   const [attendance, setAttendance] = useState({});
   const [contributionModalData, setContributionModalData] = useState(null);
@@ -46,22 +46,17 @@ export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
           }
         });
 
-      const [
-        attendance,
-        debates,
-        divisions,
-        allDailDivisions
-      ] = await Promise.all([
+      const [attendance, debates, votes, allDailVotes] = await Promise.all([
         fetchAttendancePromise,
         fetchDebates(houseNumber, year, td),
-        fetchDivisions(houseNumber, year, td),
-        fetchAllDailDivisions(houseNumber, year)
+        fetchVotes(houseNumber, year, td),
+        fetchAllDailVotes(houseNumber, year)
       ]);
 
       setAttendance(attendance);
       setDebates(debates);
-      setDivisions(divisions);
-      setAllDailDivisions(allDailDivisions);
+      setVotes(votes);
+      setAllDailVotes(allDailVotes);
       setActivityIsLoading(false);
     };
 
@@ -85,17 +80,17 @@ export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
     };
   }, {});
 
-  const divisionDates = divisions.reduce((divisionDatesAcc, division) => {
-    if (divisionDatesAcc[division.date]) {
+  const voteDates = votes.reduce((voteDatesAcc, vote) => {
+    if (voteDatesAcc[vote.date]) {
       return {
-        ...divisionDatesAcc,
-        [division.date]: [...divisionDatesAcc[division.date], division]
+        ...voteDatesAcc,
+        [vote.date]: [...voteDatesAcc[vote.date], vote]
       };
     }
 
     return {
-      ...divisionDatesAcc,
-      [division.date]: [division]
+      ...voteDatesAcc,
+      [vote.date]: [vote]
     };
   }, {});
 
@@ -126,24 +121,22 @@ export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
         debate => debate.debateRecord.date === formattedDate
       );
 
-      const divisionsOnDate = divisions.filter(
-        division => division.date === formattedDate
-      );
+      const votesOnDate = votes.filter(vote => vote.date === formattedDate);
 
       document.querySelector("html").classList.add("is-clipped");
       setContributionModalData({
         date,
         debates: debatesOnDate,
-        divisions: divisionsOnDate
+        votes: votesOnDate
       });
     }
 
     if (
       debateDates[formattedDate] ||
-      divisionDates[formattedDate] ||
+      voteDates[formattedDate] ||
       attendance[formattedDate]
     ) {
-      if (debateDates[formattedDate] || divisionDates[formattedDate]) {
+      if (debateDates[formattedDate] || voteDates[formattedDate]) {
         return (
           <span className="has-activity">
             <button className="button is-info is-text" onClick={openModal}>
@@ -169,9 +162,7 @@ export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
     return shortDate;
   };
 
-  const dailDivisions = divisions.filter(
-    division => division.house.chamberType === "house"
-  );
+  const dailVotes = votes.filter(vote => vote.house.chamberType === "house");
 
   const attendanceEntries = Object.entries(attendance);
 
@@ -198,29 +189,24 @@ export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
             {activityIsLoading ? (
               "..."
             ) : (
-              <span className="has-text-weight-bold">
-                {dailDivisions.length}
-              </span>
+              <span className="has-text-weight-bold">{dailVotes.length}</span>
             )}{" "}
             out of{" "}
             {activityIsLoading ? (
               "..."
             ) : (
               <span className="has-text-weight-bold">
-                {allDailDivisions.length}
+                {allDailVotes.length}
               </span>
             )}{" "}
             Dáil votes.
           </p>
           <progress
             className="progress is-primary"
-            value={activityIsLoading ? null : dailDivisions.length}
-            max={allDailDivisions.length}
+            value={activityIsLoading ? null : dailVotes.length}
+            max={allDailVotes.length}
           >
-            {((dailDivisions.length / allDailDivisions.length) * 100).toFixed(
-              2
-            )}
-            %
+            {((dailVotes.length / allDailVotes.length) * 100).toFixed(2)}%
           </progress>
 
           {attendanceEntries.length > 0 && (
