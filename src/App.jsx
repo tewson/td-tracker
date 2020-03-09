@@ -19,7 +19,7 @@ import { ActivityCalendar } from "./calendar/ActivityCalendar.jsx";
 
 const SelectTD = () => {
   const history = useHistory();
-  const { houseType, houseNumber, year, tdMemberCode } = useParams();
+  const { houseType, houseTerm, year, tdMemberCode } = useParams();
   const [dailMembers, setDailMembers] = useState([]);
   const [dailMembersIsLoading, setDailMembersIsLoading] = useState(true);
   const [currentTD, setCurrentTD] = useState(null);
@@ -27,30 +27,30 @@ const SelectTD = () => {
   useEffect(() => {
     (async () => {
       setDailMembersIsLoading(true);
-      const fetchedDailMembers = await fetchDailMembers(houseNumber);
+      const fetchedDailMembers = await fetchDailMembers(houseTerm);
       setDailMembers(fetchedDailMembers);
       setDailMembersIsLoading(false);
     })();
-  }, [houseNumber]);
+  }, [houseTerm]);
 
   const handleTDSelect = ({
-    houseNumber: updatedHouseNumber,
+    houseTerm: updatedHouseTerm,
     year: updatedYear,
     td
   }) => {
     const tdPathFragment = td ? `/${td.memberCode}` : "";
-    const yearPathParam = dailTermYearOptionsMap[updatedHouseNumber].includes(
+    const yearPathParam = dailTermYearOptionsMap[updatedHouseTerm].includes(
       updatedYear
     )
       ? updatedYear
-      : dailTermYearOptionsMap[updatedHouseNumber][0];
+      : dailTermYearOptionsMap[updatedHouseTerm][0];
 
-    if (updatedHouseNumber !== houseNumber) {
+    if (updatedHouseTerm !== houseTerm) {
       setDailMembersIsLoading(true);
       setDailMembers([]);
     }
 
-    const targetPath = `/${houseType}/${updatedHouseNumber}/${yearPathParam}${tdPathFragment}`;
+    const targetPath = `/${houseType}/${updatedHouseTerm}/${yearPathParam}${tdPathFragment}`;
     history.push(targetPath);
   };
 
@@ -71,10 +71,10 @@ const SelectTD = () => {
       } else {
         alert(
           `${currentTD.fullName} is not a member of the ${getNumberWithOrdinal(
-            houseNumber
+            houseTerm
           )} Dáil. You will need to select another TD.`
         );
-        return <Redirect to={`/${houseType}/${houseNumber}/${year}`} />;
+        return <Redirect to={`/${houseType}/${houseTerm}/${year}`} />;
       }
     } else if (currentTD) {
       setCurrentTD(null);
@@ -85,7 +85,7 @@ const SelectTD = () => {
     <>
       <TDSelector
         houseType={houseType}
-        houseNumber={houseNumber}
+        houseTerm={houseTerm}
         year={year}
         options={dailMembers}
         optionsLoading={dailMembersIsLoading}
@@ -96,7 +96,7 @@ const SelectTD = () => {
         !dailMembersIsLoading && (
           <ActivityCalendar
             houseType={houseType}
-            houseNumber={houseNumber}
+            houseTerm={houseTerm}
             year={year}
             td={currentTD}
           />
@@ -136,7 +136,7 @@ const App = () => {
             <Route exact path="/">
               <Redirect to="/dail/32/2019" />
             </Route>
-            <Route path="/:houseType/:houseNumber/:year/:tdMemberCode?">
+            <Route path="/:houseType/:houseTerm/:year/:tdMemberCode?">
               <SelectTD />
             </Route>
           </Switch>

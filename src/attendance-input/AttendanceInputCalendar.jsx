@@ -22,7 +22,7 @@ export const AttendanceInputCalendar = ({ td }) => {
         const {
           data: { attendance }
         } = await axios.get(
-          // Shamefully hard-coding the house number and year for now.
+          // Shamefully hard-coding the house term and year for now.
           `/data/dail/32/2019/attendance/${attendanceFilename}`
         );
 

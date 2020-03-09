@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchAttendance = async (
   houseType,
-  houseNumber,
+  houseTerm,
   year,
   memberCode
 ) => {
@@ -11,7 +11,7 @@ export const fetchAttendance = async (
   const {
     data: { attendance, recordDate }
   } = await axios.get(
-    `/data/${houseType}/${houseNumber}/${year}/attendance/${attendanceFilename}`
+    `/data/${houseType}/${houseTerm}/${year}/attendance/${attendanceFilename}`
   );
 
   return { attendance, recordDate };
