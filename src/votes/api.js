@@ -23,12 +23,9 @@ export const fetchVotes = async (term, year, td) => {
   return results.map(result => result.division);
 };
 
-export const fetchAllDailVotes = async (houseNumber, year) => {
-  if (
-    cachedAllDailVotes[houseNumber] &&
-    cachedAllDailVotes[houseNumber][year]
-  ) {
-    return cachedAllDailVotes[houseNumber][year];
+export const fetchAllDailVotes = async (term, year) => {
+  if (cachedAllDailVotes[term] && cachedAllDailVotes[term][year]) {
+    return cachedAllDailVotes[term][year];
   }
 
   const { startOfYear, endOfYear } = getStartAndEndOfYear(year);
@@ -39,17 +36,15 @@ export const fetchAllDailVotes = async (houseNumber, year) => {
     params: {
       date_start: format(startOfYear, "yyyy-MM-dd"),
       date_end: format(endOfYear, "yyyy-MM-dd"),
-      chamber_id: `https://data.oireachtas.ie/ie/oireachtas/house/dail/${houseNumber}`,
+      chamber_id: `https://data.oireachtas.ie/ie/oireachtas/house/dail/${term}`,
       limit: 10000
     }
   });
 
-  if (!cachedAllDailVotes[houseNumber]) {
-    cachedAllDailVotes[houseNumber] = {};
+  if (!cachedAllDailVotes[term]) {
+    cachedAllDailVotes[term] = {};
   }
 
-  cachedAllDailVotes[houseNumber][year] = results.map(
-    result => result.division
-  );
-  return fetchAllDailVotes(houseNumber, year);
+  cachedAllDailVotes[term][year] = results.map(result => result.division);
+  return fetchAllDailVotes(term, year);
 };
