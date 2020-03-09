@@ -3,9 +3,9 @@ import format from "date-fns/format";
 
 import { getStartAndEndOfYear } from "../utils.js";
 
-let cachedAllDailDivisions = {};
+let cachedAllDailVotes = {};
 
-export const fetchDivisions = async (term, year, td) => {
+export const fetchVotes = async (term, year, td) => {
   const { startOfYear, endOfYear } = getStartAndEndOfYear(year);
 
   const {
@@ -23,12 +23,12 @@ export const fetchDivisions = async (term, year, td) => {
   return results.map(result => result.division);
 };
 
-export const fetchAllDailDivisions = async (houseNumber, year) => {
+export const fetchAllDailVotes = async (houseNumber, year) => {
   if (
-    cachedAllDailDivisions[houseNumber] &&
-    cachedAllDailDivisions[houseNumber][year]
+    cachedAllDailVotes[houseNumber] &&
+    cachedAllDailVotes[houseNumber][year]
   ) {
-    return cachedAllDailDivisions[houseNumber][year];
+    return cachedAllDailVotes[houseNumber][year];
   }
 
   const { startOfYear, endOfYear } = getStartAndEndOfYear(year);
@@ -44,12 +44,12 @@ export const fetchAllDailDivisions = async (houseNumber, year) => {
     }
   });
 
-  if (!cachedAllDailDivisions[houseNumber]) {
-    cachedAllDailDivisions[houseNumber] = {};
+  if (!cachedAllDailVotes[houseNumber]) {
+    cachedAllDailVotes[houseNumber] = {};
   }
 
-  cachedAllDailDivisions[houseNumber][year] = results.map(
+  cachedAllDailVotes[houseNumber][year] = results.map(
     result => result.division
   );
-  return fetchAllDailDivisions(houseNumber, year);
+  return fetchAllDailVotes(houseNumber, year);
 };
