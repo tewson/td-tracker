@@ -10,7 +10,7 @@ import { ContributionModal } from "./ContributionModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
 
-export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
+export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
   const [activityIsLoading, setActivityIsLoading] = useState(true);
   const [debates, setDebates] = useState([]);
   const [votes, setVotes] = useState([]);
@@ -26,7 +26,7 @@ export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
 
       const fetchAttendancePromise = fetchAttendance(
         houseType,
-        houseNumber,
+        houseTerm,
         year,
         td.memberCode
       )
@@ -48,9 +48,9 @@ export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
 
       const [attendance, debates, votes, allDailVotes] = await Promise.all([
         fetchAttendancePromise,
-        fetchDebates(houseNumber, year, td),
-        fetchVotes(houseNumber, year, td),
-        fetchAllDailVotes(houseNumber, year)
+        fetchDebates(houseTerm, year, td),
+        fetchVotes(houseTerm, year, td),
+        fetchAllDailVotes(houseTerm, year)
       ]);
 
       setAttendance(attendance);
@@ -61,7 +61,7 @@ export const ActivityCalendar = ({ houseType, houseNumber, year, td }) => {
     };
 
     fetchActivityData();
-  }, [houseType, houseNumber, year, td]);
+  }, [houseType, houseTerm, year, td]);
 
   const debateDates = debates.reduce((debateDatesAcc, debate) => {
     if (debateDatesAcc[debate.debateRecord.date]) {

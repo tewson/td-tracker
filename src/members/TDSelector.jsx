@@ -41,7 +41,7 @@ const TDSelectorResult = ({ result, highlightedText, onSelect }) => {
 
 export const TDSelector = ({
   houseType,
-  houseNumber,
+  houseTerm,
   year,
   options,
   optionsLoading,
@@ -74,9 +74,9 @@ export const TDSelector = ({
     setSearchTDResults(searchTD(value));
   };
 
-  const handleHouseTermChange = ({ target: { value: term } }) => {
+  const handleHouseTermChange = ({ target: { value: houseTerm } }) => {
     onChange({
-      houseNumber: term,
+      houseTerm,
       year,
       td: selectedTD
     });
@@ -84,7 +84,7 @@ export const TDSelector = ({
 
   const handleYearChange = ({ target: { value: year } }) => {
     onChange({
-      houseNumber,
+      houseTerm,
       year,
       td: selectedTD
     });
@@ -94,7 +94,7 @@ export const TDSelector = ({
     setKeyword(td.fullName);
     setSearchTDResults([]);
     onChange({
-      houseNumber,
+      houseTerm,
       year,
       td
     });
@@ -123,7 +123,7 @@ export const TDSelector = ({
             <div className="select is-fullwidth">
               <select
                 id="house-term"
-                value={houseNumber}
+                value={houseTerm}
                 onChange={handleHouseTermChange}
               >
                 <option value="32">32</option>
@@ -139,7 +139,7 @@ export const TDSelector = ({
             </label>
             <div className="select is-fullwidth">
               <select id="year" value={year} onChange={handleYearChange}>
-                {dailTermYearOptionsMap[houseNumber].map(year => (
+                {dailTermYearOptionsMap[houseTerm].map(year => (
                   <option key={year} value={year}>
                     {year}
                   </option>
