@@ -16,8 +16,8 @@ export const AboutModal = ({ modalIsOpen, closeModal }) => {
           <div className="content">
             <h4>What's New</h4>
             <h5 className="whats-new-version">
-              1.0.0 Beta 2{" "}
-              <span className="whats-new-version-date">(2020-03-08)</span>
+              1.0.0 Beta 3{" "}
+              <span className="whats-new-version-date">(2020-03-10)</span>
             </h5>
             <ul>
               <li>We can now view data on members of the 33rd Dáil!</li>
@@ -26,6 +26,7 @@ export const AboutModal = ({ modalIsOpen, closeModal }) => {
                 both the code and the data is shareable and reuseable.
               </li>
               <li>The calendar now shows latest month first.</li>
+              <li>There is now a link to the source of attendance data.</li>
             </ul>
             <p className="has-text-right">
               <a href="https://github.com/tewson/td-tracker/blob/master/CHANGELOG.md">
