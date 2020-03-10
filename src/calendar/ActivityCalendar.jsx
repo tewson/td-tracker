@@ -30,18 +30,23 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
         year,
         td.memberCode
       )
-        .then(({ attendance, recordDate }) => {
+        .then(({ attendance, recordDate, source }) => {
           setAttendanceRecordDate(recordDate);
           setMessage(
             <>
               <p>
                 <span className="has-text-weight-bold">Attendance:</span>{" "}
-                {Object.keys(attendance).length} days as of {recordDate}
+                {Object.keys(attendance).length} days<sup>*</sup> as of{" "}
+                {recordDate}
+              </p>
+              <p className="is-size-7 attendance-source-container">
+                Source:{" "}
+                <a href={source}>Oireachtas records of attendance for TAA</a>
               </p>
               <p className="is-size-7">
                 <span className="has-text-weight-bold">*</span> TDs are required
                 to report only 120 days of attendance in order to claim full
-                travel and accommodation allowance.{" "}
+                travel and accommodation allowance (TAA).{" "}
                 <a
                   href="https://www.oireachtas.ie/en/members/salaries-and-allowances/parliamentary-standard-allowances/"
                   style={{ whiteSpace: "nowrap" }}
