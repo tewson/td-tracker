@@ -65,6 +65,10 @@
   border-color: #dbdbdb;
 }
 
+.attendance-source-container {
+  margin-bottom: 0.25rem;
+}
+
 .legend .button,
 .table td .has-activity .button {
   padding: 1px 8px;
