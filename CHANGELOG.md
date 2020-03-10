@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0-beta.3] - 2020-03-10
+
+### Added
+
+- Disclaimer on the 120 days cap on reported attendance.
+- Link to the source attendance records.
+
+### Changed
+
+- More consistent terminology (for example, "vote" instead of "division") across the UI and code.
+
 ## [1.0.0-beta.2] - 2020-03-08
 
 ### Added
@@ -36,7 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Activity calendar.
 - Data entry mode for attendance.
 
-[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.2...HEAD
+[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.3...HEAD
+[1.0.0-beta.3]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.2
 [1.0.0-beta.1]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.1
 [1.0.0-beta.0]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.0
