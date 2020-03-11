@@ -16,25 +16,17 @@ const hasInvalidDate = dates => {
 const getAttendanceDatesByType = (attendance, type) => {
   const baseDate = new Date();
 
-  return Object.keys(attendance)
-    .filter(dateString => attendance[dateString] === type)
+  return attendance[type]
     .map(dateString => parse(dateString, "yyyy-MM-dd", baseDate))
     .sort((a, b) => compareAsc(a, b))
     .map(date => format(date, "dd/MM/yyyy"))
     .join("\n");
 };
 
-const getAttendanceFromDateStrings = (dateStrings, type) => {
-  return dateStrings
-    .map(dateString =>
-      convertDateFormat(dateString, "dd/MM/yyyy", "yyyy-MM-dd")
-    )
-    .reduce((acc, date) => {
-      return {
-        ...acc,
-        [date]: type
-      };
-    }, {});
+const convertAttendanceDateStrings = dateStrings => {
+  return dateStrings.map(dateString =>
+    convertDateFormat(dateString, "dd/MM/yyyy", "yyyy-MM-dd")
+  );
 };
 
 const convertDateFormat = (date, initialFormat, targetFormat) => {
@@ -107,18 +99,14 @@ export const AttendanceInputText = ({ td }) => {
       : [];
 
     if (!hasInvalidDate(sittingDays) && !hasInvalidDate(nonSittingDays)) {
-      const sittingDayAttendance = getAttendanceFromDateStrings(
-        sittingDays,
-        ATTENDANCE_TYPE.SITTING
-      );
-      const nonSittingDayAttendance = getAttendanceFromDateStrings(
-        nonSittingDays,
-        ATTENDANCE_TYPE.OTHER
+      const sittingDayAttendance = convertAttendanceDateStrings(sittingDays);
+      const nonSittingDayAttendance = convertAttendanceDateStrings(
+        nonSittingDays
       );
 
       const attendance = {
-        ...sittingDayAttendance,
-        ...nonSittingDayAttendance
+        [ATTENDANCE_TYPE.SITTING]: sittingDayAttendance,
+        [ATTENDANCE_TYPE.OTHER]: nonSittingDayAttendance
       };
 
       downloadAttendanceFile(attendanceFilename, attendance);
