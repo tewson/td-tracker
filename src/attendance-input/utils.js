@@ -4,11 +4,15 @@ import {
 } from "./constants";
 
 export const downloadAttendanceFile = (filename, attendance) => {
-  const attendanceFileContent = JSON.stringify({
-    source: DEFAULT_ATTENDANCE_SOURCE_URL,
-    recordDate: DEFAULT_ATTENDANCE_RECORD_DATE,
-    attendance
-  });
+  const attendanceFileContent = JSON.stringify(
+    {
+      source: DEFAULT_ATTENDANCE_SOURCE_URL,
+      recordDate: DEFAULT_ATTENDANCE_RECORD_DATE,
+      attendance
+    },
+    null,
+    2
+  );
   const attendanceFileBlob = new Blob([attendanceFileContent], {
     type: "application/json"
   });

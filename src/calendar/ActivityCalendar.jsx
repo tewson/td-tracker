@@ -9,6 +9,17 @@ import { fetchVotes, fetchAllDailVotes } from "../votes/api.js";
 import { ContributionModal } from "./ContributionModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
+import { ATTENDANCE_TYPE } from "../attendance/constants.js";
+
+const getDateAttendanceTypeMap = (attendanceDates, type) => {
+  return attendanceDates.reduce(
+    (acc, attendanceDate) => ({
+      ...acc,
+      [attendanceDate]: type
+    }),
+    {}
+  );
+};
 
 export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
   const [activityIsLoading, setActivityIsLoading] = useState(true);
@@ -31,13 +42,16 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
         td.memberCode
       )
         .then(({ attendance, recordDate, source }) => {
+          const totalAttendanceDaysCount = Object.values(
+            ATTENDANCE_TYPE
+          ).reduce((acc, type) => (acc += attendance[type].length), 0);
+
           setAttendanceRecordDate(recordDate);
           setMessage(
             <>
               <p>
                 <span className="has-text-weight-bold">Attendance:</span>{" "}
-                {Object.keys(attendance).length} days<sup>*</sup> as of{" "}
-                {recordDate}
+                {totalAttendanceDaysCount} days<sup>*</sup> as of {recordDate}
               </p>
               <p className="is-size-7 attendance-source-container">
                 Source:{" "}
@@ -62,19 +76,38 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
           if (error.response.status === 403 || error.response.status === 404) {
             console.warn(`Attendance data for ${td.memberCode} not available.`);
             setMessage("No attendance data available yet.");
-            return {};
+            return Object.values(ATTENDANCE_TYPE).reduce(
+              (acc, type) => ({ ...acc, [type]: [] }),
+              {}
+            );
           } else {
             console.error(error);
             throw error;
           }
         });
 
-      const [attendance, debates, votes, allDailVotes] = await Promise.all([
+      const [
+        fetchedAttendance,
+        debates,
+        votes,
+        allDailVotes
+      ] = await Promise.all([
         fetchAttendancePromise,
         fetchDebates(houseTerm, year, td),
         fetchVotes(houseTerm, year, td),
         fetchAllDailVotes(houseTerm, year)
       ]);
+
+      const attendance = {
+        ...getDateAttendanceTypeMap(
+          fetchedAttendance[ATTENDANCE_TYPE.SITTING],
+          ATTENDANCE_TYPE.SITTING
+        ),
+        ...getDateAttendanceTypeMap(
+          fetchedAttendance[ATTENDANCE_TYPE.OTHER],
+          ATTENDANCE_TYPE.OTHER
+        )
+      };
 
       setAttendance(attendance);
       setDebates(debates);
@@ -191,7 +224,7 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
 
   const sittingDayAttendanceCount = attendanceEntries.reduce(
     (count, [_, attendanceType]) => {
-      if (attendanceType === "SITTING") {
+      if (attendanceType === ATTENDANCE_TYPE.SITTING) {
         return count + 1;
       }
 
