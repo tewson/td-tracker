@@ -1,6 +1,12 @@
 # TD Tracker (working title)
 
-A calendar view of your representative's contributions to the Oireachtas.
+The Oireachtas website is very useful for browsing TDs' contributions. However, it lacks 2 things:
+
+1. Easily accessible attendance data, and
+2. High level summary on a TD's contributions and attendance.
+
+This project aims to provide both things.
+We do that by first making the published attendance records more machine-readable (while still relatively human-readable). We then link attendance data to contribution data and present it in a single calendar view.
 
 ## Getting Started
 
