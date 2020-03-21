@@ -1,4 +1,5 @@
 # TD Tracker (working title)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8c113750-4ed6-4aff-9bdf-98c88be722d6/deploy-status)](https://app.netlify.com/sites/td-tracker-beta/deploys)
 
 The [Oireachtas website](https://www.oireachtas.ie/) is very useful for browsing TDs' contributions. However, it lacks 2 things:
 
