@@ -20,6 +20,7 @@ const AttendanceInput = () => {
         <h1 className="title">TD Attendance Input</h1>
         <TDSelector
           houseTerm="32"
+          year="2020"
           options={tdSelectorOptions}
           onChange={({ td }) => setSelectedTD(td)}
         />

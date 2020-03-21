@@ -9,8 +9,7 @@ import { AttendanceInputMeta } from "./AttendanceInputMeta.jsx";
 import { AttendanceInputSave } from "./AttendanceInputSave.jsx";
 
 const hasInvalidDate = dates => {
-  console.log(dates.some(date => !/^\d{2}\/\d{2}\/2019$/.test(date)));
-  return dates.some(date => !/^\d{2}\/\d{2}\/2019$/.test(date));
+  return dates.some(date => !/^\d{2}\/\d{2}\/2020$/.test(date));
 };
 
 const getAttendanceDatesByType = (attendance, type) => {
@@ -54,7 +53,7 @@ export const AttendanceInputText = ({ td }) => {
           data: { attendance }
         } = await axios.get(
           // Shamefully hard-coding the house term and year for now.
-          `/data/dail/32/2019/attendance/${attendanceFilename}`
+          `/data/dail/32/2020/attendance/${attendanceFilename}`
         );
 
         const sittingDaysInputFromFile = getAttendanceDatesByType(
