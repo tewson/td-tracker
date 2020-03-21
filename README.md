@@ -1,6 +1,6 @@
 # TD Tracker (working title)
 
-The Oireachtas website is very useful for browsing TDs' contributions. However, it lacks 2 things:
+The [Oireachtas website](https://www.oireachtas.ie/) is very useful for browsing TDs' contributions. However, it lacks 2 things:
 
 1. Easily accessible attendance data, and
 2. High level summary on a TD's contributions and attendance.
