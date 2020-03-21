@@ -9,6 +9,17 @@ import { fetchVotes, fetchAllDailVotes } from "../votes/api.js";
 import { ContributionModal } from "./ContributionModal.jsx";
 
 import "react-popper-tooltip/dist/styles.css";
+import { ATTENDANCE_TYPE } from "../attendance/constants.js";
+
+const getDateAttendanceTypeMap = (attendanceDates, type) => {
+  return attendanceDates.reduce(
+    (acc, attendanceDate) => ({
+      ...acc,
+      [attendanceDate]: type
+    }),
+    {}
+  );
+};
 
 export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
   const [activityIsLoading, setActivityIsLoading] = useState(true);
@@ -16,6 +27,10 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
   const [votes, setVotes] = useState([]);
   const [allDailVotes, setAllDailVotes] = useState([]);
   const [attendanceRecordDate, setAttendanceRecordDate] = useState("");
+  const [
+    numberOfSittingDaysInPeriod,
+    setNumberOfSittingDaysInPeriod
+  ] = useState(0);
   const [attendance, setAttendance] = useState({});
   const [contributionModalData, setContributionModalData] = useState(null);
   const [message, setMessage] = useState();
@@ -30,51 +45,76 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
         year,
         td.memberCode
       )
-        .then(({ attendance, recordDate, source }) => {
-          setAttendanceRecordDate(recordDate);
-          setMessage(
-            <>
-              <p>
-                <span className="has-text-weight-bold">Attendance:</span>{" "}
-                {Object.keys(attendance).length} days<sup>*</sup> as of{" "}
-                {recordDate}
-              </p>
-              <p className="is-size-7 attendance-source-container">
-                Source:{" "}
-                <a href={source}>Oireachtas records of attendance for TAA</a>
-              </p>
-              <p className="is-size-7">
-                <span className="has-text-weight-bold">*</span> TDs are required
-                to report only 120 days of attendance in order to claim full
-                travel and accommodation allowance (TAA).{" "}
-                <a
-                  href="https://www.oireachtas.ie/en/members/salaries-and-allowances/parliamentary-standard-allowances/"
-                  style={{ whiteSpace: "nowrap" }}
-                >
-                  Read more
-                </a>
-              </p>
-            </>
-          );
-          return attendance;
-        })
+        .then(
+          ({ attendance, numberOfSittingDaysInPeriod, recordDate, source }) => {
+            const totalAttendanceDaysCount = Object.values(
+              ATTENDANCE_TYPE
+            ).reduce((acc, type) => (acc += attendance[type].length), 0);
+
+            setAttendanceRecordDate(recordDate);
+            setNumberOfSittingDaysInPeriod(numberOfSittingDaysInPeriod);
+            setMessage(
+              <>
+                <p>
+                  <span className="has-text-weight-bold">Attendance:</span>{" "}
+                  {totalAttendanceDaysCount} days<sup>*</sup> as of {recordDate}
+                </p>
+                <p className="is-size-7 attendance-source-container">
+                  Source:{" "}
+                  <a href={source}>Oireachtas records of attendance for TAA</a>
+                </p>
+                <p className="is-size-7">
+                  <span className="has-text-weight-bold">*</span> TDs are
+                  required to report only 120 days of attendance in order to
+                  claim full travel and accommodation allowance (TAA).{" "}
+                  <a
+                    href="https://www.oireachtas.ie/en/members/salaries-and-allowances/parliamentary-standard-allowances/"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Read more
+                  </a>
+                </p>
+              </>
+            );
+            return attendance;
+          }
+        )
         .catch(error => {
           if (error.response.status === 403 || error.response.status === 404) {
             console.warn(`Attendance data for ${td.memberCode} not available.`);
             setMessage("No attendance data available yet.");
-            return {};
+            return Object.values(ATTENDANCE_TYPE).reduce(
+              (acc, type) => ({ ...acc, [type]: [] }),
+              {}
+            );
           } else {
             console.error(error);
             throw error;
           }
         });
 
-      const [attendance, debates, votes, allDailVotes] = await Promise.all([
+      const [
+        fetchedAttendance,
+        debates,
+        votes,
+        allDailVotes
+      ] = await Promise.all([
         fetchAttendancePromise,
         fetchDebates(houseTerm, year, td),
         fetchVotes(houseTerm, year, td),
         fetchAllDailVotes(houseTerm, year)
       ]);
+
+      const attendance = {
+        ...getDateAttendanceTypeMap(
+          fetchedAttendance[ATTENDANCE_TYPE.SITTING],
+          ATTENDANCE_TYPE.SITTING
+        ),
+        ...getDateAttendanceTypeMap(
+          fetchedAttendance[ATTENDANCE_TYPE.OTHER],
+          ATTENDANCE_TYPE.OTHER
+        )
+      };
 
       setAttendance(attendance);
       setDebates(debates);
@@ -191,7 +231,7 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
 
   const sittingDayAttendanceCount = attendanceEntries.reduce(
     (count, [_, attendanceType]) => {
-      if (attendanceType === "SITTING") {
+      if (attendanceType === ATTENDANCE_TYPE.SITTING) {
         return count + 1;
       }
 
@@ -243,8 +283,11 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
                     {sittingDayAttendanceCount}
                   </span>
                 )}{" "}
-                out of <span className="has-text-weight-bold">101</span> sitting
-                days.
+                out of{" "}
+                <span className="has-text-weight-bold">
+                  {numberOfSittingDaysInPeriod}
+                </span>{" "}
+                sitting days.
               </p>
               <p className="is-size-7">
                 ({year}-01-01 - {attendanceRecordDate})
@@ -252,9 +295,13 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
               <progress
                 className="progress is-primary"
                 value={activityIsLoading ? null : sittingDayAttendanceCount}
-                max={101}
+                max={numberOfSittingDaysInPeriod}
               >
-                {((sittingDayAttendanceCount / 101) * 100).toFixed(2)}%
+                {(
+                  (sittingDayAttendanceCount / numberOfSittingDaysInPeriod) *
+                  100
+                ).toFixed(2)}
+                %
               </progress>
               <p>
                 {activityIsLoading ? (

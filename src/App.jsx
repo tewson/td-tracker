@@ -124,7 +124,7 @@ const App = () => {
         <div className="container">
           <h1 className="title">
             <Link to="/">TD Tracker</Link>{" "}
-            <span className="tag is-warning">BETA 3</span>
+            <span className="tag is-warning">BETA 4</span>
             <button
               className="button is-text is-pulled-right"
               onClick={openAboutModal}

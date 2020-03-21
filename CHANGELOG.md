@@ -2,10 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+
+## [1.0.0-beta.4] - 2020-03-21
+
+### Added
+
+- Attendance data for members of the 32nd Dáil for January 2020 was added.
+
+### Changed
+
+- Attendance data files are reformatted to be more human-readable and more similar to the published attendance reports.
+- Number of sitting days in each attendance report period is no longer hard-coded and is now part of attendance data files.
+
+### Removed
+
+- Mention of semantic versioning is removed because this project is not a dependency of another project, therefore semantic versioning is not really relevant.
+
+### Security
+
+- Packages are updated based on npm audit.
 
 ## [1.0.0-beta.3] - 2020-03-10
 
@@ -47,7 +65,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Activity calendar.
 - Data entry mode for attendance.
 
-[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.3...HEAD
+[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.4...HEAD
+[1.0.0-beta.4]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.2
 [1.0.0-beta.1]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.1
