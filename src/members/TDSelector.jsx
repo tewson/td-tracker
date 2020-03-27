@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import classnames from "classnames";
+import Downshift from "downshift";
 
 import { dailTermYearOptionsMap } from "../constants.js";
 
@@ -9,11 +10,12 @@ const normalizeString = name =>
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 
-const TDSelectorResult = ({ result, highlightedText, onSelect }) => {
-  const handleResultClickEvent = () => {
-    onSelect(result);
-  };
-
+const TDSelectorResult = ({
+  result,
+  focused,
+  highlightedText,
+  ...downshiftProps
+}) => {
   const highlightStartIndex = normalizeString(result.fullName).indexOf(
     normalizeString(highlightedText)
   );
@@ -30,12 +32,14 @@ const TDSelectorResult = ({ result, highlightedText, onSelect }) => {
   );
 
   return (
-    <button
-      className="button is-text dropdown-item"
-      onClick={handleResultClickEvent}
+    <a
+      className={classnames("button is-text dropdown-item", {
+        "has-background-grey-light": focused
+      })}
+      {...downshiftProps}
     >
       {content}
-    </button>
+    </a>
   );
 };
 
@@ -91,13 +95,15 @@ export const TDSelector = ({
   };
 
   const handleTDSelect = td => {
-    setKeyword(td.fullName);
-    setSearchTDResults([]);
-    onChange({
-      houseTerm,
-      year,
-      td
-    });
+    if (td) {
+      setKeyword(td.fullName);
+      setSearchTDResults([]);
+      onChange({
+        houseTerm,
+        year,
+        td
+      });
+    }
   };
 
   return (
@@ -150,42 +156,63 @@ export const TDSelector = ({
         </div>
       </div>
 
-      <div className="field">
-        <label className="label" htmlFor="td-name">
-          Name
-        </label>
-        <div
-          className={classnames("control", {
-            "is-loading": optionsLoading
-          })}
-        >
-          <input
-            disabled={optionsLoading}
-            id="td-name"
-            className="input"
-            type="text"
-            placeholder="Search TDs..."
-            value={keyword}
-            onChange={handleKeywordChangeEvent}
-          />
-        </div>
-      </div>
-      {searchTDResults.length > 0 && (
-        <div className="dropdown is-active">
-          <div className="dropdown-menu">
-            <div className="dropdown-content">
-              {searchTDResults.map(result => (
-                <TDSelectorResult
-                  key={result.uri}
-                  result={result}
-                  highlightedText={keyword}
-                  onSelect={handleTDSelect}
+      <Downshift
+        onChange={handleTDSelect}
+        itemToString={item => (item ? item.fullName : "")}
+      >
+        {({
+          getLabelProps,
+          getInputProps,
+          getItemProps,
+          getMenuProps,
+          highlightedIndex
+        }) => {
+          return (
+            <div className="field">
+              <label className="label" {...getLabelProps()}>
+                Name
+              </label>
+              <div
+                className={classnames("control", {
+                  "is-loading": optionsLoading
+                })}
+              >
+                <input
+                  {...getInputProps()}
+                  disabled={optionsLoading}
+                  className="input"
+                  type="text"
+                  placeholder="Search TDs..."
+                  value={keyword}
+                  onChange={handleKeywordChangeEvent}
                 />
-              ))}
+              </div>
+              {searchTDResults.length > 0 && (
+                <div className="dropdown is-active">
+                  <div className="dropdown-menu">
+                    <div className="dropdown-content" {...getMenuProps()}>
+                      {searchTDResults.map((result, index) => {
+                        return (
+                          <TDSelectorResult
+                            {...getItemProps({
+                              key: result.uri,
+                              index,
+                              item: result
+                            })}
+                            result={result}
+                            focused={highlightedIndex === index}
+                            highlightedText={keyword}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      )}
+          );
+        }}
+      </Downshift>
     </>
   );
 };
