@@ -178,7 +178,13 @@ export const TDSelector = ({
                 })}
               >
                 <input
-                  {...getInputProps()}
+                  {...getInputProps({
+                    onKeyDown: event => {
+                      if (event.key === "Home" || event.key === "End") {
+                        event.nativeEvent.preventDownshiftDefault = true;
+                      }
+                    }
+                  })}
                   disabled={optionsLoading}
                   className="input"
                   type="text"
