@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [1.0.0-beta.5] - 2020-03-30
+
+### Added
+
+- The TD select input now has keyboard support.
+
 ## [1.0.0-beta.4] - 2020-03-21
 
 ### Added
@@ -65,7 +71,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Activity calendar.
 - Data entry mode for attendance.
 
-[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.4...HEAD
+[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.5...HEAD
+[1.0.0-beta.5]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.5
 [1.0.0-beta.4]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.2
