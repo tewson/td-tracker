@@ -16,8 +16,8 @@ export const AboutModal = ({ modalIsOpen, closeModal }) => {
           <div className="content">
             <h4>What's New</h4>
             <h5 className="whats-new-version">
-              1.0.0 Beta 4{" "}
-              <span className="whats-new-version-date">(2020-03-21)</span>
+              1.0.0 Beta 5{" "}
+              <span className="whats-new-version-date">(2020-03-30)</span>
             </h5>
             <ul>
               <li>We can now view data on members of the 33rd Dáil!</li>
