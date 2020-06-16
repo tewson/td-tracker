@@ -1,0 +1,20 @@
+{
+  "source": "https://data.oireachtas.ie/ie/oireachtas/members/recordAttendanceForTaa/2020/2020-04-01_deputies-verification-of-attendance-for-the-payment-of-taa-8-feb-to-29-feb-2020_en.pdf",
+  "recordDate": "2020-02-29",
+  "attendance": {
+    "sitting": [
+      "2020-02-20"
+    ],
+    "other": [
+      "2020-02-12",
+      "2020-02-17",
+      "2020-02-18",
+      "2020-02-19",
+      "2020-02-21",
+      "2020-02-25",
+      "2020-02-26",
+      "2020-02-27"
+    ]
+  },
+  "numberOfSittingDaysInPeriod": 1
+}
