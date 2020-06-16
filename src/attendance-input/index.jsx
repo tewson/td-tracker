@@ -4,7 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 import "react-tabs/style/react-tabs.css";
 
-import dailMembers from "../../data/dail/32/members.json";
+import dailMembers from "../../data/dail/33/members.json";
 import { TDSelector } from "../members/TDSelector.jsx";
 import { AttendanceInputText } from "./AttendanceInputText.jsx";
 import { AttendanceInputCalendar } from "./AttendanceInputCalendar.jsx";
@@ -19,7 +19,7 @@ const AttendanceInput = () => {
       <div className="container">
         <h1 className="title">TD Attendance Input</h1>
         <TDSelector
-          houseTerm="32"
+          houseTerm="33"
           year="2020"
           options={tdSelectorOptions}
           onChange={({ td }) => setSelectedTD(td)}
