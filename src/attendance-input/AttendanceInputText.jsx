@@ -53,7 +53,7 @@ export const AttendanceInputText = ({ td }) => {
           data: { attendance }
         } = await axios.get(
           // Shamefully hard-coding the house term and year for now.
-          `/data/dail/32/2020/attendance/${attendanceFilename}`
+          `/data/dail/33/2020/attendance/${attendanceFilename}`
         );
 
         const sittingDaysInputFromFile = getAttendanceDatesByType(
