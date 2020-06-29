@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [1.0.0-beta.6] - 2020-06-30
+
+### Added
+
+- Attendance data for members of the 33rd Dáil up until February 2020 was added.
+
+### Changed
+
+- The home page search form inputs are now default to the 33rd Dáil.
+
 ## [1.0.0-beta.5] - 2020-03-30
 
 ### Added
@@ -71,7 +81,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Activity calendar.
 - Data entry mode for attendance.
 
-[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.5...HEAD
+[unreleased]: https://github.com/tewson/td-tracker/compare/v1.0.0-beta.6...HEAD
+[1.0.0-beta.6]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.6
 [1.0.0-beta.5]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.5
 [1.0.0-beta.4]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/tewson/td-tracker/releases/tag/v1.0.0-beta.3
