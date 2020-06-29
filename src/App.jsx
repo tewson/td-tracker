@@ -134,7 +134,7 @@ const App = () => {
           </h1>
           <Switch>
             <Route exact path="/">
-              <Redirect to="/dail/32/2019" />
+              <Redirect to="/dail/33/2020" />
             </Route>
             <Route path="/:houseType/:houseTerm/:year/:tdMemberCode?">
               <SelectTD />
