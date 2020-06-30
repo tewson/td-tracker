@@ -1,6 +1,6 @@
 {
   "name": "td-tracker",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "Track your TD",
   "main": "index.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "webpack": "^4.41.2",
     "webpack-bundle-analyzer": "^3.6.1",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.9.0"
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.7.6",

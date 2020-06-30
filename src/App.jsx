@@ -124,7 +124,7 @@ const App = () => {
         <div className="container">
           <h1 className="title">
             <Link to="/">TD Tracker</Link>{" "}
-            <span className="tag is-warning">BETA 5</span>
+            <span className="tag is-warning">BETA 6</span>
             <button
               className="button is-text is-pulled-right"
               onClick={openAboutModal}
@@ -134,7 +134,7 @@ const App = () => {
           </h1>
           <Switch>
             <Route exact path="/">
-              <Redirect to="/dail/32/2019" />
+              <Redirect to="/dail/33/2020" />
             </Route>
             <Route path="/:houseType/:houseTerm/:year/:tdMemberCode?">
               <SelectTD />
