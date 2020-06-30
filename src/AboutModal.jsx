@@ -16,14 +16,14 @@ export const AboutModal = ({ modalIsOpen, closeModal }) => {
           <div className="content">
             <h4>What's New</h4>
             <h5 className="whats-new-version">
-              1.0.0 Beta 5{" "}
+              1.0.0 Beta 6{" "}
               <span className="whats-new-version-date">(2020-03-30)</span>
             </h5>
             <ul>
               <li>We can now view data on members of the 33rd Dáil!</li>
               <li>
-                Attendance data for members of the 32nd Dáil for January 2020
-                was added.
+                Attendance data for members of the 33nd Dáil up until February
+                2020 was added.
               </li>
             </ul>
             <p className="has-text-right">
