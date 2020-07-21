@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { format, isSameMonth } from "date-fns";
 
 import { Calendar } from "./Calendar.jsx";
@@ -31,6 +31,7 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
     numberOfSittingDaysInPeriod,
     setNumberOfSittingDaysInPeriod
   ] = useState(0);
+  const [attendanceDisplayed, setAttendanceDisplayed] = useState(false);
   const [attendance, setAttendance] = useState({});
   const [contributionModalData, setContributionModalData] = useState(null);
   const [message, setMessage] = useState();
@@ -39,17 +40,37 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
     const fetchActivityData = async () => {
       setActivityIsLoading(true);
 
-      const fetchAttendancePromise = fetchAttendance(
-        houseType,
-        houseTerm,
-        year,
-        td.memberCode
-      )
+      const [debates, votes, allDailVotes] = await Promise.all([
+        fetchDebates(houseTerm, year, td),
+        fetchVotes(houseTerm, year, td),
+        fetchAllDailVotes(houseTerm, year)
+      ]);
+
+      setDebates(debates);
+      setVotes(votes);
+      setAllDailVotes(allDailVotes);
+      setActivityIsLoading(false);
+    };
+
+    fetchActivityData();
+  }, [houseType, houseTerm, year, td]);
+
+  const toggleAttendance = useCallback(() => {
+    if (attendanceDisplayed) {
+      setAttendance({});
+      setAttendanceDisplayed(false);
+    } else {
+      fetchAttendance(houseType, houseTerm, year, td.memberCode)
         .then(
-          ({ attendance, numberOfSittingDaysInPeriod, recordDate, source }) => {
+          ({
+            attendance: fetchedAttendance,
+            numberOfSittingDaysInPeriod,
+            recordDate,
+            source
+          }) => {
             const totalAttendanceDaysCount = Object.values(
               ATTENDANCE_TYPE
-            ).reduce((acc, type) => (acc += attendance[type].length), 0);
+            ).reduce((acc, type) => (acc += fetchedAttendance[type].length), 0);
 
             setAttendanceRecordDate(recordDate);
             setNumberOfSittingDaysInPeriod(numberOfSittingDaysInPeriod);
@@ -76,7 +97,20 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
                 </p>
               </>
             );
-            return attendance;
+
+            const attendanceMap = {
+              ...getDateAttendanceTypeMap(
+                fetchedAttendance[ATTENDANCE_TYPE.SITTING],
+                ATTENDANCE_TYPE.SITTING
+              ),
+              ...getDateAttendanceTypeMap(
+                fetchedAttendance[ATTENDANCE_TYPE.OTHER],
+                ATTENDANCE_TYPE.OTHER
+              )
+            };
+
+            setAttendance(attendanceMap);
+            setAttendanceDisplayed(true);
           }
         )
         .catch(error => {
@@ -89,42 +123,10 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
             );
           } else {
             console.error(error);
-            throw error;
           }
         });
-
-      const [
-        fetchedAttendance,
-        debates,
-        votes,
-        allDailVotes
-      ] = await Promise.all([
-        fetchAttendancePromise,
-        fetchDebates(houseTerm, year, td),
-        fetchVotes(houseTerm, year, td),
-        fetchAllDailVotes(houseTerm, year)
-      ]);
-
-      const attendance = {
-        ...getDateAttendanceTypeMap(
-          fetchedAttendance[ATTENDANCE_TYPE.SITTING],
-          ATTENDANCE_TYPE.SITTING
-        ),
-        ...getDateAttendanceTypeMap(
-          fetchedAttendance[ATTENDANCE_TYPE.OTHER],
-          ATTENDANCE_TYPE.OTHER
-        )
-      };
-
-      setAttendance(attendance);
-      setDebates(debates);
-      setVotes(votes);
-      setAllDailVotes(allDailVotes);
-      setActivityIsLoading(false);
-    };
-
-    fetchActivityData();
-  }, [houseType, houseTerm, year, td]);
+    }
+  }, [attendanceDisplayed, houseTerm, houseType, td.memberCode, year]);
 
   const debateDates = debates.reduce((debateDatesAcc, debate) => {
     if (debateDatesAcc[debate.debateRecord.date]) {
@@ -245,6 +247,16 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
 
   return (
     <>
+      <div className="has-text-right">
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            value={attendanceDisplayed}
+            onChange={toggleAttendance}
+          />{" "}
+          Attendance data
+        </label>
+      </div>
       <div className="box activity-calendar-summary">
         <div className="content">
           <p>
@@ -329,21 +341,23 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
           )}
         </div>
       </div>
-      {message && (
+      {message && attendanceDisplayed && (
         <div className="notification activity-calendar-notification">
           {message}
         </div>
       )}
-      <div className="legend">
-        <div className="legend-item">
-          <button className="button is-info">&nbsp;&nbsp;</button>
-          <span className="legend-label">Contributions</span>
+      {attendanceDisplayed && (
+        <div className="legend">
+          <div className="legend-item">
+            <button className="button is-info">&nbsp;&nbsp;</button>
+            <span className="legend-label">Contributions</span>
+          </div>
+          <div className="legend-item">
+            <button className="button is-dark">&nbsp;&nbsp;</button>
+            <span className="legend-label">Attendance</span>
+          </div>
         </div>
-        <div className="legend-item">
-          <button className="button is-dark">&nbsp;&nbsp;</button>
-          <span className="legend-label">Attendance</span>
-        </div>
-      </div>
+      )}
       <Calendar renderDate={renderDateWithActivityHighlight} />
       <ContributionModal
         data={contributionModalData}
