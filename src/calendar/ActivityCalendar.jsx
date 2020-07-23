@@ -55,11 +55,8 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
     fetchActivityData();
   }, [houseType, houseTerm, year, td]);
 
-  const toggleAttendance = useCallback(() => {
-    if (attendanceDisplayed) {
-      setAttendance({});
-      setAttendanceDisplayed(false);
-    } else {
+  useEffect(() => {
+    const fetchAndOverlayAttendance = () => {
       fetchAttendance(houseType, houseTerm, year, td.memberCode)
         .then(
           ({
@@ -110,23 +107,32 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
             };
 
             setAttendance(attendanceMap);
-            setAttendanceDisplayed(true);
           }
         )
         .catch(error => {
           if (error.response.status === 403 || error.response.status === 404) {
             console.warn(`Attendance data for ${td.memberCode} not available.`);
             setMessage("No attendance data available yet.");
-            return Object.values(ATTENDANCE_TYPE).reduce(
-              (acc, type) => ({ ...acc, [type]: [] }),
-              {}
-            );
+            setAttendance({});
           } else {
             console.error(error);
           }
         });
+    };
+
+    if (attendanceDisplayed) {
+      fetchAndOverlayAttendance();
     }
   }, [attendanceDisplayed, houseTerm, houseType, td.memberCode, year]);
+
+  const toggleAttendance = useCallback(() => {
+    if (attendanceDisplayed) {
+      setAttendance({});
+      setAttendanceDisplayed(false);
+    } else {
+      setAttendanceDisplayed(true);
+    }
+  }, [attendanceDisplayed]);
 
   const debateDates = debates.reduce((debateDatesAcc, debate) => {
     if (debateDatesAcc[debate.debateRecord.date]) {
