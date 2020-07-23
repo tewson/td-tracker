@@ -56,68 +56,67 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
   }, [houseType, houseTerm, year, td]);
 
   useEffect(() => {
-    const fetchAndOverlayAttendance = () => {
-      fetchAttendance(houseType, houseTerm, year, td.memberCode)
-        .then(
-          ({
-            attendance: fetchedAttendance,
-            numberOfSittingDaysInPeriod,
-            recordDate,
-            source
-          }) => {
-            const totalAttendanceDaysCount = Object.values(
-              ATTENDANCE_TYPE
-            ).reduce((acc, type) => (acc += fetchedAttendance[type].length), 0);
+    const fetchAndOverlayAttendance = async () => {
+      try {
+        const {
+          attendance: fetchedAttendance,
+          numberOfSittingDaysInPeriod,
+          recordDate,
+          source
+        } = await fetchAttendance(houseType, houseTerm, year, td.memberCode);
 
-            setAttendanceRecordDate(recordDate);
-            setNumberOfSittingDaysInPeriod(numberOfSittingDaysInPeriod);
-            setMessage(
-              <>
-                <p>
-                  <span className="has-text-weight-bold">Attendance:</span>{" "}
-                  {totalAttendanceDaysCount} days<sup>*</sup> as of {recordDate}
-                </p>
-                <p className="is-size-7 attendance-source-container">
-                  Source:{" "}
-                  <a href={source}>Oireachtas records of attendance for TAA</a>
-                </p>
-                <p className="is-size-7">
-                  <span className="has-text-weight-bold">*</span> TDs are
-                  required to report only 120 days of attendance in order to
-                  claim full travel and accommodation allowance (TAA).{" "}
-                  <a
-                    href="https://www.oireachtas.ie/en/members/salaries-and-allowances/parliamentary-standard-allowances/"
-                    style={{ whiteSpace: "nowrap" }}
-                  >
-                    Read more
-                  </a>
-                </p>
-              </>
-            );
+        const totalAttendanceDaysCount = Object.values(ATTENDANCE_TYPE).reduce(
+          (acc, type) => (acc += fetchedAttendance[type].length),
+          0
+        );
 
-            const attendanceMap = {
-              ...getDateAttendanceTypeMap(
-                fetchedAttendance[ATTENDANCE_TYPE.SITTING],
-                ATTENDANCE_TYPE.SITTING
-              ),
-              ...getDateAttendanceTypeMap(
-                fetchedAttendance[ATTENDANCE_TYPE.OTHER],
-                ATTENDANCE_TYPE.OTHER
-              )
-            };
+        setAttendanceRecordDate(recordDate);
+        setNumberOfSittingDaysInPeriod(numberOfSittingDaysInPeriod);
+        setMessage(
+          <>
+            <p>
+              <span className="has-text-weight-bold">Attendance:</span>{" "}
+              {totalAttendanceDaysCount} days<sup>*</sup> as of {recordDate}
+            </p>
+            <p className="is-size-7 attendance-source-container">
+              Source:{" "}
+              <a href={source}>Oireachtas records of attendance for TAA</a>
+            </p>
+            <p className="is-size-7">
+              <span className="has-text-weight-bold">*</span> TDs are required
+              to report only 120 days of attendance in order to claim full
+              travel and accommodation allowance (TAA).{" "}
+              <a
+                href="https://www.oireachtas.ie/en/members/salaries-and-allowances/parliamentary-standard-allowances/"
+                style={{ whiteSpace: "nowrap" }}
+              >
+                Read more
+              </a>
+            </p>
+          </>
+        );
 
-            setAttendance(attendanceMap);
-          }
-        )
-        .catch(error => {
-          if (error.response.status === 403 || error.response.status === 404) {
-            console.warn(`Attendance data for ${td.memberCode} not available.`);
-            setMessage("No attendance data available yet.");
-            setAttendance({});
-          } else {
-            console.error(error);
-          }
-        });
+        const attendanceMap = {
+          ...getDateAttendanceTypeMap(
+            fetchedAttendance[ATTENDANCE_TYPE.SITTING],
+            ATTENDANCE_TYPE.SITTING
+          ),
+          ...getDateAttendanceTypeMap(
+            fetchedAttendance[ATTENDANCE_TYPE.OTHER],
+            ATTENDANCE_TYPE.OTHER
+          )
+        };
+
+        setAttendance(attendanceMap);
+      } catch (error) {
+        if (error.response.status === 403 || error.response.status === 404) {
+          console.warn(`Attendance data for ${td.memberCode} not available.`);
+          setMessage("No attendance data available yet.");
+          setAttendance({});
+        } else {
+          console.error(error);
+        }
+      }
     };
 
     if (attendanceDisplayed) {
