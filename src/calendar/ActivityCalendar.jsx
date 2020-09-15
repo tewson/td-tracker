@@ -252,14 +252,15 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
 
   return (
     <>
-      <div className="has-text-right">
+      <label className="label">Activities</label>
+      <div>
         <label className="checkbox">
           <input
             type="checkbox"
             value={attendanceDisplayed}
             onChange={toggleAttendance}
           />{" "}
-          Attendance data
+          Include attendance data
         </label>
       </div>
       <div className="box activity-calendar-summary">
