@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { format, isSameMonth } from "date-fns";
 
 import { Calendar } from "./Calendar.jsx";
@@ -31,6 +31,7 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
     numberOfSittingDaysInPeriod,
     setNumberOfSittingDaysInPeriod
   ] = useState(0);
+  const [attendanceDisplayed, setAttendanceDisplayed] = useState(false);
   const [attendance, setAttendance] = useState({});
   const [contributionModalData, setContributionModalData] = useState(null);
   const [message, setMessage] = useState();
@@ -39,84 +40,12 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
     const fetchActivityData = async () => {
       setActivityIsLoading(true);
 
-      const fetchAttendancePromise = fetchAttendance(
-        houseType,
-        houseTerm,
-        year,
-        td.memberCode
-      )
-        .then(
-          ({ attendance, numberOfSittingDaysInPeriod, recordDate, source }) => {
-            const totalAttendanceDaysCount = Object.values(
-              ATTENDANCE_TYPE
-            ).reduce((acc, type) => (acc += attendance[type].length), 0);
-
-            setAttendanceRecordDate(recordDate);
-            setNumberOfSittingDaysInPeriod(numberOfSittingDaysInPeriod);
-            setMessage(
-              <>
-                <p>
-                  <span className="has-text-weight-bold">Attendance:</span>{" "}
-                  {totalAttendanceDaysCount} days<sup>*</sup> as of {recordDate}
-                </p>
-                <p className="is-size-7 attendance-source-container">
-                  Source:{" "}
-                  <a href={source}>Oireachtas records of attendance for TAA</a>
-                </p>
-                <p className="is-size-7">
-                  <span className="has-text-weight-bold">*</span> TDs are
-                  required to report only 120 days of attendance in order to
-                  claim full travel and accommodation allowance (TAA).{" "}
-                  <a
-                    href="https://www.oireachtas.ie/en/members/salaries-and-allowances/parliamentary-standard-allowances/"
-                    style={{ whiteSpace: "nowrap" }}
-                  >
-                    Read more
-                  </a>
-                </p>
-              </>
-            );
-            return attendance;
-          }
-        )
-        .catch(error => {
-          if (error.response.status === 403 || error.response.status === 404) {
-            console.warn(`Attendance data for ${td.memberCode} not available.`);
-            setMessage("No attendance data available yet.");
-            return Object.values(ATTENDANCE_TYPE).reduce(
-              (acc, type) => ({ ...acc, [type]: [] }),
-              {}
-            );
-          } else {
-            console.error(error);
-            throw error;
-          }
-        });
-
-      const [
-        fetchedAttendance,
-        debates,
-        votes,
-        allDailVotes
-      ] = await Promise.all([
-        fetchAttendancePromise,
+      const [debates, votes, allDailVotes] = await Promise.all([
         fetchDebates(houseTerm, year, td),
         fetchVotes(houseTerm, year, td),
         fetchAllDailVotes(houseTerm, year)
       ]);
 
-      const attendance = {
-        ...getDateAttendanceTypeMap(
-          fetchedAttendance[ATTENDANCE_TYPE.SITTING],
-          ATTENDANCE_TYPE.SITTING
-        ),
-        ...getDateAttendanceTypeMap(
-          fetchedAttendance[ATTENDANCE_TYPE.OTHER],
-          ATTENDANCE_TYPE.OTHER
-        )
-      };
-
-      setAttendance(attendance);
       setDebates(debates);
       setVotes(votes);
       setAllDailVotes(allDailVotes);
@@ -125,6 +54,84 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
 
     fetchActivityData();
   }, [houseType, houseTerm, year, td]);
+
+  useEffect(() => {
+    const fetchAndOverlayAttendance = async () => {
+      try {
+        const {
+          attendance: fetchedAttendance,
+          numberOfSittingDaysInPeriod,
+          recordDate,
+          source
+        } = await fetchAttendance(houseType, houseTerm, year, td.memberCode);
+
+        const totalAttendanceDaysCount = Object.values(ATTENDANCE_TYPE).reduce(
+          (acc, type) => (acc += fetchedAttendance[type].length),
+          0
+        );
+
+        setAttendanceRecordDate(recordDate);
+        setNumberOfSittingDaysInPeriod(numberOfSittingDaysInPeriod);
+        setMessage(
+          <>
+            <p>
+              <span className="has-text-weight-bold">Attendance:</span>{" "}
+              {totalAttendanceDaysCount} days<sup>*</sup> as of {recordDate}
+            </p>
+            <p className="is-size-7 attendance-source-container">
+              Source:{" "}
+              <a href={source}>Oireachtas records of attendance for TAA</a>
+            </p>
+            <p className="is-size-7">
+              <span className="has-text-weight-bold">*</span> TDs are required
+              to report only 120 days of attendance in order to claim full
+              travel and accommodation allowance (TAA).{" "}
+              <a
+                href="https://www.oireachtas.ie/en/members/salaries-and-allowances/parliamentary-standard-allowances/"
+                style={{ whiteSpace: "nowrap" }}
+              >
+                Read more
+              </a>
+            </p>
+          </>
+        );
+
+        const attendanceMap = {
+          ...getDateAttendanceTypeMap(
+            fetchedAttendance[ATTENDANCE_TYPE.SITTING],
+            ATTENDANCE_TYPE.SITTING
+          ),
+          ...getDateAttendanceTypeMap(
+            fetchedAttendance[ATTENDANCE_TYPE.OTHER],
+            ATTENDANCE_TYPE.OTHER
+          )
+        };
+
+        setAttendance(attendanceMap);
+      } catch (error) {
+        if (error.response.status === 403 || error.response.status === 404) {
+          console.warn(`Attendance data for ${td.memberCode} not available.`);
+          setMessage("No attendance data available yet.");
+          setAttendance({});
+        } else {
+          console.error(error);
+        }
+      }
+    };
+
+    if (attendanceDisplayed) {
+      fetchAndOverlayAttendance();
+    }
+  }, [attendanceDisplayed, houseTerm, houseType, td.memberCode, year]);
+
+  const toggleAttendance = useCallback(() => {
+    if (attendanceDisplayed) {
+      setAttendance({});
+      setAttendanceDisplayed(false);
+    } else {
+      setAttendanceDisplayed(true);
+    }
+  }, [attendanceDisplayed]);
 
   const debateDates = debates.reduce((debateDatesAcc, debate) => {
     if (debateDatesAcc[debate.debateRecord.date]) {
@@ -245,6 +252,16 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
 
   return (
     <>
+      <div className="has-text-right">
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            value={attendanceDisplayed}
+            onChange={toggleAttendance}
+          />{" "}
+          Attendance data
+        </label>
+      </div>
       <div className="box activity-calendar-summary">
         <div className="content">
           <p>
@@ -329,21 +346,23 @@ export const ActivityCalendar = ({ houseType, houseTerm, year, td }) => {
           )}
         </div>
       </div>
-      {message && (
+      {message && attendanceDisplayed && (
         <div className="notification activity-calendar-notification">
           {message}
         </div>
       )}
-      <div className="legend">
-        <div className="legend-item">
-          <button className="button is-info">&nbsp;&nbsp;</button>
-          <span className="legend-label">Contributions</span>
+      {attendanceDisplayed && (
+        <div className="legend">
+          <div className="legend-item">
+            <button className="button is-info">&nbsp;&nbsp;</button>
+            <span className="legend-label">Contributions</span>
+          </div>
+          <div className="legend-item">
+            <button className="button is-dark">&nbsp;&nbsp;</button>
+            <span className="legend-label">Attendance</span>
+          </div>
         </div>
-        <div className="legend-item">
-          <button className="button is-dark">&nbsp;&nbsp;</button>
-          <span className="legend-label">Attendance</span>
-        </div>
-      </div>
+      )}
       <Calendar renderDate={renderDateWithActivityHighlight} />
       <ContributionModal
         data={contributionModalData}
